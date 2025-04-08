@@ -29,4 +29,4 @@ A abordagem RAG combina técnicas de recuperação de documentos com geração d
 
 ---
 
-Este projeto faz parte do Projeto de Graduação de Curso (PGC) da graduação na **Universidade Federal do ABC (UFABC)**.
+Este projeto faz parte do Projeto de Graduação de Curso (PGC) na **Universidade Federal do ABC (UFABC)**.
