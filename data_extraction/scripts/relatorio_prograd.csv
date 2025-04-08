@@ -1,0 +1,33 @@
+Caminho,URL,Status da Página,Possui PDFs,Quantidade de PDFs
+Prograd > Sobre_a_Prograd > Pagina_Principal,https://prograd.ufabc.edu.br/prograd,OK,Não,0
+Prograd > Sobre_a_Prograd > Unidades,https://prograd.ufabc.edu.br/prograd/unidades,OK,Não,0
+Prograd > Sobre_a_Prograd > Apresentacoes,https://prograd.ufabc.edu.br/prograd/apresentacoes,OK,Sim,7
+Prograd > Sobre_a_Prograd > Instrucoes_Normativas,https://prograd.ufabc.edu.br/prograd/instrucoes-normativas,OK,Não,0
+Prograd > Sobre_a_Prograd > Portarias,https://prograd.ufabc.edu.br/prograd/portarias,OK,Não,0
+Prograd > Sobre_a_Prograd > Relatorios,https://prograd.ufabc.edu.br/prograd/relatorios,OK,Sim,35
+Prograd > Perfis_de_Acesso > Aluno,https://prograd.ufabc.edu.br/aluno,OK,Sim,5
+Prograd > Perfis_de_Acesso > Docente,https://prograd.ufabc.edu.br/docente,OK,Sim,10
+Prograd > Perfis_de_Acesso > Coordenador,https://prograd.ufabc.edu.br/coordenador,OK,Sim,21
+Prograd > Perfis_de_Acesso > Tecnico_Administrativo,https://prograd.ufabc.edu.br/tecnico-administrativo,OK,Sim,9
+Prograd > Calendarios,https://prograd.ufabc.edu.br/calendarios,OK,Sim,8
+Prograd > Comites_Comissoes > COMFOR,https://prograd.ufabc.edu.br/comites-comissoes/comfor,Não encontrada,Não,0
+Prograd > Comites_Comissoes > Comissao_de_Graduacao,https://prograd.ufabc.edu.br/comites-comissoes/comissao-de-graduacao,Não encontrada,Não,0
+Prograd > Comites_Comissoes > Comissao_Disciplinar_Discente,https://prograd.ufabc.edu.br/comites-comissoes/comissao-disciplinar-discente,Não encontrada,Não,0
+Prograd > Infraestrutura > Auditorios_e_Salas,https://prograd.ufabc.edu.br/infraestrutura/auditorios-e-salas,Não encontrada,Não,0
+Prograd > Infraestrutura > Laboratorios_Academicos,https://prograd.ufabc.edu.br/infraestrutura/laboratorios-academicos,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Ingresso_via_ENEM_SISU,https://prograd.ufabc.edu.br/ingresso-selecao/enem-sisu,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Aluno_Especial,https://prograd.ufabc.edu.br/ingresso-selecao/aluno-especial,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Transferencia_Externa,https://prograd.ufabc.edu.br/ingresso-selecao/transferencia-externa,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Transferencia_Obrigatoria,https://prograd.ufabc.edu.br/ingresso-selecao/transferencia-obrigatoria,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Egressos_Cursos_Interdisciplinares,https://prograd.ufabc.edu.br/ingresso-selecao/egressos-cursos-interdisciplinares,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Mobilidade_Academica_Discente_UFABC,https://prograd.ufabc.edu.br/ingresso-selecao/mobilidade-academica-ufabc,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Mobilidade_Academica_Outras_IES,https://prograd.ufabc.edu.br/ingresso-selecao/mobilidade-academica-outras-ies,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > PEC-G,https://prograd.ufabc.edu.br/ingresso-selecao/pec-g,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > PROEP-ABC,https://prograd.ufabc.edu.br/ingresso-selecao/proep-abc,Não encontrada,Não,0
+Prograd > Ingresso_e_Selecao > Vagas_Olimpicas,https://prograd.ufabc.edu.br/ingresso-selecao/vagas-olimpicas,Não encontrada,Não,0
+Prograd > Contato > Fale_Conosco,https://prograd.ufabc.edu.br/contato/fale-conosco,Não encontrada,Não,0
+Prograd > Contato > Ouvidoria,https://prograd.ufabc.edu.br/contato/ouvidoria,Não encontrada,Não,0
+Prograd > Contato > Visite_os_Campi,https://prograd.ufabc.edu.br/contato/visite-os-campi,Não encontrada,Não,0
+Prograd > Paginas_Adicionais > Pagina_de_Matriculas,https://prograd.ufabc.edu.br/matriculas,OK,Sim,8
+Prograd > Paginas_Adicionais > Editais_de_Ingresso_SISU,https://prograd.ufabc.edu.br/sisu,OK,Sim,30
+Prograd > Paginas_Adicionais > Planejamento_Anual,https://prograd.ufabc.edu.br/planejamento-anual,OK,Sim,13

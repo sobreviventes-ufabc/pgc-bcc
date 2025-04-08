@@ -1,0 +1,20 @@
+{
+  "Prograd": {
+    "Sobre_a_Prograd": {
+      "Apresentacoes": "https://prograd.ufabc.edu.br/prograd/apresentacoes",
+      "Relatorios": "https://prograd.ufabc.edu.br/prograd/relatorios"
+    },
+    "Perfis_de_Acesso": {
+      "Aluno": "https://prograd.ufabc.edu.br/aluno",
+      "Docente": "https://prograd.ufabc.edu.br/docente",
+      "Coordenador": "https://prograd.ufabc.edu.br/coordenador",
+      "Tecnico_Administrativo": "https://prograd.ufabc.edu.br/tecnico-administrativo"
+    },
+    "Calendarios": "https://prograd.ufabc.edu.br/calendarios",
+    "Paginas_Adicionais": {
+      "Pagina_de_Matriculas": "https://prograd.ufabc.edu.br/matriculas",
+      "Editais_de_Ingresso_SISU": "https://prograd.ufabc.edu.br/sisu",
+      "Planejamento_Anual": "https://prograd.ufabc.edu.br/planejamento-anual"
+    }
+  }
+}
