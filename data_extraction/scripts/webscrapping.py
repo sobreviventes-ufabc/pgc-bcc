@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 
 # Caminho para o JSON limpo
-JSON_ENTRADA = "lista_sites_docs.json"
+JSON_ENTRADA = "lista_sites_docs_valid.json"
 
 # Pasta base para salvar os documentos
 PASTA_BASE = os.path.join("..", "documentos_ufabc")

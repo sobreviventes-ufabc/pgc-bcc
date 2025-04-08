@@ -4,7 +4,7 @@ import csv
 # Arquivos
 ARQUIVO_JSON_ENTRADA = "lista_sites_docs.json"
 ARQUIVO_CSV_RELATORIO = "relatorio_prograd.csv"
-ARQUIVO_JSON_LIMPO = "lista_sites_docs.json"
+ARQUIVO_JSON_LIMPO = "lista_sites_docs_valid.json"
 
 # Carrega as páginas válidas do CSV
 def carregar_urls_validas(caminho_csv):
