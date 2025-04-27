@@ -1,0 +1,5 @@
+PyMuPDF
+pdfplumber
+pandas
+sentence-transformers
+faiss-cpu
