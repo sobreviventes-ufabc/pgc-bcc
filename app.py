@@ -31,8 +31,7 @@ def extract_pdf_contents(pdf_path):
 def clean_text(text):
     text = re.sub(r'\s+', ' ', text)
     text = re.sub(r'[^\x00-\x7F]+', ' ', text)
-    text = text.strip()
-    return text
+    return text.strip()
 
 # === 3. Função para dividir o texto em chunks menores ===
 def split_text(text, chunk_size=500):
@@ -62,6 +61,7 @@ def process_pdf(pdf_path):
     cleaned_text = clean_text(text)
     chunks = split_text(cleaned_text)
     return {
+        "cleaned_text": cleaned_text,
         "text_chunks": chunks,
         "tables": tables,
         "images": images
@@ -72,7 +72,6 @@ def process_all_pdfs(root_folder, save_folder):
     all_chunks = []
     pdf_files = []
 
-    # Captura todos os PDFs primeiro
     for subdir, _, files in os.walk(root_folder):
         for file in files:
             if file.lower().endswith(".pdf"):
@@ -93,6 +92,17 @@ def process_all_pdfs(root_folder, save_folder):
         pdf_data = process_pdf(pdf_path)
         all_chunks.extend(pdf_data["text_chunks"])
 
+        # === Recriar estrutura de saída ===
+        relative_path = os.path.relpath(pdf_path, root_folder)
+        txt_output_path = os.path.join(save_folder, relative_path)
+        txt_output_path = os.path.splitext(txt_output_path)[0] + ".txt"
+
+        os.makedirs(os.path.dirname(txt_output_path), exist_ok=True)
+        with open(txt_output_path, "w", encoding="utf-8") as f:
+            f.write(pdf_data["cleaned_text"])
+
+        print(f"   📄 Texto salvo em: {txt_output_path}")
+
     print(f"\n📄 Total de pedaços de texto extraídos: {len(all_chunks)}")
 
     index_path = create_and_save_embeddings(all_chunks, save_folder)
@@ -105,9 +115,8 @@ def process_all_pdfs(root_folder, save_folder):
 
 # === 7. Main App ===
 if __name__ == "__main__":
-    # Caminhos
     DOCUMENTS_FOLDER = os.path.join("data_extraction", "documentos_ufabc")
-    PROCESSED_FOLDER = os.path.join("data_processed")
+    PROCESSED_FOLDER = os.path.join("data_processed", "documentos_ufabc")
 
     print(f"🛠️ Iniciando processamento dos documentos na pasta: {DOCUMENTS_FOLDER}")
     index_path = process_all_pdfs(DOCUMENTS_FOLDER, PROCESSED_FOLDER)
