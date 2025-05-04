@@ -1,29 +1,34 @@
 import os
 import time
-import fitz  # PyMuPDF
 import pdfplumber
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 import faiss
 import re
+from pdfminer.high_level import extract_text
 
 # === 1. Função para extrair texto e imagens ===
 def extract_pdf_contents(pdf_path):
-    text = ""
-    images = []
+    # Texto mais preciso com acentuação preservada
+    try:
+        text = extract_text(pdf_path)
+    except Exception as e:
+        print(f"Erro ao extrair texto com pdfminer: {e}")
+        text = ""
+
+    # Tabelas e imagens ainda podem ser tratados com pdfplumber ou fitz se necessário
+    images = []  # Ainda não extraídos
     tables = []
 
-    with fitz.open(pdf_path) as doc:
-        for page in doc:
-            text += page.get_text()
-            images.extend(page.get_images(full=True))
-
-    with pdfplumber.open(pdf_path) as doc:
-        for page in doc.pages:
-            extracted_tables = page.extract_tables()
-            for table in extracted_tables:
-                df = pd.DataFrame(table)
-                tables.append(df)
+    try:
+        with pdfplumber.open(pdf_path) as doc:
+            for page in doc.pages:
+                extracted_tables = page.extract_tables()
+                for table in extracted_tables:
+                    df = pd.DataFrame(table)
+                    tables.append(df)
+    except Exception as e:
+        print(f"Erro ao extrair tabelas: {e}")
 
     return text, tables, images
 
