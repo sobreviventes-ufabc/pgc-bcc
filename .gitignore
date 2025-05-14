@@ -1,0 +1,47 @@
+# ========================================
+# Padrão para projetos Python + VSCode + vLLM RAG pipeline
+# ========================================
+
+# Ambientes virtuais
+.venv/
+env/
+ENV/
+venv/
+venv.bak/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+
+# Compiled C files
+*.so
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints
+
+# VSCode config
+.vscode/
+.history/
+
+# Mac OS / Windows trash
+.DS_Store
+Thumbs.db
+
+# Logs e outputs
+*.log
+*.out
+*.err
+
+# Arquivos temporários
+*.swp
+*.bak
+*.tmp
+
+# Arquivos específicos de testes ou builds
+build/
+dist/
+*.egg-info/
+.eggs/

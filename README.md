@@ -30,3 +30,56 @@ A abordagem RAG combina técnicas de recuperação de documentos com geração d
 ---
 
 Este projeto faz parte do Projeto de Graduação de Curso (PGC) na **Universidade Federal do ABC (UFABC)**.
+
+## 🚀 Como executar o projeto localmente
+
+1️⃣ Crie e ative um ambiente virtual (opcional, mas recomendado):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/macOS
+.venv\Scripts\activate      # Windows
+```
+
+2️⃣ Instale as dependências:
+
+```bash
+pip install bm25s[full] fastapi uvicorn openai
+uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+3️⃣ Para uso com LLaMA local (vLLM)
+
+```bash
+pip install vllm
+python -m vllm.entrypoints.openai.api_server --model meta-llama/Meta-Llama-3-8B-Instruct
+```
+#### Configure o endpoint da LLM no arquivo llama_client.py para:
+```bash
+openai.base_url = "http://localhost:8000/v1"
+```
+
+### 🔑 Acesso ao modelo LLaMA 3.1 (obrigatório)
+
+Para usar o modelo `meta-llama/Llama-3.1-8B-Instruct` com vLLM, você precisa:
+
+1️⃣ Ter uma conta no [Hugging Face](https://huggingface.co)
+
+2️⃣ Solicitar acesso ao modelo na página:  
+[https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
+
+3️⃣ Após aprovação (leva de 1 a 5 dias), gerar um Access Token em:  
+[https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
+👉 Selecione permissão `Read` ao criar o token.
+
+4️⃣ Logar na sua máquina usando o token:
+```bash
+pip install huggingface-hub
+huggingface-cli login
+```
+
+### ❗ Importante: se desejar testar o pipeline antes da aprovação, utilize o modelo open-source:
+
+```bash
+python -m vllm.entrypoints.openai.api_server --model mistralai/Mistral-7B-Instruct-v0.2
+```
