@@ -1,18 +1,26 @@
-import openai
+import requests
 
-from openai import OpenAI
+OLLAMA_URL = "http://192.168.18.9:11434/api/chat" 
 
-client = OpenAI(
-    base_url="http://localhost:8000/v1",  # ou https://api.groq.com/openai/v1
-    api_key="substituirpelachave"
-)
-
-def send_prompt_to_llm(prompt, model="meta-llama/Llama-3.1-8B-Instruct"):
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "Você é um assistente que responde apenas com base nos documentos fornecidos."},
+def send_prompt_to_llm(prompt, model="llama3:8b"):
+    if isinstance(prompt, str):
+        messages = [
+            {"role": "system", "content": "Você é um assistente útil."}, #e só deve responder com base no contexto fornecido.
             {"role": "user", "content": prompt}
         ]
-    )
-    return response.choices[0].message.content
+    else:
+        messages = prompt  # já vem estruturado
+
+    payload = {
+        "model": model,
+        "messages": messages,
+        "stream": False  # estilo gpt seria true
+    }
+
+    try:
+        response = requests.post(OLLAMA_URL, json=payload)
+        response.raise_for_status()
+        return response.json()["message"]["content"]
+    except Exception as e:
+        print(f"Erro ao consultar Ollama: {e}")
+        return "Erro ao gerar resposta com o modelo."
