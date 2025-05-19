@@ -93,7 +93,7 @@ python -m vllm.entrypoints.openai.api_server --model mistralai/Mistral-7B-Instru
 2️⃣ Rode o modelo desejado (exemplo com LLaMA 3):
 
 ```bash
-ollama run llama3
+ollama run llama3:8b
 # ou outro modelo:
 ollama run mistral
 ```
@@ -118,7 +118,7 @@ uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
 
 📚 Modelos suportados por Ollama (exemplos):
 
-- `llama3`
+- `llama3:8b`
 - `mistral`
 - `codellama`
 - `phi3`
