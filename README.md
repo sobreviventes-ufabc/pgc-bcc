@@ -48,38 +48,80 @@ pip install bm25s[full] fastapi uvicorn openai
 uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-3️⃣ Para uso com LLaMA local (vLLM)
+---
+
+#### 🔹 Opção 1: vLLM (LLaMA 3.1)
 
 ```bash
 pip install vllm
-python -m vllm.entrypoints.openai.api_server --model meta-llama/Meta-Llama-3-8B-Instruct
+python -m vllm.entrypoints.openai.api_server --model meta-llama/Meta-Llama-3.1-8B-Instruct
 ```
-#### Configure o endpoint da LLM no arquivo llama_client.py para:
-```bash
+
+Configure o endpoint da LLM no arquivo `llama_client.py`:
+
+```python
 openai.base_url = "http://localhost:8000/v1"
 ```
 
-### 🔑 Acesso ao modelo LLaMA 3.1 (obrigatório)
+##### 🔑 Acesso ao modelo LLaMA 3.1 (obrigatório)
 
-Para usar o modelo `meta-llama/Llama-3.1-8B-Instruct` com vLLM, você precisa:
+1️⃣ Tenha uma conta no [Hugging Face](https://huggingface.co)  
+2️⃣ Solicite acesso:  
+👉 [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)  
+3️⃣ Após aprovação, gere um Access Token em:  
+👉 [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
+4️⃣ Faça login local com o token:
 
-1️⃣ Ter uma conta no [Hugging Face](https://huggingface.co)
-
-2️⃣ Solicitar acesso ao modelo na página:  
-[https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)
-
-3️⃣ Após aprovação (leva de 1 a 5 dias), gerar um Access Token em:  
-[https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
-👉 Selecione permissão `Read` ao criar o token.
-
-4️⃣ Logar na sua máquina usando o token:
 ```bash
 pip install huggingface-hub
 huggingface-cli login
 ```
 
-### ❗ Importante: se desejar testar o pipeline antes da aprovação, utilize o modelo open-source:
+#### ❗ Alternativa open-source:
 
 ```bash
 python -m vllm.entrypoints.openai.api_server --model mistralai/Mistral-7B-Instruct-v0.2
 ```
+
+---
+
+#### 🔹 Opção 2: Ollama (mais leve)
+
+1️⃣ Instale o Ollama:  
+👉 [https://ollama.com/download](https://ollama.com/download)
+
+2️⃣ Rode o modelo desejado (exemplo com LLaMA 3):
+
+```bash
+ollama run llama3
+# ou outro modelo:
+ollama run mistral
+```
+
+3️⃣ Configure o endpoint no `llama_client.py`:
+
+```python
+openai.api_key = "sk-no-key-needed"
+openai.base_url = "http://localhost:11434/v1"
+```
+
+4️⃣ Execute o servidor FastAPI normalmente:
+
+```bash
+uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+5️⃣ Acesse a interface de testes:  
+👉 [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+📚 Modelos suportados por Ollama (exemplos):
+
+- `llama3`
+- `mistral`
+- `codellama`
+- `phi3`
+- `gemma`
+
+Veja mais em: [https://ollama.com/library](https://ollama.com/library)
