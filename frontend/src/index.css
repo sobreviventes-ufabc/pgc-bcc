@@ -1,0 +1,37 @@
+/* 
+.open-sans-<uniquifier> {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+} */
+
+:root {
+  --primary: #FFCC00;
+  --secondary: #006633;
+  --gradient-start: #006D35;
+  --gradient-end: #0A5517;
+  --white: #FFFFFF;
+  --black: #000000;
+  --text-1: #000000; /* labeled as "black" */
+  --text-2: #FFFFFF; /* labeled as "white" */
+  --grey: #6D6D6D;
+  --chat-bg: #F8F8F8;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
