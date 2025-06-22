@@ -28,12 +28,36 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Running Storybook
+
+Storybook is a tool for developing UI components in isolation. It allows you to visualize and test components independently from the main application.
+
+To run Storybook locally, use the following command:
+
+```bash
+npm run storybook
+```
+
+This will start the Storybook server on [http://localhost:6006](http://localhost:6006). Open this URL in your browser to explore the available components.
+
+Storybook provides an interactive interface where you can view, test, and document your components. It supports addons like accessibility checks, documentation generation, and more.
+
+To build a static version of Storybook for deployment, use:
+
+```bash
+npm run build-storybook
+```
+
+The static files will be generated in the `storybook-static` directory.
+
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about Next.js and Storybook, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Storybook Documentation](https://storybook.js.org/docs) - learn about Storybook features and API.
+- [Storybook GitHub Repository](https://github.com/storybookjs/storybook) - contribute and explore Storybook's development.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
