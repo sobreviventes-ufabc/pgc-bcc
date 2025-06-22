@@ -1,0 +1,61 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --primary: #FFCC00;
+  --secondary: #006633;
+  --gradient-start: #006D35;
+  --gradient-end: #0A5517;
+  --white: #ffffff;
+  --black: #000000;
+  --grey: #6D6D6D;
+  --text-1: var(--black);
+  --text-2: var(--white);
+  --chat-bg: #F8F8F8;
+  --menu-light: rgba(0, 0, 0, 0.1);
+  --menu-title: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+
+  height: 100%; /* Ensures both html and body take full height of the viewport */
+  margin: 0; /* Resets default browser margin */
+  padding: 0; /* Resets default browser padding */
+}
+
+body {
+  background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end)); 
+  background-attachment: fixed; /* Ensures the background stays fixed when content scrolls */
+  background-repeat: no-repeat; /* Prevents the gradient from repeating if content is short */
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
