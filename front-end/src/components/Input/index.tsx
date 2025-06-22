@@ -1,5 +1,7 @@
 'use client'
 import React, { useState } from 'react';
+import Image from "next/image";
+
 import './index.css';
 
 const ChatInput: React.FC = () => {
@@ -21,8 +23,8 @@ const ChatInput: React.FC = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="send-button" onClick={handleSend}>
-        Enviar
+      <button className="send-button" onClick={handleSend} type='button'>
+        <Image src="/img/icon-send.svg" alt="Send Icon" width={36} height={33} priority />
       </button>
     </div>
   );

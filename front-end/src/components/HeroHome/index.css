@@ -1,0 +1,43 @@
+.hero-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 16px;
+  padding-bottom: 16px;
+}
+
+.hero-home-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.hero-home-center .app-logo {
+  margin-bottom: 24px;
+}
+
+.hero-home-footer {
+  display: flex;
+  margin-top: auto;
+  width: 100%;
+}
+
+
+@media (min-width: 1024px) {
+  .hero-home-center  {
+    flex-grow: initial;
+    min-width: 540px;
+    margin-bottom: 24px;
+  }
+
+  .hero-home-footer {
+    margin-top: 0;
+    max-width: 343px;
+    text-align: center;
+  }
+}

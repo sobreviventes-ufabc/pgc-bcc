@@ -34,9 +34,6 @@ body {
 }
 
 body {
-  background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end)); 
-  background-attachment: fixed; /* Ensures the background stays fixed when content scrolls */
-  background-repeat: no-repeat; /* Prevents the gradient from repeating if content is short */
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
