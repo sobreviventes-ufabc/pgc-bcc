@@ -1,0 +1,29 @@
+.header-component {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+}
+
+.header-main-conent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end)); 
+  background-attachment: fixed; /* Ensures the background stays fixed when content scrolls */
+  background-repeat: no-repeat; /* Prevents the gradient from repeating if content is short */
+  padding: 14px;
+}
+
+.header-component button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.header-component .header-line {
+  height: 14px;
+  width: 100%;
+  background-color: var(--primary);
+}

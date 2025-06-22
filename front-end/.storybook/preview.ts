@@ -1,8 +1,16 @@
 import type { Preview } from '@storybook/nextjs-vite'
+import { INITIAL_VIEWPORTS } from 'storybook/viewport';
 import '../src/app/globals.css';
+ 
 
 const preview: Preview = {
+  initialGlobals: {
+    viewport: { value: 'iphone13', isRotated: false },
+  },
   parameters: {
+    viewport: {
+      options: INITIAL_VIEWPORTS,
+    },
     controls: {
       matchers: {
        color: /(background|color)$/i,
