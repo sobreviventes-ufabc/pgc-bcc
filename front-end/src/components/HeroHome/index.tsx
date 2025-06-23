@@ -1,7 +1,7 @@
 import React from 'react';
-import GreenBackground from "@/components/GreenBackground";
-import Logo from "@/components/Logo";
-import Input from "@/components/Input";
+import GreenBackground from '@/components/GreenBackground';
+import Logo from '@/components/Logo';
+import Input from '@/components/Input';
 import './index.css';
 
 const HeroHome: React.FC = () => {

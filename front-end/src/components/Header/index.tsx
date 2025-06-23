@@ -1,5 +1,5 @@
-import Image from "next/image";
-import Logo from '@/components/Logo'
+import Image from 'next/image';
+import Logo from '@/components/Logo';
 import './index.css';
 
 const Header: React.FC = () => {
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
             </div>
             <div className="header-line"></div>
         </header>
-    )
+    );
 };
 
 export default Header;
