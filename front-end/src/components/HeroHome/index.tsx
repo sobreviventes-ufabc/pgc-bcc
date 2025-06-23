@@ -14,8 +14,8 @@ const HeroHome: React.FC = () => {
         </div>
 
         <footer className="hero-home-footer">
-          <p>{`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever
-          industry&apos;s standard dummy text`}</p>
+          <p>{`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
+          industry's standard dummy text`}</p>
         </footer>
       </div>
     </GreenBackground>
