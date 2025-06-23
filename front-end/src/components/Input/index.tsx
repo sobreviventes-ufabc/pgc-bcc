@@ -23,8 +23,16 @@ const ChatInput: React.FC = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button className="send-button" onClick={handleSend} type='button'>
-        <Image src="/img/icon-send.svg" alt="Send Icon" width={36} height={33} priority />
+      <button
+        className="send-button"
+        onClick={handleSend}
+        type='button'>
+        <Image
+          src="/img/icon-send.svg"
+          alt="Send Icon"
+          width={36}
+          height={33}
+          priority />
       </button>
     </div>
   );

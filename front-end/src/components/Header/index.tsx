@@ -7,8 +7,15 @@ const Header: React.FC = () => {
         <header className="header-component">
             <div className="header-main-conent">
                 <div className="header-menu">
-                    <button type="button" className="header-menu-button">
-                        <Image src="/img/icon-burger.svg" className="header-icon-menu" alt="Menu" width={36} height={24} />
+                    <button
+                      type="button"
+                      className="header-menu-button">
+                        <Image
+                          src="/img/icon-burger.svg"
+                          className="header-icon-menu"
+                          alt="Menu"
+                          width={36}
+                          height={24} />
                     </button>
                 </div>
 
@@ -17,8 +24,15 @@ const Header: React.FC = () => {
                 </div>
 
                 <div className="header-new-chat">
-                    <button type="button" className="header-new-chat-button">
-                        <Image src="/img/icon-new-chat.svg" className="header-icon-menu" alt="Menu" width={47} height={47} />
+                    <button
+                      type="button"
+                      className="header-new-chat-button">
+                        <Image
+                          src="/img/icon-new-chat.svg"
+                          className="header-icon-menu"
+                          alt="Menu"
+                          width={47}
+                          height={47} />
                     </button>
                 </div>
             </div>
