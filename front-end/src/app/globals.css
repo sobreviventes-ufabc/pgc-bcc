@@ -12,7 +12,9 @@
   --text-1: var(--black);
   --text-2: var(--white);
   --chat-bg: #F8F8F8;
-  --menu-light: rgba(0, 0, 0, 0.1);
+  --chat-text-bg-sent: #408c66;
+  --chat-text-bg-received: var(--white);
+  --menu-light: rgba(2, 1, 1, 0.1);
   --menu-title: rgba(0, 0, 0, 0.3);
 }
 
