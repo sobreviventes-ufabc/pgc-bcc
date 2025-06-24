@@ -39,7 +39,7 @@ MAX_WORKERS = min(10, os.cpu_count() or 4)
 def get_chat_model():
     try:
        model = ChatOllama(
-            model="llava:13b",
+            model="llama3.1:8b",
             base_url="http://192.168.18.9:11434").bind()
        print("Usando modelo local remoto: llava:13b @ 192.168.18.9")
        return model
@@ -52,6 +52,13 @@ def get_chat_model():
             model = ChatOpenAI(model="gpt-4o-mini")
             print("Usando modelo via OpenAI: gpt-4o-mini")
             return model
+
+def get_chat_models():
+    model = ChatOllama(
+        model="llava:13b",
+        base_url="http://192.168.18.9:11434").bind()
+    print("Usando modelo local remoto: llava:13b @ 192.168.18.9")
+    return model
 
 # ---------------- Retry ----------------
 def retry_with_backoff(fn, retries=5, base_delay=5, max_delay=60):
@@ -194,18 +201,15 @@ def display_base64_image(base64_code):
     display(Image(data=image_data))
 
 # ----------- Pipeline principal RAG multimodal -----------
-def parse_docs(docs, retriever):
-    images, texts = [], []
+def parse_docs(docs):
+    b64, text = [], []
     for doc in docs:
-        doc_id = doc.metadata.get("doc_id")
-        original = retriever.docstore.mget([doc_id])[0]
-
-        tipo = doc.metadata.get("type", "text")
-        if tipo == "image":
-            images.append(original)
-        else:
-            texts.append(original)
-    return {"images": images, "texts": texts}
+        try:
+            b64decode(doc)
+            b64.append(doc)
+        except:
+            text.append(doc)
+    return {"images": b64, "texts": text}
 
 def build_prompt(kwargs):
     docs = kwargs["context"]
@@ -222,6 +226,9 @@ def build_prompt(kwargs):
     for image in docs["images"]:
         prompt_content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image}"}})
     return ChatPromptTemplate.from_messages([HumanMessage(content=prompt_content)])
+
+def clean_summary(text):
+    return text.replace('\\"', '"').replace('\\n', '\n').replace('\\\\', '\\').strip()
 
 def add_documents(originals, summaries, retriever):
     if not originals or not summaries:
@@ -273,7 +280,7 @@ def main():
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="mxbai-embed-large:latest", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="mxbai-embed-large:335m", base_url="http://192.168.18.9:11434")
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
@@ -311,9 +318,9 @@ def main():
         if SUMMARIES_PATH.exists():
             with open(SUMMARIES_PATH, "r", encoding="utf-8") as f:
                 summaries = json.load(f)
-                text_summaries = summaries["text_summaries"]
-                table_summaries = summaries["table_summaries"]
-                image_summaries = summaries["image_summaries"]
+                text_summaries = [clean_summary(s) for s in summaries["text_summaries"]]
+                table_summaries = [clean_summary(s) for s in summaries["table_summaries"]]
+                image_summaries = [clean_summary(s) for s in summaries["image_summaries"]]
         else:
             print("summaries.json não encontrado! Rode com regenerate = 's' para criar.")
             return
@@ -324,8 +331,8 @@ def main():
         retriever.vectorstore.persist()
         
     chain_with_sources = {
-    "context": RunnableLambda(lambda inputs: parse_docs(retriever.get_relevant_documents(inputs["question"]), retriever)),
-    "question": RunnablePassthrough(),
+        "context": retriever | RunnableLambda(parse_docs),
+        "question": RunnablePassthrough(),
     } | RunnablePassthrough().assign(
         response=(RunnableLambda(build_prompt) | get_chat_model() | StrOutputParser())
     )
@@ -335,7 +342,7 @@ def main():
             break
         print("Documentos indexados:", len(retriever.vectorstore.get()["ids"]))
         print("\nBuscando resposta...")
-        response = chain_with_sources.invoke({"question": user_input})
+        response = chain_with_sources.invoke(user_input)
         print("\nResposta:", response["response"])
 
         print("\nContexto:")
