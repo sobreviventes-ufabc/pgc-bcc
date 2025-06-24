@@ -217,7 +217,7 @@ def build_prompt(kwargs):
     context_text = "".join(docs["texts"])
     prompt_content = [
         {"type": "text", "text": f"""
-        Responda à pergunta usando apenas o seguinte contexto. O contexto pode conter texto, tabelas e referências a imagens.
+        Responda com base apenas no contexto fornecido. Se a resposta não estiver escrita literalmente, mas puder ser claramente deduzida com base nas informações do texto, faça essa inferência com clareza. Não use informações de fora do contexto. Se nada relevante estiver presente, diga que não é possível responder.
 
         Contexto: {context_text}
         Pergunta: {question}
@@ -280,7 +280,7 @@ def main():
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="mxbai-embed-large:335m", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
