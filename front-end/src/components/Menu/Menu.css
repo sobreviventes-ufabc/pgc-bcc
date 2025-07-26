@@ -15,6 +15,26 @@
     transform: translateX(0);
 }
 
+.menu-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: var(--menu-light);
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  transition: .3s ease;
+  opacity: 0;
+}
+
+.menu-bg.open {
+  opacity: 1;
+}
+
+.menu-title h3 {
+  font-weight: normal;
+}
+
 .menu-title {
     display: flex;
     align-items: center;

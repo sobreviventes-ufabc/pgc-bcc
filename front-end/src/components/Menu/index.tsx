@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import './Menu.css';
 
@@ -11,24 +11,31 @@ const menuItems = [
 
 interface MenuProps {
   isOpen?: boolean;
+  onClickBackground?: () => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ isOpen = true }) => {
+const Menu: React.FC<MenuProps> = ({ isOpen = true, onClickBackground }) => {
   return (
-    <nav className={classNames('menu-component', { 'menu-open': isOpen })}>
-      <div className="menu-title">
-          <h3>Menu</h3>
-      </div>
-      <ul>
-        {menuItems.map((item, idx) => (
-          <li
-            key={item + idx}
-            className="menu-item">
-            <a href={`/${item.toLowerCase()}`}>{item}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <Fragment>
+      <nav className={classNames('menu-component', { 'menu-open': isOpen })}>
+        <div className="menu-title">
+            <h3>Menu</h3>
+        </div>
+        <ul>
+          {menuItems.map((item, idx) => (
+            <li
+              key={item + idx}
+              className="menu-item">
+              <a href={`/${item.toLowerCase()}`}>{item}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div
+        className={classNames('menu-bg', { 'open': isOpen })}
+        onClick={onClickBackground}
+      ></div>
+    </Fragment>
   );
 };
 
