@@ -4,6 +4,9 @@ import time
 import base64
 import uuid
 import random
+import unicodedata
+import re
+import html  # <- Import necessário para decodificar entidades HTML
 
 from pathlib import Path
 from base64 import b64decode
@@ -36,13 +39,23 @@ PERSIST_DIR = ".cache_chunks/chroma_store"
 MAX_WORKERS = min(10, os.cpu_count() or 4)
 
 # ----------------- Modelo com fallback + log -------------------
-def get_chat_model():
+def get_llava_model():
     try:
-       model = ChatOllama(
+        model = ChatOllama(
+            model="llava:13b",
+            base_url="http://192.168.18.9:11434").bind()
+        print("Usando modelo local remoto para imagens: llava:13b")
+        return model
+    except Exception as e:
+        raise RuntimeError(f"Erro ao iniciar modelo llava: {e}")
+
+def get_llama_model():
+    try:
+        model = ChatOllama(
             model="llama3.1:8b",
             base_url="http://192.168.18.9:11434").bind()
-       print("Usando modelo local remoto: llava:13b @ 192.168.18.9")
-       return model
+        print("Usando modelo local remoto para texto: llama3.1:8b")
+        return model
     except Exception:
         try:
             model = ChatGroq(model="llama3-8b-8192")
@@ -53,12 +66,38 @@ def get_chat_model():
             print("Usando modelo via OpenAI: gpt-4o-mini")
             return model
 
-def get_chat_models():
-    model = ChatOllama(
-        model="llava:13b",
-        base_url="http://192.168.18.9:11434").bind()
-    print("Usando modelo local remoto: llava:13b @ 192.168.18.9")
-    return model
+def test_response_with_openai(retriever):
+    def get_openai_model():
+        try:
+            model = ChatOpenAI(model="gpt-4o")  # ou "gpt-4o-mini"
+            print("🔄 Testando resposta com OpenAI GPT-4o")
+            return model
+        except Exception as e:
+            raise RuntimeError(f"Erro ao usar modelo da OpenAI: {e}")
+
+    def build_prompt_openai(kwargs):
+        docs = kwargs["context"]
+        question = kwargs["question"]
+        context_text = "".join(docs["texts"])
+        prompt_content = [
+            {"type": "text", "text": f"""
+            Responda com base apenas no contexto fornecido. Se a resposta não estiver escrita literalmente, mas puder ser claramente deduzida com base nas informações do texto, faça essa inferência com clareza. Não use informações de fora do contexto. Se nada relevante estiver presente, diga que não é possível responder.
+
+            Contexto: {context_text}
+            Pergunta: {question}
+            """}
+        ]
+        for image in docs["images"]:
+            prompt_content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image}"}})
+        return ChatPromptTemplate.from_messages([HumanMessage(content=prompt_content)])
+
+    return {
+        "context": retriever | RunnableLambda(parse_docs),
+        "question": RunnablePassthrough(),
+    } | RunnablePassthrough().assign(
+        response=(RunnableLambda(build_prompt_openai) | get_openai_model() | StrOutputParser())
+    )
+
 
 # ---------------- Retry ----------------
 def retry_with_backoff(fn, retries=5, base_delay=5, max_delay=60):
@@ -86,9 +125,9 @@ def extract_chunks_from_pdf(file_path: Path):
             extract_image_block_types=["Image"],
             extract_image_block_to_payload=True,
             chunking_strategy="by_title",
-            max_characters=10000,
-            combine_text_under_n_chars=2000,
-            new_after_n_chars=6000,
+            max_characters=3000,
+            combine_text_under_n_chars=500,
+            new_after_n_chars=1500,
         )
         duration = time.time() - start_time
         print(f"{file_path.name}: {len(chunks)} chunks extraídos em {duration:.2f}s")
@@ -96,10 +135,6 @@ def extract_chunks_from_pdf(file_path: Path):
     except Exception as e:
         print(f"Erro ao processar {file_path.name}: {e}")
         return []
-
-import unicodedata
-import re
-import html  # <- Import necessário para decodificar entidades HTML
 
 def limpar_html(html_text):
     if not html_text:
@@ -125,14 +160,14 @@ def limpar_html(html_text):
 def classify_chunks(chunks):
     texts, tables, images = [], [], []
     
-    for chunk in chunks:
-        if hasattr(chunk.metadata, "text_as_html") and chunk.metadata.text_as_html:
-            chunk.metadata.text_as_html = limpar_html(chunk.metadata.text_as_html)
+    #for chunk in chunks:
+    #    if hasattr(chunk.metadata, "text_as_html") and chunk.metadata.text_as_html:
+    #        chunk.metadata.text_as_html = limpar_html(chunk.metadata.text_as_html)
     
     for chunk in chunks:
-        if "Table" in str(type(chunk)):
+        if hasattr(chunk.metadata, "text_as_html") and chunk.metadata.text_as_html:
             tables.append(chunk.metadata.text_as_html)
-        if "CompositeElement" in str(type(chunk)):
+        elif "CompositeElement" in str(type(chunk)):
             texts.append(chunk.text)
             for el in chunk.metadata.orig_elements:
                 if "Image" in str(type(el)):
@@ -142,12 +177,12 @@ def classify_chunks(chunks):
 # --------- RESUMO COM MODELO + Retry (1 por vez) ---------
 def summarize_elements(elements, is_table=False):
     prompt_template = """
-    Você é um assistente encarregado de resumir tabelas e textos.
-    Apresente um resumo conciso da tabela ou texto.
-    Responda apenas com o resumo, sem comentários adicionais.
-    Tabela ou trecho de texto: {element}
+    Você é um assistente encarregado de resumir textos institucionais da UFABC.
+    Resuma o conteúdo sem perder nenhuma informação importante, incluindo números, fórmulas ou regras específicas como "C = 16 + 5CR".
+    Evite reescrever as ideias com outras palavras. Mantenha expressões-chave sempre que forem relevantes.
+    Responda apenas com o resumo, sem comentários adicionais: {element}
     """
-    model = get_chat_model()
+    model = get_llama_model()
     prompt = ChatPromptTemplate.from_template(prompt_template)
     chain = {"element": lambda x: x} | prompt | model | StrOutputParser()
 
@@ -172,9 +207,9 @@ def summarize_images(images):
     prompt_text = (
     "Resuma objetivamente o conteúdo da imagem. "
     "A imagem pertence a um documento acadêmico da Universidade Federal do ABC (UFABC). "
-    "Foque em identificar informações relevantes como logotipos, textos institucionais, títulos, ou elementos gráficos com significado acadêmico. "
+    "Foque em identificar informações relevantes como logotipos, textos institucionais, títulos, ou elementos gráficos com significado acadêmico, e seja bem específico. "
     "Resuma apenas o conteúdo informativo.")
-    model = get_chat_model()
+    model = get_llava_model()
     summaries = []
 
     def summarize_image(img_b64):
@@ -217,7 +252,7 @@ def build_prompt(kwargs):
     context_text = "".join(docs["texts"])
     prompt_content = [
         {"type": "text", "text": f"""
-        Responda com base apenas no contexto fornecido. Se a resposta não estiver escrita literalmente, mas puder ser claramente deduzida com base nas informações do texto, faça essa inferência com clareza. Não use informações de fora do contexto. Se nada relevante estiver presente, diga que não é possível responder.
+        Responda à pergunta usando apenas e exclusivamente o seguinte contexto, sem pesquisas adicionais. O contexto pode conter texto, tabelas e referências a imagens.
 
         Contexto: {context_text}
         Pergunta: {question}
@@ -251,6 +286,7 @@ def add_documents(originals, summaries, retriever):
     except Exception as e:
         print(f"Erro ao adicionar documentos: {e}")
 
+
 # --- FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO DA PIPELINE (NOVO) ---
 def get_rag_pipeline(force_regenerate=False):
     """
@@ -281,7 +317,7 @@ def get_rag_pipeline(force_regenerate=False):
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.100.47:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
@@ -328,7 +364,7 @@ def get_rag_pipeline(force_regenerate=False):
         add_documents(all_images, image_summaries, retriever)
         retriever.vectorstore.persist()
         
-    model = get_chat_model()
+    model = get_llama_model()
     chain_with_sources = (
         {"context": retriever | RunnableLambda(parse_docs), "question": RunnablePassthrough()}
         | RunnablePassthrough().assign(
