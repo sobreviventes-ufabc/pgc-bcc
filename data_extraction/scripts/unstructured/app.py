@@ -251,11 +251,13 @@ def add_documents(originals, summaries, retriever):
     except Exception as e:
         print(f"Erro ao adicionar documentos: {e}")
 
-
-def main():
-    regenerate = input("🔄 Deseja gerar os chunks novamente? (s/n): ").strip().lower() == "s"
-
-    if not CHUNKS_PATH.exists() or regenerate:
+# --- FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO DA PIPELINE (NOVO) ---
+def get_rag_pipeline(force_regenerate=False):
+    """
+    Inicializa o retriever e a pipeline RAG.
+    force_regenerate: Se True, recria os chunks e os índices.
+    """
+    if not CHUNKS_PATH.exists() or force_regenerate:
         pdf_files = list(PDF_DIR.rglob("*.pdf"))
         print(f"{len(pdf_files)} arquivos PDF encontrados.")
 
@@ -269,18 +271,17 @@ def main():
 
         with open(CHUNKS_PATH, "w", encoding="utf-8") as f:
             json.dump({"texts": all_texts, "tables": all_tables, "images": all_images}, f, ensure_ascii=False, indent=2)
-
     else:
-        print("Usando cache existente.")
+        print("Usando cache de chunks existente.")
         with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-            all_texts = data["texts"]
-            all_tables = data["tables"]
-            all_images = data["images"]
+        all_texts = data["texts"]
+        all_tables = data["tables"]
+        all_images = data["images"]
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.100.47:11434")
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
@@ -289,17 +290,15 @@ def main():
     store = InMemoryStore()
     retriever = MultiVectorRetriever(vectorstore=vectorstore, docstore=store, id_key="doc_id")
 
-    # Verificar se já há vetores persistidos
     vector_ids = vectorstore.get().get("ids", [])
 
-    if regenerate or not vector_ids:
+    if force_regenerate or not vector_ids:
         print("\nResumindo os elementos extraídos...")
 
         text_summaries = summarize_elements(all_texts)
         table_summaries = summarize_elements(all_tables, is_table=True)
         image_summaries = summarize_images(all_images) if all_images else []
 
-        # Salvar os resumos
         with open(SUMMARIES_PATH, "w", encoding="utf-8") as f:
             json.dump({
                 "text_summaries": text_summaries,
@@ -311,36 +310,46 @@ def main():
         add_documents(all_tables, table_summaries, retriever)
         add_documents(all_images, image_summaries, retriever)
         retriever.vectorstore.persist()
-
     else:
         print("\nVetores indexados:", len(retriever.vectorstore.get()["ids"]))
 
         if SUMMARIES_PATH.exists():
             with open(SUMMARIES_PATH, "r", encoding="utf-8") as f:
                 summaries = json.load(f)
-                text_summaries = [clean_summary(s) for s in summaries["text_summaries"]]
-                table_summaries = [clean_summary(s) for s in summaries["table_summaries"]]
-                image_summaries = [clean_summary(s) for s in summaries["image_summaries"]]
+            text_summaries = [clean_summary(s) for s in summaries["text_summaries"]]
+            table_summaries = [clean_summary(s) for s in summaries["table_summaries"]]
+            image_summaries = [clean_summary(s) for s in summaries["image_summaries"]]
         else:
             print("summaries.json não encontrado! Rode com regenerate = 's' para criar.")
-            return
+            return None
 
         add_documents(all_texts, text_summaries, retriever)
         add_documents(all_tables, table_summaries, retriever)
         add_documents(all_images, image_summaries, retriever)
         retriever.vectorstore.persist()
         
-    chain_with_sources = {
-        "context": retriever | RunnableLambda(parse_docs),
-        "question": RunnablePassthrough(),
-    } | RunnablePassthrough().assign(
-        response=(RunnableLambda(build_prompt) | get_chat_model() | StrOutputParser())
+    model = get_chat_model()
+    chain_with_sources = (
+        {"context": retriever | RunnableLambda(parse_docs), "question": RunnablePassthrough()}
+        | RunnablePassthrough().assign(
+            response=(RunnableLambda(build_prompt) | model | StrOutputParser())
+        )
     )
+    return chain_with_sources
+
+# --- FUNÇÃO MAIN ORIGINAL (agora mais limpa) ---
+def main():
+    regenerate = input("🔄 Deseja gerar os chunks novamente? (s/n): ").strip().lower() == "s"
+    chain_with_sources = get_rag_pipeline(force_regenerate=regenerate)
+    
+    if not chain_with_sources:
+        print("Não foi possível inicializar a pipeline.")
+        return
+        
     while True:
         user_input = input("\nPergunta (ou 'sair'): ")
         if user_input.strip().lower() == "sair":
             break
-        print("Documentos indexados:", len(retriever.vectorstore.get()["ids"]))
         print("\nBuscando resposta...")
         response = chain_with_sources.invoke(user_input)
         print("\nResposta:", response["response"])
@@ -352,4 +361,5 @@ def main():
         for img in response["context"]["images"]:
             display_base64_image(img)
 
-main()
+if __name__ == "__main__":
+    main()
