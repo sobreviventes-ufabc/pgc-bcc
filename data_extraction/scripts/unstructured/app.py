@@ -345,7 +345,6 @@ def get_rag_pipeline(force_regenerate=False):
         add_documents(all_texts, text_summaries, retriever)
         add_documents(all_tables, table_summaries, retriever)
         add_documents(all_images, image_summaries, retriever)
-        retriever.vectorstore.persist()
     else:
         print("\nVetores indexados:", len(retriever.vectorstore.get()["ids"]))
 
@@ -362,7 +361,6 @@ def get_rag_pipeline(force_regenerate=False):
         add_documents(all_texts, text_summaries, retriever)
         add_documents(all_tables, table_summaries, retriever)
         add_documents(all_images, image_summaries, retriever)
-        retriever.vectorstore.persist()
         
     model = get_llama_model()
     chain_with_sources = (

@@ -5,7 +5,7 @@ from typing import List
 from datasets import Dataset
 
 # Importa as funções e a pipeline do seu arquivo app.py
-from app import get_rag_pipeline, get_chat_model, build_prompt
+from app import get_rag_pipeline, get_llama_model, build_prompt
 from ragas import evaluate
 from ragas.metrics import faithfulness, answer_relevancy
 from langchain_core.prompts import ChatPromptTemplate
@@ -23,8 +23,15 @@ class LocalRagasLLM:
     Ele usa a mesma lógica do seu app.py para obter o modelo.
     """
     def __init__(self):
-        self.model = get_chat_model()
+        self.model = get_llama_model()
         self.output_parser = StrOutputParser()
+        
+    def generate(self, prompts: List[str], **kwargs) -> List[str]:
+        return [self._generate_single(prompt) for prompt in prompts]
+
+    def _generate_single(self, prompt: str) -> str:
+        # Usa o modelo + parser diretamente
+        return (self.model | self.output_parser).invoke([HumanMessage(content=prompt)])
 
     def generate_text(self, prompt: str) -> str:
         prompt_template = ChatPromptTemplate.from_messages([HumanMessage(content=prompt)])
@@ -33,6 +40,9 @@ class LocalRagasLLM:
 
     def generate_text_list(self, prompts: List[str]) -> List[str]:
         return [self.generate_text(p) for p in prompts]
+    
+    def set_run_config(self, config):
+        pass
 
 # --- Parte 2: Execução da avaliação ---
 if __name__ == "__main__":
@@ -50,30 +60,38 @@ if __name__ == "__main__":
     if not chain:
         print("Não foi possível inicializar a pipeline RAG. Saindo.")
         exit()
-    
-    # 3. Preparar o dataset para o Ragas
-    questions = [item['pergunta'] for item in eval_data]
-    ground_truths = [[item['resposta_esperada']] for item in eval_data]
 
+    questions = []
     answers = []
     contexts = []
-    for question in questions:
+    ground_truths = []
+
+    for item in eval_data:
+        question = item['pergunta']
+        ground_truth = item['resposta_esperada']
+
+        questions.append(question)
+        ground_truths.append(ground_truth)
+
         try:
-            print(f"Gerando resposta para a pergunta: {question[:50]}...")
+            print(f"Gerando resposta para: {question[:50]}...")
             response = chain.invoke(question)
-            answers.append(response['response'])
-            
-            # Adicionar o contexto. O formato de `ragas` é uma lista de strings.
-            context_text = [t for t in response['context']['texts'] if t]
-            if not context_text:
-                context_text = [""]
-            contexts.append(context_text)
+
+            answer = response["response"]
+            context_list = [t for t in response["context"]["texts"] if isinstance(t, str)]
+
+            if not context_list:
+                context_list = [""]
+
+            answers.append(answer)
+            contexts.append(context_list)
 
         except Exception as e:
-            print(f"Erro ao gerar resposta para '{question[:50]}...': {e}")
+            print(f"Erro na pergunta '{question[:50]}...': {e}")
             answers.append("Erro ao gerar resposta.")
             contexts.append([""])
-            
+
+    # Criar o dataset
     dataset = Dataset.from_dict({
         "question": questions,
         "answer": answers,
@@ -86,6 +104,7 @@ if __name__ == "__main__":
 
     # 5. Executar a avaliação
     print("\nIniciando a avaliação com Ragas...")
+    print(dataset)
     results = evaluate(
         dataset,
         metrics=[
