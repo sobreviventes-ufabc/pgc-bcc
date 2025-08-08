@@ -42,7 +42,8 @@ def build_prompt(kwargs):
     context_text = "".join(docs["texts"])
     prompt_content = [
         {"type": "text", "text": f"""
-        Responda à pergunta usando apenas...
+        Responda à pergunta usando apenas e exclusivamente o seguinte contexto, sem pesquisas adicionais. O contexto pode conter texto, tabelas e referências a imagens.
+
         Contexto: {context_text}
         Pergunta: {question}
         """}
