@@ -1,19 +1,20 @@
-"""Top-level package for the multi‑modal RAG project.
+"""
+Top-level package for the multi-modal RAG project.
 
-This package contains utilities for extracting, summarising and retrieving
-information from PDF documents using a multi‑vector retriever. The code has
+This package contains utilities for extracting, summarizing and retrieving
+information from PDF documents using a multi-vector retriever. The code has
 been refactored from a single monolithic script into a modular structure to
-improve maintainability and reuse. To get started, import and call the
-``run_pipeline`` function from :mod:`rag_project.pipeline` or invoke
-``python -m rag_project.cli`` from the command line.
+improve maintainability and reuse.
+
+To get started, import and call the ``get_rag_pipeline`` function from
+:mod:`rag_pipeline.core.retriever_pipeline` or run ``python -m rag_pipeline.main``.
 """
 
 __all__ = [
-    "config",
-    "models",
+    "core",
+    "data",
     "utils",
-    "pdf_processing",
-    "summarisation",
-    "retrieval",
-    "pipeline",
+    "config",
+    "api",
+    "main"
 ]
