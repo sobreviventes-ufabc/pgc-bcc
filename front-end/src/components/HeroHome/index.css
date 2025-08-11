@@ -1,5 +1,10 @@
 .hero-home-component {
   z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
 }
 
 .hero-home {
@@ -57,11 +62,15 @@
 
 
 .hero-home .chat-input {
-  transition: transform .5s ease;
+  transition: transform 1s ease;
+}
+
+.hero-home .app-logo {
+  transition: transform 1s ease;
 }
 
 .hero-home-component.hidden {
-  animation: delayedHide .5s forwards;
+  animation: delayedHide 1s forwards;
 }
 
 .hero-home.hidden {
@@ -73,7 +82,12 @@
 }
 
 .hero-home.hidden .chat-input {
-  transform: translateY(45vh);
+  transform: translateY(46vh);
   margin-bottom: 45px;
+}
+
+.hero-home.hidden .app-logo {
+  transform: translateY(-33vh) scale(.53) translateX(-12px);
+  animation: delayedHide 1s forwards;
 }
 
