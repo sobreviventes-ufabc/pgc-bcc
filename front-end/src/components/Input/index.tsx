@@ -4,13 +4,21 @@ import Image from 'next/image';
 
 import './index.css';
 
-const ChatInput: React.FC = () => {
+interface ChatInputProps {
+  onSend?: (message: string) => void;
+}
+
+const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
   const [message, setMessage] = useState('');
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   const handleSend = () => {
     if (message.trim()) {
-      console.log('Send:', message);
+      if (onSend) {
+        onSend(message);
+      } else {
+        console.log('Send:', message);
+      }
       setMessage('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
