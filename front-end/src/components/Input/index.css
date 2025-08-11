@@ -2,11 +2,9 @@
   display: flex;
   align-items: center;
   border-radius: 8px;
-  height: 62px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  max-width: 360px;
-  width: 90%;
+  width: 100%;
+  align-items: flex-end;
 }
 
 .chat-field {
@@ -14,10 +12,17 @@
   font-size: 14px;
   color: var(--text-1);
   flex: 1;
-  height: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  min-height: 40px;
   padding: 12px 16px;
   outline: none;
   background-color: var(--white);
+  resize: none;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: height 0.1s;
 }
 
 .send-button {
@@ -27,17 +32,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  height: 62px;
   flex-direction: column;
   cursor: pointer;
-  height: 100%;
 }
 
 .send-icon {
   color: var(--secondary);
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
   .chat-input {
-    max-width: 494px;
+    padding: 12px;
   }
 }

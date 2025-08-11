@@ -6,22 +6,38 @@ import './index.css';
 
 const ChatInput: React.FC = () => {
   const [message, setMessage] = useState('');
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   const handleSend = () => {
     if (message.trim()) {
       console.log('Send:', message);
       setMessage('');
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
     }
   };
 
   return (
     <div className="chat-input">
-      <input
-        type="text"
+      <textarea
         className="chat-field"
         placeholder="Type a message..."
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={handleChange}
+        maxLength={2000}
+        aria-label="Chat message input"
+        ref={textareaRef}
+        style={{overflowY: textareaRef.current && textareaRef.current.scrollHeight > 200 ? 'auto' : 'hidden'}}
       />
       <button
         className="send-button"

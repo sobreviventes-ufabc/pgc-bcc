@@ -20,13 +20,13 @@
   flex-direction: column;
   overflow-y: auto;
   min-height: 0;
+  margin-bottom: 14px;
 }
 
 .main-chat-messages {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  min-height: 0;
 }
 
 .main-chat-input,
@@ -34,9 +34,14 @@
   flex: 0 0 auto;
 }
 
-/* ChatText components should appear at the bottom of the messages area */
 .chat-messages {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
+}
+
+footer {
+  color: var(--black);
+  text-align: center;
+  padding: 12px;
 }
