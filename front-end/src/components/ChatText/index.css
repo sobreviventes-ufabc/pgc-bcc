@@ -1,3 +1,4 @@
+
 .chat-text-component {
   display: flex;
   padding: 16px;
@@ -5,9 +6,16 @@
   border-radius: 4px;
   box-shadow: 0 0 4px rgba(0, 0, 0 .25);
   position: relative;
+  max-width: 400px;
+  margin: 8px 0;
+}
+
+.chat-text-component.--sent {
+  align-self: flex-end;
 }
 
 .chat-text-component.--received {
+  align-self: flex-start;
   background-color: var(--chat-text-bg-received);
 }
 

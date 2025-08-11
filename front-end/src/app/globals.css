@@ -54,6 +54,17 @@ a {
   text-decoration: none;
 }
 
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: block;
+  margin: 0 auto;
+}
+
+button {
+  cursor: pointer;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

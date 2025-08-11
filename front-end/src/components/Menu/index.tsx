@@ -17,6 +17,10 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ isOpen = true, onClickBackground }) => {
   return (
     <Fragment>
+      <div
+        className={classNames('menu-bg', { 'open': isOpen })}
+        onClick={onClickBackground}
+      ></div>
       <nav className={classNames('menu-component', { 'menu-open': isOpen })}>
         <div className="menu-title">
             <h3>Menu</h3>
@@ -26,15 +30,16 @@ const Menu: React.FC<MenuProps> = ({ isOpen = true, onClickBackground }) => {
             <li
               key={item + idx}
               className="menu-item">
-              <a href={`/${item.toLowerCase()}`}>{item}</a>
+              <a
+                className="menu-link"
+                href={`/${item.toLowerCase()}`}
+              >
+                {item}
+              </a>
             </li>
           ))}
         </ul>
       </nav>
-      <div
-        className={classNames('menu-bg', { 'open': isOpen })}
-        onClick={onClickBackground}
-      ></div>
     </Fragment>
   );
 };
