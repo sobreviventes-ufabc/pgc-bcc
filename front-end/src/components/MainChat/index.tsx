@@ -34,7 +34,7 @@ const MainChat: React.FC = () => {
                 <div className="main-chat-input container">
                     <Input />
                 </div>
-                <footer className="container">
+                <footer className="main-chat-footer container">
                     AI-generated, for reference only
                 </footer>
             </section>

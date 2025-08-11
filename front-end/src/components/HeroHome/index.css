@@ -1,3 +1,7 @@
+.hero-home-component {
+  z-index: 5;
+}
+
 .hero-home {
   display: flex;
   flex-direction: column;
