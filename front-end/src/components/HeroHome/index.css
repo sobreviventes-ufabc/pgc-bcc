@@ -8,8 +8,10 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 0 16px;
   padding-bottom: 16px;
+  max-width: 100%;
+  width: 570px;
+  margin: 0 auto;
 }
 
 .hero-home-center {
@@ -29,8 +31,8 @@
   display: flex;
   margin-top: auto;
   width: 100%;
+  transition: opacity 0.2s ease-in-out;
 }
-
 
 @media (min-width: 1024px) {
   .hero-home-center  {
@@ -45,3 +47,33 @@
     text-align: center;
   }
 }
+
+@keyframes delayedHide {
+  0% { opacity: 1; visibility: visible; }
+  66% { opacity: 1; visibility: visible; }
+  99% { opacity: 0; visibility: hidden; }
+  100% { opacity: 0; visibility: hidden; display: none; }
+}
+
+
+.hero-home .chat-input {
+  transition: transform .5s ease;
+}
+
+.hero-home-component.hidden {
+  animation: delayedHide .5s forwards;
+}
+
+.hero-home.hidden {
+  width: 100%;
+}
+
+.hero-home.hidden .hero-home-footer {
+  opacity: 0;
+}
+
+.hero-home.hidden .chat-input {
+  transform: translateY(45vh);
+  margin-bottom: 45px;
+}
+
