@@ -64,6 +64,23 @@ export GROQ_API_KEY="gsk-..."
 export OLLAMA_HOST="http://<ip-ou-host>:11434"
 ```
 
+## 📦 Baixar os modelos no Ollama
+
+Certifique-se de que o Ollama está rodando (ollama serve) e então baixe os modelos usados pelo projeto:
+```bash
+# LLM para geração de respostas
+ollama pull llama3.1:8b
+
+# LLM multimodal para sumarizar imagens na indexação
+ollama pull llava:13b
+
+# Modelo de embeddings (texto)
+ollama pull nomic-embed-text
+
+# Certifica que os modelos estão instalados
+ollama list
+```
+
 No **Windows**, para expor o Ollama para a rede/WSL:
 
 ```powershell
