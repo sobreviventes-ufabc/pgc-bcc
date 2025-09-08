@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 
 def get_llava_model():
     try:
-        model = ChatOllama(model="llava:13b", base_url="http://192.168.18.9:11434").bind()
+        model = ChatOllama(model="llava:13b", base_url="http://localhost:11434").bind()
         print("Usando modelo local remoto para imagens: llava:13b")
         return model
     except Exception as e:
@@ -12,7 +12,7 @@ def get_llava_model():
 
 def get_llama_model():
     try:
-        model = ChatOllama(model="llama3.1:8b", base_url="http://192.168.18.9:11434").bind()
+        model = ChatOllama(model="llama3.1:8b", base_url="http://localhost:11434").bind()
         print("Usando modelo local remoto para texto: llama3.1:8b")
         return model
     except Exception:

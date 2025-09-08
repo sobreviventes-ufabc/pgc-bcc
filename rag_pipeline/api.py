@@ -2,16 +2,18 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import anyio
 from core.retriever_pipeline import get_rag_pipeline
-
-app = FastAPI()
+from contextlib import asynccontextmanager
 
 class QueryRequest(BaseModel):
     question: str
 
-@app.on_event("startup")
-def build_pipeline_once():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     # instancia uma única vez por processo/worker
     app.state.pipeline = get_rag_pipeline(force_regenerate=False)
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 @app.post("/ask")
 async def ask_question(req: QueryRequest):

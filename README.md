@@ -42,7 +42,7 @@ rag_pipeline/
 ### Instalação
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate     # Linux/macOS
 # .venv\Scripts\activate      # Windows
 
@@ -57,7 +57,7 @@ Crie um `.env` (ou exporte no shell):
 
 ```bash
 # Fallbacks de LLM (opcional)
-export OPENAI_API_KEY="sk-..."
+export OPENAI_API_KEY="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"
 export GROQ_API_KEY="gsk-..."
 
 # Se o Ollama estiver remoto

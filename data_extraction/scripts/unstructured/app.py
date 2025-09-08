@@ -43,7 +43,7 @@ def get_llava_model():
     try:
         model = ChatOllama(
             model="llava:13b",
-            base_url="http://192.168.18.9:11434").bind()
+            base_url="http://localhost:11434").bind()
         print("Usando modelo local remoto para imagens: llava:13b")
         return model
     except Exception as e:
@@ -53,7 +53,7 @@ def get_llama_model():
     try:
         model = ChatOllama(
             model="llama3.1:8b",
-            base_url="http://192.168.18.9:11434").bind()
+            base_url="http://localhost:11434").bind()
         print("Usando modelo local remoto para texto: llama3.1:8b")
         return model
     except Exception:
@@ -317,7 +317,7 @@ def get_rag_pipeline(force_regenerate=False):
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://localhost:11434")
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,

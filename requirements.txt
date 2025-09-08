@@ -41,7 +41,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # 3) Pip básico
-python -m pip install --upgrade pip wheel
+python3 -m pip install --upgrade pip wheel
 
 # 4) Pacotes Python
 pip install \
@@ -75,7 +75,14 @@ pip install \
   fastapi>=0.110 uvicorn[standard]>=0.29 pydantic>=2.6 anyio>=4.0 \
   unstructured>=0.14.0 pdfminer.six>=20221105 pdf2image>=1.17.0 \
   pikepdf>=8.0.0 Pillow>=9.5.0 opencv-python>=4.8.0.76 pytesseract>=0.3.10 \
-  lxml>=4.9.0 numpy>=1.24.0 ipython>=8.12.0
+  lxml>=4.9.0 numpy>=1.24.0 ipython>=8.12.0 \
+
+sudo apt install tesseract-ocr tesseract-ocr-por
+
+pip install unstructured.pytesseract
+pip install unstructured-inference
+pip install pi-heif
+
 ================================================================================================================
 
 ================================================================================================================
