@@ -1,0 +1,53 @@
+
+.chat-text-component {
+  display: flex;
+  padding: 16px;
+  background-color: var(--chat-text-bg-sent);
+  border-radius: 4px;
+  box-shadow: 0 0 4px rgba(0, 0, 0 .25);
+  position: relative;
+  max-width: 400px;
+  margin: 8px 0;
+}
+
+.chat-text-component.--sent {
+  align-self: flex-end;
+}
+
+.chat-text-component.--received {
+  align-self: flex-start;
+  background-color: var(--chat-text-bg-received);
+}
+
+.chat-text-container {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.chat-text-component:not(.--received)::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  right: -7px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--chat-text-bg-sent);
+}
+
+.chat-text-component.--received  .chat-text-container {
+  color: var(--black);
+}
+
+.chat-text-component.--received::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: -7px; /* Adjusted to point the triangle to the left */
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--chat-text-bg-received); /* Changed from border-left to border-right */
+}

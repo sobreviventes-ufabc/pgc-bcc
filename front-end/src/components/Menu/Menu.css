@@ -1,0 +1,102 @@
+.menu-component {
+   background-color: var(--menu-bg);
+   position: absolute;
+   max-width: 80%;
+   min-width: 286px;
+   top: 0;
+   left: 0;
+   transform: translateX(-102%);
+   transition: transform 0.3s ease;
+   height: 100vh;
+   overflow-y: auto;
+   z-index: 2;
+}
+
+.menu-component.menu-open {
+    transform: translateX(0);
+}
+
+.menu-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: var(--menu-light);
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  transition: .3s ease;
+  opacity: 0;
+}
+
+.menu-bg.open {
+  opacity: 1;
+}
+
+.menu-title h3 {
+  font-weight: normal;
+}
+
+.menu-title {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    color: var(--menu-light);
+    height: 48px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--menu-light);
+    color: var(--menu-title);
+    font-weight: normal;
+    padding: 0 12px;
+    font-size: 14px;
+}
+
+.menu-item {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: left;
+    color: var(--black);
+    height: 44px;
+    padding: 0 16px;
+    font-size: 14px;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.menu-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 5%;
+    display: block;
+    width: 90%;
+    height: 1px;
+    margin: 0 auto;
+    background-color: var(--menu-light);
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-component:active {
+    box-shadow: none;
+}
+
+.menu-component.small {
+    min-width: 100px;
+    min-height: 32px;
+    font-size: 16px;
+    padding: 8px 12px;
+}
