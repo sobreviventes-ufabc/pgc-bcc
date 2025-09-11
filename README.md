@@ -1,127 +1,100 @@
-# 🤖 Chatbot Assistente UFABC
+# 🤖 Chatbot Assistente UFABC (RAG)
 
-Este repositório contém o desenvolvimento de um **chatbot assistente para a UFABC**, utilizando a arquitetura de **Retrieval-Augmented Generation (RAG)**. O objetivo do projeto é facilitar o acesso a informações institucionais, documentos e dúvidas frequentes da universidade de forma automatizada, eficiente e interativa.
+Chatbot para a UFABC baseado em **Retrieval-Augmented Generation (RAG)**. Ele busca trechos em documentos institucionais (PDFs, tabelas e imagens), sumariza e usa um LLM para responder com contexto.
 
-## 💡 Sobre o Projeto
+## ✨ Principais features
 
-O chatbot tem como propósito atender à comunidade acadêmica da UFABC (Universidade Federal do ABC), oferecendo respostas contextualmente relevantes a partir de uma base de documentos institucionais, como editais, regulamentos e informações acadêmicas.
+- **RAG multimodal**: texto, tabelas (HTML) e imagens (sumarizadas na indexação)
+- **Persistência**: vetores em **Chroma** e **docstore** em disco (LocalFileStore)
+- **Reidratação inteligente**: se o docstore sumir, ele é reconstruído **sem re-embedar**
+- **API FastAPI** (concorrência pronta) + **CLI** (modo terminal)
+- **Ollama** para embeddings locais (fallbacks de LLM: Groq/OpenAI, se configurados)
+- **Classificação robusta** em `parse_docs` (evita confundir texto com base64)
 
-A abordagem RAG combina técnicas de recuperação de documentos com geração de linguagem natural, permitindo que o chatbot consulte documentos reais antes de formular respostas, garantindo maior precisão e confiabilidade.
+## 🗂️ Estrutura do projeto
 
-## ⚙️ Tecnologias e Conceitos
+```
+rag_pipeline/
+├── __init__.py
+├── api.py                     # FastAPI (serviço)
+├── main.py                    # CLI (terminal)
+├── config.py                  # Paths absolutos e configs
+├── core/
+│   ├── models.py              # get_llama_model / get_llava_model
+│   ├── prompt_utils.py        # parse_docs, build_prompt etc.
+│   └── retriever_pipeline.py  # get_rag_pipeline (Opção B com reidratação)
+├── data/
+│   ├── pdf_utils.py           # extração (unstructured) e classificação
+│   ├── summarization.py       # sumarização + add_documents (vectorstore + docstore)
+│   └── retry.py               # retry_with_backoff
+├── utils/
+│   ├── display_utils.py       # helper p/ exibir imagens base64 (CLI)
+│   └── ...
+└── .cache_chunks/             # gerado em runtime (chroma_store, summaries, chunks)
+```
 
-- **Retrieval-Augmented Generation (RAG)**
-- **Processamento de Linguagem Natural (PLN)**
+## 🧩 Requisitos
 
-## 👥 Autores
+- Python **3.10+**
+- [Ollama](https://ollama.com/download) (para embeddings locais)
+- (Opcional) chaves **OpenAI** / **Groq** para fallback do LLM
 
-- **Aline Milene Martins dos Santos**  
-  📧 aline.milene@aluno.ufabc.edu.br  
-  🔗 [github.com/AlineMilene](https://github.com/AlineMilene)
-
-- **Leonardo Pires de Oliveira**  
-  📧 oliveira.l@aluno.ufabc.edu.br  
-  🔗 [github.com/LeonOliveir4](https://github.com/LeonOliveir4)
-
-- **Matheus Victor Soares de Araujo**  
-  📧 matheus.victor@aluno.ufabc.edu.br  
-  🔗 [github.com/MatheusR42](https://github.com/MatheusR42)
-
----
-
-Este projeto faz parte do Projeto de Graduação de Curso (PGC) na **Universidade Federal do ABC (UFABC)**.
-
-## 🚀 Como executar o projeto localmente
-
-1️⃣ Crie e ative um ambiente virtual (opcional, mas recomendado):
+### Instalação
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-.venv\Scripts\activate      # Windows
+source .venv/bin/activate     # Linux/macOS
+# .venv\Scripts\activate      # Windows
+
+pip install -r requirements.txt
 ```
 
-2️⃣ Instale as dependências:
+> Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
+
+## 🔐 Variáveis de ambiente
+
+Crie um `.env` (ou exporte no shell):
 
 ```bash
-pip install bm25s[full] fastapi uvicorn openai
-uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
+# Fallbacks de LLM (opcional)
+export OPENAI_API_KEY="sk-..."
+export GROQ_API_KEY="gsk-..."
+
+# Se o Ollama estiver remoto
+export OLLAMA_HOST="http://<ip-ou-host>:11434"
 ```
 
----
+## 📦 Baixar os modelos no Ollama
 
-#### 🔹 Opção 1: vLLM (LLaMA 3.1)
-
+Certifique-se de que o Ollama está rodando (ollama serve) e então baixe os modelos usados pelo projeto:
 ```bash
-pip install vllm
-python -m vllm.entrypoints.openai.api_server --model meta-llama/Meta-Llama-3.1-8B-Instruct
+# LLM para geração de respostas
+ollama pull llama3.1:8b
+
+# LLM multimodal para sumarizar imagens na indexação
+ollama pull llava:13b
+
+# Modelo de embeddings (texto)
+ollama pull nomic-embed-text
+
+# Certifica que os modelos estão instalados
+ollama list
 ```
 
-Configure o endpoint da LLM no arquivo `llama_client.py`:
+No **Windows**, para expor o Ollama para a rede/WSL:
 
-```python
-openai.base_url = "http://localhost:8000/v1"
+```powershell
+$env:OLLAMA_HOST="0.0.0.0:11434"
+$env:OLLAMA_ORIGINS="*"
+ollama serve
+# libere a porta 11434 no Firewall do Windows
 ```
 
-##### 🔑 Acesso ao modelo LLaMA 3.1 (obrigatório)
+## 🗺️ Configuração de paths
 
-1️⃣ Tenha uma conta no [Hugging Face](https://huggingface.co)  
-2️⃣ Solicite acesso:  
-👉 [meta-llama/Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct)  
-3️⃣ Após aprovação, gere um Access Token em:  
-👉 [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
-4️⃣ Faça login local com o token:
+Os paths são absolutos (via `Path.resolve()`) a partir da raiz do repositório:
 
-```bash
-pip install huggingface-hub
-huggingface-cli login
-```
-
-#### ❗ Alternativa open-source:
-
-```bash
-python -m vllm.entrypoints.openai.api_server --model mistralai/Mistral-7B-Instruct-v0.2
-```
-
----
-
-#### 🔹 Opção 2: Ollama (mais leve)
-
-1️⃣ Instale o Ollama:  
-👉 [https://ollama.com/download](https://ollama.com/download)
-
-2️⃣ Rode o modelo desejado (exemplo com LLaMA 3):
-
-```bash
-ollama run llama3:8b
-# ou outro modelo:
-ollama run mistral
-```
-
-3️⃣ Configure o endpoint no `llama_client.py`:
-
-```python
-openai.api_key = "sk-no-key-needed"
-openai.base_url = "http://localhost:11434/v1"
-```
-
-4️⃣ Execute o servidor FastAPI normalmente:
-
-```bash
-uvicorn rag_pipeline.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-5️⃣ Acesse a interface de testes:  
-👉 [http://localhost:8000/docs](http://localhost:8000/docs)
-
----
-
-📚 Modelos suportados por Ollama (exemplos):
-
-- `llama3:8b`
-- `mistral`
-- `codellama`
-- `phi3`
-- `gemma`
-
-Veja mais em: [https://ollama.com/library](https://ollama.com/library)
+- PDFs: `data_extraction/documentos_ufabc/Prograd`
+- Cache de chunks: `.cache_chunks/chunks_classificados.json`
+- Cache de summaries: `.cache_chunks/summaries.json`
+- Vetores/Chroma + docstore: `.cache_chunks/chroma_store/`

@@ -1,6 +1,107 @@
-PyPDF2
-PyMuPDF
-pdfplumber
-pandas
-sentence-transformers
-faiss-cpu
+# === Core RAG (LangChain + VectorStore) ===
+langchain==0.3.26
+langchain-community==0.3.26
+chromadb>=0.5.4
+
+# === LLM/Embeddings backends ===
+langchain-ollama>=0.2.0
+langchain-openai>=0.2.0
+langchain-groq>=0.1.0
+ollama>=0.1.9
+httpx>=0.24.0
+
+# === API (FastAPI) ===
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+anyio>=4.0
+
+# === PDF / Unstructured (para partition_pdf com strategy='hi_res') ===
+unstructured>=0.14.0
+pdfminer.six>=20221105
+pdf2image>=1.17.0
+pikepdf>=8.0.0
+Pillow>=9.5.0
+opencv-python>=4.8.0.76
+pytesseract>=0.3.10
+lxml>=4.9.0
+numpy>=1.24.0
+
+# === Utilidades ===
+ipython>=8.12.0
+
+================================================================================================================
+LINUX:
+# 1) Dependências de sistema p/ PDF/Imagem/OCR
+sudo apt-get update
+sudo apt-get install -y tesseract-ocr poppler-utils libmagic1
+
+# 2) (Opcional) Python virtual env
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 3) Pip básico
+python -m pip install --upgrade pip wheel
+
+# 4) Pacotes Python
+pip install \
+  langchain==0.3.26 langchain-community==0.3.26 chromadb>=0.5.4 \
+  langchain-ollama>=0.2.0 langchain-openai>=0.2.0 langchain-groq>=0.1.0 \
+  ollama>=0.1.9 httpx>=0.24.0 \
+  fastapi>=0.110 uvicorn[standard]>=0.29 pydantic>=2.6 anyio>=4.0 \
+  unstructured>=0.14.0 pdfminer.six>=20221105 pdf2image>=1.17.0 \
+  pikepdf>=8.0.0 Pillow>=9.5.0 opencv-python>=4.8.0.76 pytesseract>=0.3.10 \
+  lxml>=4.9.0 numpy>=1.24.0 ipython>=8.12.0
+================================================================================================================
+
+================================================================================================================
+macOS:
+
+# 1) Dependências de sistema
+brew install tesseract poppler libmagic
+
+# 2) Virtual env (opcional)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 3) Pip básico
+python -m pip install --upgrade pip wheel
+
+# 4) Pacotes Python
+pip install \
+  langchain==0.3.26 langchain-community==0.3.26 chromadb>=0.5.4 \
+  langchain-ollama>=0.2.0 langchain-openai>=0.2.0 langchain-groq>=0.1.0 \
+  ollama>=0.1.9 httpx>=0.24.0 \
+  fastapi>=0.110 uvicorn[standard]>=0.29 pydantic>=2.6 anyio>=4.0 \
+  unstructured>=0.14.0 pdfminer.six>=20221105 pdf2image>=1.17.0 \
+  pikepdf>=8.0.0 Pillow>=9.5.0 opencv-python>=4.8.0.76 pytesseract>=0.3.10 \
+  lxml>=4.9.0 numpy>=1.24.0 ipython>=8.12.0
+================================================================================================================
+
+================================================================================================================
+Windows:
+
+REM 1) (Recomendado) Instalar Tesseract + Poppler
+winget install -e --id UB-Mannheim.TesseractOCR
+winget install -e --id oschwartz10612.Poppler
+
+REM Garanta que o diretório 'poppler\bin' está no PATH do Windows
+
+REM 2) Virtual env (opcional)
+py -m venv .venv
+.\.venv\Scripts\activate
+
+REM 3) Pip básico
+py -m pip install --upgrade pip wheel
+
+REM 4) Pacotes Python
+pip install ^
+  langchain==0.3.26 langchain-community==0.3.26 chromadb>=0.5.4 ^
+  langchain-ollama>=0.2.0 langchain-openai>=0.2.0 langchain-groq>=0.1.0 ^
+  ollama>=0.1.9 httpx>=0.24.0 ^
+  fastapi>=0.110 uvicorn[standard]>=0.29 pydantic>=2.6 anyio>=4.0 ^
+  unstructured>=0.14.0 pdfminer.six>=20221105 pdf2image>=1.17.0 ^
+  pikepdf>=8.0.0 Pillow>=9.5.0 opencv-python>=4.8.0.76 pytesseract>=0.3.10 ^
+  lxml>=4.9.0 numpy>=1.24.0 ipython>=8.12.0 ^
+  python-magic-bin==0.4.14
+================================================================================================================
