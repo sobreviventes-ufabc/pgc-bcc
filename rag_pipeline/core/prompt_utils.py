@@ -42,10 +42,11 @@ def build_prompt(kwargs):
     context_text = "".join(docs["texts"])
     prompt_content = [
         {"type": "text", "text": f"""
-        Responda à pergunta usando apenas e exclusivamente o seguinte contexto, sem pesquisas adicionais. O contexto pode conter texto, tabelas e referências a imagens.
+         Com exceção de comprimentos como "Olá", "Bom dia", etc. Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais. De preferencia para responder usando o contexto. De preferencia para responder a pergunta. Use algo do histórico do chat somente se for solicitado.
 
         Contexto: {context_text}
-        Pergunta: {question}
+        
+        {question}
         """}
     ]
     for image in docs["images"]:

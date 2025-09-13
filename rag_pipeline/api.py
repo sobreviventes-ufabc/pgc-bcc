@@ -37,8 +37,10 @@ app.add_middleware(
 @app.post("/ask")
 async def ask_question(req: QueryRequest):
     pipeline = app.state.pipeline
+    question = f"Pergunta: {req.question}"
+
     # .invoke é bloqueante: manda pra thread pool
-    resp = await anyio.to_thread.run_sync(pipeline.invoke, req.question)
+    resp = await anyio.to_thread.run_sync(pipeline.invoke, question)
     return {
         "response": resp["response"],
         "context": {
@@ -55,11 +57,17 @@ async def chat(req: ChatRequest):
     pipeline = app.state.pipeline
     # Junta todas as mensagens (system e user) como contexto
     # Formata como um histórico de conversa para o modelo
+    # Separa histórico e pergunta atual
     history = []
-    for m in req.messages:
+    for m in req.messages[:-1]:
         if m.role in ("system", "user"):
             history.append(f"{m.role}: {m.content}")
-    conversation = "\n".join(history)
+    historico_str = "\n".join(history)
+    ultima_msg = req.messages[-1]
+    pergunta_str = f"{ultima_msg.role}: {ultima_msg.content}" if ultima_msg.role in ("system", "user") else ""
+    conversation = f"Histórico da conversa:\n{historico_str}\n\nPergunta: {pergunta_str}"
+
+    print(conversation)
     # Envia o histórico completo para o pipeline
     resp = await anyio.to_thread.run_sync(pipeline.invoke, conversation)
     return {
