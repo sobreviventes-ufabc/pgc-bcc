@@ -1,14 +1,18 @@
 'use client';
+
 import HeroHome from '@/components/HeroHome';
-import  MainChat from '@/components/MainChat';
+import MainChat from '@/components/MainChat';
+import { ChatProvider } from '@/context/ChatContext';
 
 export default function Home() {
   return (
-    <div >
-      <main>
-        <MainChat />
-        <HeroHome />
-      </main>
-    </div>
+    <ChatProvider>
+      <div>
+        <main>
+          <MainChat />
+          <HeroHome />
+        </main>
+      </div>
+    </ChatProvider>
   );
 }

@@ -25,5 +25,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     onSend: (msg: string) => alert(msg),
+    id: 'test',
   },
 };

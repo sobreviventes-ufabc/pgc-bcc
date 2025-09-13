@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import GreenBackground from '@/components/GreenBackground';
 import Logo from '@/components/Logo';
 import Input from '@/components/Input';
+import { useChat } from '@/context/ChatContext';
 import './index.css';
 
 const HeroHome: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const { sendMessage } = useChat();
 
   return (
     <div
@@ -18,9 +20,20 @@ const HeroHome: React.FC = () => {
           <div className={classNames('hero-home', {'hidden': !isVisible})}>
             <div className='hero-home-center'>
               <Logo />
-              <Input 
-                onSend={() => setIsVisible(false)}
-              />
+                <Input 
+                  id="home-input" 
+                  autoFocus={true}
+                  onSend={async (message: string) => {
+                    setIsVisible(false);
+
+                    const mainChatInput = document.getElementById('main-chat-input');
+                    if (mainChatInput) {
+                      (mainChatInput as HTMLTextAreaElement).focus();
+                    }
+
+                    await sendMessage(message);
+                  }}
+                />
             </div>
 
             <footer className="hero-home-footer">
