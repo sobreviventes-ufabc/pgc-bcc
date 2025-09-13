@@ -90,6 +90,41 @@ ollama serve
 # libere a porta 11434 no Firewall do Windows
 ```
 
+
+Comando para iniciar a API:
+
+```
+uvicorn rag_pipeline.api:app --reload
+```
+
+Como fazer perguntas:
+
+Pergunta unica:
+```
+curl --request POST \
+  --url http://127.0.0.1:8000/ask \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/11.5.0' \
+  --data '{
+	"question": "quantas vezes posso trancar a matricula?"
+}'
+```
+
+Modo Chat:
+```
+curl --request POST \
+  --url http://127.0.0.1:8000/chat \
+  --header 'Content-Type: application/json' \
+  --header 'User-Agent: insomnia/11.5.0' \
+  --data '{
+	"messages": [
+	{"role": "user", "content": "Me explique brevemente sobre a matricula"},	
+			{"role": "system", "content": "Olá!"},
+{"role": "user", "content": "Olá"}
+	]
+}'
+```
+
 ## 🗺️ Configuração de paths
 
 Os paths são absolutos (via `Path.resolve()`) a partir da raiz do repositório:
