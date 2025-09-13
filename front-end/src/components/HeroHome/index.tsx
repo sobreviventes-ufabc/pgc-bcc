@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import GreenBackground from '@/components/GreenBackground';
 import Logo from '@/components/Logo';
 import Input from '@/components/Input';
+import { useChat } from '@/context/ChatContext';
 import './index.css';
 
 const HeroHome: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
+  const { sendMessage } = useChat();
 
   return (
     <div
@@ -19,7 +21,10 @@ const HeroHome: React.FC = () => {
             <div className='hero-home-center'>
               <Logo />
               <Input 
-                onSend={() => setIsVisible(false)}
+                onSend={async (message: string) => {
+                  setIsVisible(false);
+                  await sendMessage(message);
+                }}
               />
             </div>
 
