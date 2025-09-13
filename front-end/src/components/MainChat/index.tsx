@@ -10,7 +10,7 @@ const MainChat: React.FC = () => {
     return (
         <div className="main-chat-component">
             <Header 
-              onNewChatClick={() => alert()}
+              onNewChatClick={() => window.location.reload()}
             />
             <section className="main-chat-area">
                 <div className="main-chat-messages-scroll">
