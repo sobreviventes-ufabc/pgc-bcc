@@ -26,7 +26,6 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'User-Agent': 'insomnia/11.5.0',
         },
         body: JSON.stringify({ messages: newMessages }),
       });
