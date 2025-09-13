@@ -94,7 +94,7 @@ ollama serve
 Comando para iniciar a API:
 
 ```
-uvicorn rag_pipeline.api:app --reload
+uvicorn api:app --reload
 ```
 
 Como fazer perguntas:

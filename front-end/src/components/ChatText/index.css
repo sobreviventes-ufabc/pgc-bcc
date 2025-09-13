@@ -51,3 +51,7 @@
   border-bottom: 8px solid transparent;
   border-right: 8px solid var(--chat-text-bg-received); /* Changed from border-left to border-right */
 }
+
+.chat-text-component ul {
+  list-style-position: inside;
+}

@@ -34,6 +34,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
       textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
     }
   };
+  
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    };
 
   return (
     <div className="chat-input">
@@ -42,6 +49,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
         placeholder="Type a message..."
         value={message}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         maxLength={2000}
         aria-label="Chat message input"
         ref={textareaRef}

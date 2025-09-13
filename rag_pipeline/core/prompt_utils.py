@@ -42,11 +42,14 @@ def build_prompt(kwargs):
     context_text = "".join(docs["texts"])
     prompt_content = [
         {"type": "text", "text": f"""
-         Com exceção de comprimentos como "Olá", "Bom dia", etc. Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais. De preferencia para responder usando o contexto. De preferencia para responder a pergunta. Use algo do histórico do chat somente se for solicitado.
+        Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais. 
+        De preferencia para responder usando o contexto. Use algo do histórico da conversa somente se for solicitado.
 
         Contexto: {context_text}
         
         {question}
+
+        Formate a resposta em HTML. Vou usar esse HTML para injetar diretamente em um componente react usando dangerouslySetInnerHTML.
         """}
     ]
     for image in docs["images"]:
