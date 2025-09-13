@@ -67,7 +67,6 @@ async def chat(req: ChatRequest):
     pergunta_str = f"{ultima_msg.role}: {ultima_msg.content}" if ultima_msg.role in ("system", "user") else ""
     conversation = f"Histórico da conversa:\n{historico_str}\n\nPergunta: {pergunta_str}"
 
-    print(conversation)
     # Envia o histórico completo para o pipeline
     resp = await anyio.to_thread.run_sync(pipeline.invoke, conversation)
     return {
