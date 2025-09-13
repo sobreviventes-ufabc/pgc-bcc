@@ -6,9 +6,11 @@ import './index.css';
 
 interface ChatInputProps {
   onSend?: (message: string) => void;
+  id: string;
+  autoFocus?: boolean;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
+const ChatInput: React.FC<ChatInputProps> = ({ onSend, id, autoFocus = false }) => {
   const [message, setMessage] = useState('');
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -45,6 +47,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
   return (
     <div className="chat-input">
       <textarea
+        id={id}
         className="chat-field"
         placeholder="Type a message..."
         value={message}
@@ -54,6 +57,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend }) => {
         aria-label="Chat message input"
         ref={textareaRef}
         style={{overflowY: textareaRef.current && textareaRef.current.scrollHeight > 200 ? 'auto' : 'hidden'}}
+        autoFocus={autoFocus}
       />
       <button
         className="send-button"

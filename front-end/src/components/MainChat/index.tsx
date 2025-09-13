@@ -54,7 +54,9 @@ const MainChat: React.FC = () => {
           </div>
         </div>
         <div className="main-chat-input container">
-          <Input onSend={sendMessage} />
+          <Input
+            onSend={sendMessage}
+            id="main-chat-input" />
         </div>
         <footer className="main-chat-footer container">
           AI-generated, for reference only
