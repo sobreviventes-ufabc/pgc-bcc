@@ -39,6 +39,10 @@
   transition: opacity 0.2s ease-in-out;
 }
 
+.hero-home-footer {
+  padding: 0 12px;
+}
+
 @media (min-width: 1024px) {
   .hero-home-center  {
     flex-grow: initial;
