@@ -59,7 +59,7 @@ const MainChat: React.FC = () => {
             id="main-chat-input" />
         </div>
         <footer className="main-chat-footer container">
-          AI-generated, for reference only
+          O UFABChat pode cometer erros. Por isso, é bom checar as respostas.
         </footer>
       </section>
     </div>

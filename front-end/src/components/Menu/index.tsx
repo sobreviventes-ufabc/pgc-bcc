@@ -4,9 +4,14 @@ import classNames from 'classnames';
 import './Menu.css';
 
 const menuItems = [
-  'Home',
-  'About',
-  'Contact',
+  {
+    title: 'Novo chat',
+    link: '/'
+  },
+  {
+    title: 'Sobre',
+    link: '/about'
+  }
 ];
 
 interface MenuProps {
@@ -30,13 +35,13 @@ const Menu: React.FC<MenuProps> = ({ isOpen = true, onClickBackground }) => {
         <ul>
           {menuItems.map((item, idx) => (
             <li
-              key={item + idx}
+              key={idx}
               className="menu-item">
               <a
                 className="menu-link"
-                href={`/${item.toLowerCase()}`}
+                href={item.link}
               >
-                {item}
+                {item.title}
               </a>
             </li>
           ))}
