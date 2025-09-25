@@ -49,12 +49,12 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend, id, autoFocus = false }) 
       <textarea
         id={id}
         className="chat-field"
-        placeholder="Type a message..."
+        placeholder="Digite uma pergunta..."
         value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         maxLength={2000}
-        aria-label="Chat message input"
+        aria-label="Input do chat"
         ref={textareaRef}
         style={{overflowY: textareaRef.current && textareaRef.current.scrollHeight > 200 ? 'auto' : 'hidden'}}
         autoFocus={autoFocus}

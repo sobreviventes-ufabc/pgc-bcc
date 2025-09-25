@@ -37,8 +37,7 @@ const HeroHome: React.FC = () => {
             </div>
 
             <footer className="hero-home-footer">
-              <p>{`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-              industry's standard dummy text`}</p>
+              <p>{'Assistente virtual de Inteligência Artificial criado para apoiar os estudantes da UFABC, oferecendo respostas rápidas, confiáveis e atualizadas sobre matrícula, calendários, fretado e PGC'}</p>
             </footer>
           </div>
         </div>
