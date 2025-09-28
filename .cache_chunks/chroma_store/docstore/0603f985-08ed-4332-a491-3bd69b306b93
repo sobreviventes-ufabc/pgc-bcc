@@ -1,0 +1,15 @@
+Em primeiro lugar, detecto o tipo de tabela. Nesse caso, não parece ser um calendário acadêmico, pois a estrutura e conteúdo são relacionados a trabalho e presença, e não a prazos ou matrículas.
+
+Agora, procedo a corrigir a formatação geral:
+
+1. **Remover símbolos estranhos**: `|` e `/`;
+2. **Inserir espaços faltantes em datas**: Nenhum caso de datas grudadas foi encontrado;
+3. **Ajustar cabeçalhos de colunas duplicadas**: Removo `.1`;
+4. **Excluir linhas vazias ou só com NaN**: As linhas 1 e 2 estão presentes, portanto não removo nenhuma linha.
+5. **Garantir que seja HTML válido**.
+
+Aqui está a saída corrigida:
+
+<table><thead><tr><th>Nome</th><th>Segunda</th><th>Terça</th><th>Quarta</th><th>Quinta</th><th>Sexta</th></tr></thead><tbody><tr><td>Juliana </td><td>Presencial</td><td>Teletrabalho</td><td>Presencial</td><td>Teletrabalho</td><td>Presencial</td></tr><tr><td>Glaucon </td><td>Presencial</td><td>Presencial/Teletrabalho </td><td>Presencial/Teletrabalho </td><td>Presencial/Teletrabalho </td><td>Presencial/Teletrabalho</td></tr><tr><td>Daniel </td><td>Teletrabalho </td><td>Presencial</td><td>Presencial</td><td>Teletrabalho</td><td>Teletrabalho</td></tr><tr><td>Marina </td><td>Teletrabalho </td><td>Teletrabalho</td><td>Presencial</td><td>Presencial</td><td>Teletrabalho</td></tr></tbody></table>
+
+Essa é a saída corrigida.

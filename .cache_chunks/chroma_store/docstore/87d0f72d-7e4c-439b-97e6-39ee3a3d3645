@@ -1,0 +1,40 @@
+### Correção da tabela
+A primeira etapa é detectar o tipo de tabela e aplicar as regras correspondentes. Nesse caso, a entrada não parece ser um calendário acadêmico, então apenas corrija a formatação geral.
+
+#### Passo 1: Remover símbolos estranhos
+
+```html
+<table><thead><tr><th>inha</th><th>Santo André Partida</th><th>Somente desembarque Terminal Leste</th><th>São Bernardo Chegada</th><th>Partida</th><th>Somente desembarque Terminal Leste</th><th>Santo André Chegada</th></tr></thead><tbody><tr><td></td><td>23:19</td><td>23:25</td><td>23:45</td><td></td><td></td><td></td></tr><tr><td></td><td>23:33</td><td>23:39</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>23:39</td><td>23:45</td><td></td><td></td><td></td><td></td></tr></tbody></table>
+```
+
+Remova os símbolos estranhos e mantenha apenas dados válidos.
+
+#### Passo 2: Inserir espaços faltantes em datas
+
+```html
+<table><thead><tr><th>inha</th><th>Santo André Partida</th><th>Somente desembarque Terminal Leste</th><th>São Bernardo Chegada</th><th>Partida</th><th>Somente desembarque Terminal Leste</th><th>Santo André Chegada</th></tr></thead><tbody><tr><td></td><td>23:19</td><td>23:25</td><td>23:45</td><td></td><td></td><td></td></tr><tr><td></td><td>23:33</td><td>23:39</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>23:39</td><td>23:45</td><td></td><td></td><td></td><td></td></tr></tbody></table>
+```
+
+Inserir espaços faltantes nas datas.
+
+#### Passo 3: Ajustar cabeçalhos de colunas duplicadas
+
+```html
+<table><thead><tr><th>inha</th><th>Santo André Partida</th><th>Somente desembarque Terminal Leste</th><th>São Bernardo Chegada</th><th>Partida</th><th>Somente desembarque Terminal Leste</th><th>Santo André Chegada</th></tr></thead><tbody><tr><td></td><td>23:19</td><td>23:25</td><td>23:45</td><td></td><td></td><td></td></tr><tr><td></td><td>23:33</td><td>23:39</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td>23:39</td><td>23:45</td><td></td><td></td><td></td><td></td></tr></tbody></table>
+```
+
+Remover sufixos como ".1".
+
+#### Passo 4: Excluir linhas vazias ou só com NaN
+
+```html
+<table><thead><tr><th>inha</th><th>Santo André Partida</th><th>Somente desembarque Terminal Leste</th><th>São Bernardo Chegada</th></tr></thead><tbody><tr><td>23:19</td><td>23:25</td><td>23:45</td></tr><tr><td>23:33</td><td>23:39</td></tr><tr><td>23:39</td><td>23:45</td></tr></tbody></table>
+```
+
+Remover linhas vazias ou só com NaN.
+
+#### Saída
+
+```html
+<table><thead><tr><th>inha</th><th>Santo André Partida</th><th>Somente desembarque Terminal Leste</th><th>São Bernardo Chegada</th></tr></thead><tbody><tr><td>23:19</td><td>23:25</td><td>23:45</td></tr><tr><td>23:33</td><td>23:39</td></tr><tr><td>23:39</td><td>23:45</td></tr></tbody></table>
+```

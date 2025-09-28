@@ -1,0 +1,86 @@
+Vou criar uma solução Python utilizando bibliotecas como `beautifulsoup4` e `html.parser`. Vamos começar!
+
+```python
+from bs4 import BeautifulSoup
+import re
+
+def corrigir_tabela(tabela):
+    # Tratar cabeçalhos faltando ou quebrados
+    for th in tabela.find_all('th'):
+        texto = th.text.strip()
+        if re.match(r'\d+', texto) and len(texto.split()) > 1:
+            th.string = ' '.join(texto.split())
+    
+    # Tratar datas grudadas
+    for td in tabela.find_all('td'):
+        texto = td.text.strip()
+        match = re.search(r'(\d{2})(\w+)(\d{2})', texto)
+        if match:
+            grupo1, grupo2, grupo3 = match.groups()
+            td.string = f'De {grupo1} a {grupo3}'
+    
+    # Remover símbolos estranhos
+    for elemento in tabela.find_all(['th', 'td']):
+        elemento.string = re.sub(r'[|—=]', '', elemento.text.strip())
+    
+    # Ajustar cabeçalhos de colunas duplicadas (remover `.1`)
+    for th in tabela.find_all('th'):
+        texto = th.text.strip()
+        if re.search(r'\.\d+$', texto):
+            th.string = re.sub(r'\.\d+$', '', texto)
+    
+    # Excluir linhas vazias ou só com NaN
+    for tr in tabela.find_all('tr'):
+        tds = tr.find_all('td')
+        if not any(td.text.strip() for td in tds) or len(tr.find_all(['th', 'td'])) == 0:
+            tr.decompose()
+    
+    return tabela
+
+def detectar_tipo_tabela(tabela):
+    # Se for **calendário acadêmico** (com meses, prazos, colação de grau, matrícula, lançamento de conceitos, avaliações etc.)
+    if re.search(r'(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)', tabela.text.strip()):
+        meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+        tabelas_separadas = []
+        
+        # Garantir que **cada mês** esteja em uma tabela separada.
+        for mes in meses:
+            tabela_mes = BeautifulSoup('', 'html.parser')
+            tabela_mes.append(corrigir_tabela(tabela.find_all('table')))
+            
+            # Se o mês não tiver cabeçalho explícito, deduza pelo contexto (ex: aparece logo após Janeiro e antes de Março → é Fevereiro).
+            if not re.search(rf'{mes}', tabela_mes.text.strip()):
+                mes_anterior = meses[months.index(meses[months.index(re.search(rf'\b{mes}\b', tabela.text.strip()).group())[0]]) - 1]
+                mes_seguinte = meses[months.index(re.search(rf'\b{mes}\b', tabela.text.strip()).group())[0] + 1]
+                
+                # Sempre criar `<thead><tr><th colspan="2">NOME_DO_MÊS[/ANO]</th></tr></thead>` para identificar o mês.
+                if mes_anterior != '' and re.search(rf'{mes_anterior}', tabela_mes.text.strip()):
+                    th = BeautifulSoup(f'<th colspan="2">{mes_anterior}</th>', 'html.parser')
+                    tabela_mes.find('thead').find('tr').append(th)
+                elif mes_seguinte != '' and re.search(rf'{mes_seguinte}', tabela.text.strip()):
+                    th = BeautifulSoup(f'<th colspan="2">{mes_seguinte}</th>', 'html.parser')
+                    tabela_mes.find('thead').find('tr').insert_before(th, tds[0])
+                
+                # Nome do mês com ano
+                th_mes = BeautifulSoup(f'<th colspan="2">NOME_DO_MÊS[/ANO]</th>', 'html.parser')
+                tabela_mes.find('thead').find('tr').append(th_mes)
+            
+            tabelas_separadas.append(str(tabela_mes))
+        
+        return '\n'.join(tabelas_separadas)
+    
+    # **Atenção:** só trate como calendário acadêmico se os conteúdos forem claramente prazos/matrículas/colações/aulas.
+    else:
+        tabela = corrigir_tabela(tabela)
+        return str(tabela)
+
+tabela = """
+<table><thead><tr><th>Solicitação de Colação de Grau de Agosto — exclusivo para concluintes até 2025.1*</th></tr></thead><tbody><tr><td>Fim do prazo para trancamento de matrícula sem justificativa</td></tr><tr><td>Inscrição para Transferência Externa</td></tr><tr><td>Matrículas para o 3º quadrimestre de 2025 Colação de Grau exclusivo para concluintes até o 1º quadrimestre de 2025</td></tr></tbody></table> 
+<table><thead><tr><th></th><th>AGOSTO</th></tr></thead><tbody><tr><td>De01a31 e0la</td><td>Solicitação de Colação de Grau de Setembro — exclusivo para concluintes até 2025.2, que não dependam dos conceitos de recuperação**</td></tr><tr><td>De 26/08 a 02/09</td><td>Lançamento de conceitos do 2º quadrimestre de 2024</td></tr><tr><td>29</td><td>Conclusão do 2º quadrimestre de 2024</td></tr><tr><td>29</td><td>Colação de Grau — exclusivo para concluintes até o 1º quadrimestre de 2025</td></tr></tbody></table> 
+<table><thead><tr><th></th><th>SETEMBRO</th></tr></thead><tbody><tr><td>De 01 a 30</td><td>Solicitação de Colação de Grau de Outubro — exclusivo para concluintes até 2025.2*</td></tr><tr><td>03 (12h) a 04 (23h59)</td><td>Ajuste de Matrículas em Disciplinas - 3º quadrimestre</td></tr><tr><td>De 05 a 08</td><td>Solicitação excepcional de matrícula em disciplina - 3º quadrimestre de 2025</td></tr><tr><td>De 08 a 09</td><td>Solicitação de Matrícula — Aluno Especial - 3º quadrimestre de 2025 do de de</td></tr><tr><td>De 08 a 12</td><td>Solicitação regime guarda religiosa - 3º quadrimestre 2025</td></tr><tr><td>15</td><td>Início das Aulas - 3º quadrimestre de 2025 Solicitação de matrícula em Trabalho de Graduação das Engenharias, Trabalho de Conclusão</td></tr><tr><td>De 15 a 19</td><td>de Curso de BRI, BPP e BPT, e Monografia do BCE</td></tr><tr><td></td><td>Solicitação de Cancelamento de Disciplinas</td></tr><tr><td></td><td>Solicitação de Revisão de Conceito e de Instrumentos Avaliativos (ref. 2025.2)</td></tr><tr><td></td><td>Avaliação de Disciplinas 2º quadrimestre 2025</td></tr><tr><td></td><td>Solicitação de Aproveitamento de Disciplina como Livre Escolha</td></tr><tr><td></td><td>Solicitação de Equivalência de Disciplina</td></tr><tr><td></td><td>ajuste de Matrículas em Disciplinas - 3º quadrimestre de 2025 Re</td></tr><tr><td></td><td>Colação de Grau — exclusivo para concluintes até o 2º quadrimestre de 2025, que não dependam dos conceitos de recuperação**</td></tr></tbody></table>
+"""
+
+print(detectar_tipo_tabela(BeautifulSoup(tabela, 'html.parser')))
+```
+
+Espero que isso tenha ajudado! Lembre-se de apenas corrigir a estrutura e manter os dados originais.

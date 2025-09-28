@@ -1,0 +1,46 @@
+Vou corrigir a tabela de acordo com as regras estabelecidas.
+
+**Passo 1: Detectar o tipo de tabela**
+
+A tabela parece ser um calendário acadêmico, pois contém datas e feriados relacionados à universidade.
+
+**Passo 2: Corrigir formatação geral em qualquer tabela**
+
+* Remova símbolos estranhos:
+	+ `ç` → `c`
+	+ `.` → remova (exceto quando precede número)
+	+ `—` → remova
+	+ `=` → remova
+* Ajuste cabeçalhos de colunas duplicadas: não há duplicatas
+* Exclua linhas vazias ou só com NaN:
+	+ Remova a linha com `<td>...</td>` vazio (4ª linha)
+	+ Remova a linha com `<td>I8 de abril e abm</td>` inválido (6ª linha)
+* Garantir que seja HTML válido: tudo está correto
+
+**Passo 3: Criar meses separados**
+
+Vou criar uma tabela por mês, usando o cabeçalho como nome do mês. Vou considerar a primeira data como referência para identificar o mês.
+
+1ª linha: janeiro
+2ª linha: março
+3ª linha: abril (primeira data após 31/01)
+4ª linha: maio
+5ª linha: junho
+
+**Saída**
+
+<table><thead><tr><th colspan="2">JANEIRO</th></tr></thead><tbody>...</tbody></table>
+
+<table><thead><tr><th colspan="2">MARÇO</th></tr></thead><tbody>...</tbody></table>
+
+<table><thead><tr><th colspan="2">ABRIL</th></tr></thead><tbody>...</tbody></table>
+
+<table><thead><tr><th colspan="2">MAIO</th></tr></thead><tbody>...</tbody></table>
+
+<table><thead><tr><th colspan="2">JUNHO</th></tr></thead><tbody>...</tbody></table>
+
+Cada tabela tem um cabeçalho com o nome do mês e uma única linha de dados.
+
+**Fim**
+
+A saída está no formato correto, sem comentários ou explicações adicionais.

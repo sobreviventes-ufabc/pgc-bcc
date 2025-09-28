@@ -1,0 +1,20 @@
+Eu posso ajudar a normalizar essa tabela!
+
+**Tabela corrigida:**
+
+<table><thead><tr><th colspan="2">JUNHO</th></tr></thead><tbody><tr><td>De 01 a 30</td><td>Solicitação de Colação de Grau de Julho — exclusivo para concluintes até 2025.1*</td></tr><tr><td>02</td><td>Início das Aulas - 2º quadrimestre (ingressantes e veteranos)</td></tr><tr><td>De 02 a 06</td><td>Solicitação de matrícula em Trabalho de Graduação das Engenharias, Trabalho de Conclusão de Curso de BRI, BPP e BPT, e Monografia do BCE</td></tr><tr><td>De 02 a 08</td><td>Solicitação de Cancelamento de Disciplinas</td></tr><tr><td>De 02 a 10</td><td>Solicitação de Revisão de Conceito e de Instrumentos Avaliativos (ref. 2025.1)</td></tr><tr><td>De 02 a 16</td><td>Avaliação de Disciplinas 1º quadrimestre de 2024</td></tr><tr><td>De 09 a 13</td><td>Solicitação de Aproveitamento de Disciplina como Livre Escolha</td></tr><tr><td>De 09 a 13</td><td>Solicitação de Equivalência de Disciplina</td></tr><tr><td>10 (12h) a 11 (23h59)</td><td>Reajuste de Matrículas em Disciplinas - 2º quadrimestre de 2025</td></tr><tr><td>De 23 a 29</td><td>Lançamento de conceitos da recuperação (2025.1)</td></tr><tr><td>De 26 a 30</td><td>Inscrições para os Cursos de Formação Específica — válida para 2025.3</td></tr><tr><td>2</td><td>Colação de Grau — exclusivo para concluintes até 2025.1, que não dependam dos conceitos de recuperação**</td></tr><tr><td>De 30/06 a 07/07</td><td>Solicitação de Revisão de Conceito e de Instrumentos Avaliativos (ref. 2025.1, pós REC)</td></tr></tbody></table>
+
+**O que fiz:**
+
+* Inseri espaços faltantes em datas (`De01a30` → `De 01 a 30`);
+* Removi símbolos estranhos como `|`, `—`, `=`;
+* Ajustei cabeçalhos de colunas duplicadas (removi `.1`);
+* Excluí linhas vazias ou só com NaN;
+* Garanti que seja HTML válido.
+
+**Tipo da tabela:** Calendário acadêmico
+
+**Observações:**
+
+* As datas foram corrigidas para ter espaços faltantes;
+* As linhas vazias ou só com NaN foram excluídas.

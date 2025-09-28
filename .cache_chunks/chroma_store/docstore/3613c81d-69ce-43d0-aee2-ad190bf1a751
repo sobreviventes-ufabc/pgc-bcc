@@ -1,0 +1,31 @@
+Vou normalizar as tabelas fornecidas a partir dos exemplos de entrada e saída.
+
+**Normalização da tabela de calendário acadêmico:**
+
+1. Identifique o tipo de tabela como "calendário acadêmico".
+2. Crie uma `<thead>` com um `<tr>` contendo dois cabeçalhos que sejam colunas (`<th colspan="2">NOME_DO_MÊS[/ANO]</th>`) para cada mês da tabela.
+
+**Tabela de saída:**
+
+<table><thead><tr><th colspan="2">JANEIRO 2024</th></tr></thead><tbody><tr><td>De 06/01 a 07/02</td><td>Lançamento de conceitos de 2024.3</td></tr><tr><td>De09a23</td><td>Avaliação de Disciplinas 3º quadrimestre 2024</td></tr><tr><td>30 (12h) a 31 (23h59)</td><td>Ajuste de Matrículas em Disciplinas - 1º quadrimestre de 2025</td></tr><tr><td>De01a31</td><td>Solicitação de Colação de Grau de Fevereiro — exclusivo para concluintes até 2024.2**</td></tr><tr><td>31</td><td>Colação de Grau — exclusivo para concluintes até o 2º quadrimestre de 2024</td></tr></tbody></table>
+
+**Normalização da tabela não acadêmica (horários de ônibus):**
+
+1. Deixe a tabela como está, sem criar meses.
+2. Remova os símbolos estranhos e formate as datas.
+
+**Tabela de saída:**
+
+<table><thead><tr><th>Linha</th><th>Partida</th><th>Chegada</th></tr></thead><tbody><tr><td>1</td><td>06:50</td><td>07:25</td></tr></tbody></table>
+
+**Combinando as tabelas de saída:**
+
+<table><thead><tr><th colspan="2">JANEIRO 2024</th></tr></thead><tbody><tr><td>De 06/01 a 07/02</td><td>Lançamento de conceitos de 2024.3</td></tr><tr><td>De09a23</td><td>Avaliação de Disciplinas 3º quadrimestre 2024</td></tr><tr><td>30 (12h) a 31 (23h59)</td><td>Ajuste de Matrículas em Disciplinas - 1º quadrimestre de 2025</td></tr><tr><td>De01a31</td><td>Solicitação de Colação de Grau de Fevereiro — exclusivo para concluintes até 2024.2**</td></tr><tr><td>31</td><td>Colação de Grau — exclusivo para concluintes até o 2º quadrimestre de 2024</td></tr></tbody></table>
+
+<table><thead><tr><th>Linha</th><th>Partida</th><th>Chegada</th></tr></thead><tbody><tr><td>1</td><td>06:50</td><td>07:25</td></tr></tbody></table>
+
+**Tabela de saída final:**
+
+<table><thead><tr><th colspan="2">JANEIRO 2024</th></tr></thead><tbody><tr><td>De 06/01 a 07/02</td><td>Lançamento de conceitos de 2024.3</td></tr><tr><td>De09a23</td><td>Avaliação de Disciplinas 3º quadrimestre 2024</td></tr><tr><td>30 (12h) a 31 (23h59)</td><td>Ajuste de Matrículas em Disciplinas - 1º quadrimestre de 2025</td></tr><tr><td>De01a31</td><td>Solicitação de Colação de Grau de Fevereiro — exclusivo para concluintes até 2024.2**</td></tr><tr><td>31</td><td>Colação de Grau — exclusivo para concluintes até o 2º quadrimestre de 2024</td></tr></tbody></table>
+
+<table><thead><tr><th>Linha</th><th>Partida</th><th>Chegada</th></tr></thead><tbody><tr><td>1</td><td>06:50</td><td>07:25</td></tr></tbody></table>
