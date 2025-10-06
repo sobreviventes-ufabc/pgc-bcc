@@ -1,9 +1,0 @@
-Aqui estão as tabelas corrigidas:
-
-<table><thead><tr><th colspan="2">JANEIRO/2026</th></tr></thead><tbody><tr><td>27 (12h) a 28 (23h59)</td><td>Ajuste de Matrículas em Disciplinas - 1º quadrimestre de 2026*</td></tr><tr><td>30</td><td>Colação de Grau — exclusivo para concluintes até o 3º quadrimestre de 2025, que não dependam dos conceitos de recuperação****</td></tr></tbody></table>
-
-Essa tabela foi identificada como calendário acadêmico e as alterações foram feitas:
-
-- Inserção do cabeçalho `<thead><tr><th colspan="2">JANEIRO/2026</th></tr></thead>` para identificar o mês.
-- Remoção do símbolo estranho `|` na célula `<td>27 (12h) a 28 (23h59)</td>`.
-- Não foi necessário criar meses separados, pois esta é uma tabela de calendário acadêmico.

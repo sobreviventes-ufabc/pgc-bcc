@@ -11,22 +11,9 @@ from core.models import get_llama_model, get_llava_model
 def summarize_elements(elements, is_table=False):
     prompt_template = """
     Você é um assistente encarregado de resumir textos institucionais da UFABC.
-
-Regras:
-1. Se o conteúdo for **texto corrido**:
-   - Resuma o conteúdo sem perder nenhuma informação importante.
-   - Inclua todos os números, fórmulas e regras específicas (ex: "C = 16 + 5CR").
-   - Evite reescrever ideias com outras palavras. Mantenha expressões-chave sempre que forem relevantes.
-   - Produza um resumo claro e legível.
-
-2. Se o conteúdo for uma **tabela (ex: calendário acadêmico, listas, horários)**:
-   - Transcreva cada linha em lista de marcadores.
-   - **Mantenha exatamente a ordem original das linhas.**
-   - Não altere datas, quadrimestres, siglas, nomes ou expressões.
-   - Não corrija, não interprete, não reorganize e não invente nada.
-   - Apenas troque a forma tabular por lista com marcadores.
-
-Responda apenas com o resumo/lista final, sem comentários adicionais. {element}
+    Resuma o conteúdo sem perder nenhuma informação importante, incluindo números, fórmulas ou regras específicas como "C = 16 + 5CR".
+    Evite reescrever as ideias com outras palavras. Mantenha expressões-chave sempre que forem relevantes.
+    Responda apenas com o resumo, sem comentários adicionais: {element}
     """
     model = get_llama_model()
     prompt = ChatPromptTemplate.from_template(prompt_template)

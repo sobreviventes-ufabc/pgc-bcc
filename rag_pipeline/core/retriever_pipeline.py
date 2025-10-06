@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+from bs4 import BeautifulSoup
+import shutil
 
 from langchain_community.vectorstores import Chroma
 from langchain_ollama.embeddings import OllamaEmbeddings
@@ -53,6 +55,16 @@ def _rehydrate_docstore_only(retriever: MultiVectorRetriever, all_texts, all_tab
     retriever.docstore.mset(pairs)
     print(f"[rehydrate] Docstore reidratado com {len(pairs)} itens.")
 
+def table_to_text(html):
+    """Converte uma tabela HTML em texto plano, preservando estrutura e conteúdo."""
+    soup = BeautifulSoup(html, "html.parser")
+    rows = []
+    for tr in soup.find_all("tr"):
+        cells = [td.get_text(" ", strip=True) for td in tr.find_all(["td", "th"])]
+        if any(cells):  # evita linhas vazias
+            rows.append(" | ".join(cells))
+    return "\n".join(rows)
+
 
 # --- FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO DA PIPELINE (Opção B) ---
 def get_rag_pipeline(force_regenerate=False):
@@ -61,6 +73,11 @@ def get_rag_pipeline(force_regenerate=False):
     - Se force_regenerate=True ou não há vetores: refaz chunks, summaries, embeddings e docstore.
     - Senão: se docstore está vazio, rehidrata só o docstore (sem re-embedar).
     """
+    #0) Limpa docstore se pedir para regerar.
+    if force_regenerate and PERSIST_DIR.exists():
+        shutil.rmtree(PERSIST_DIR)
+        print("[force_regenerate] Limpando diretório persistente...")
+    
     # 1) Carrega/gera chunks (originais)
     if not CHUNKS_PATH.exists() or force_regenerate:
         pdf_files = list(PDF_DIR.rglob("*.pdf"))
@@ -70,6 +87,7 @@ def get_rag_pipeline(force_regenerate=False):
         for pdf in pdf_files:
             chunks = extract_chunks_from_pdf(pdf)
             texts, tables, images = classify_chunks(chunks)
+            
             all_texts.extend(texts)
             all_tables.extend(tables)
             all_images.extend(images)
@@ -106,9 +124,21 @@ def get_rag_pipeline(force_regenerate=False):
     if force_regenerate or not has_vectors:
         print("\n[regen] Resumindo os elementos extraídos...")
         text_summaries = summarize_elements(all_texts)
-        table_summaries = summarize_elements(all_tables, is_table=True)
+
+        # 🔹 Tabelas HTML completas (para o vetorstore)
+        all_tables_html = list(all_tables)
+
+        # 🔹 Versão textificada para os summaries
+        table_summaries = []
+        for i, t in enumerate(all_tables_html):
+            filename = pdf_files[i % len(pdf_files)].stem.upper().replace("_", " ")
+            plain_table = table_to_text(t)
+            plain_table = plain_table.replace("\n", " ").replace("  ", " ")
+            table_summaries.append(f"[TABELA EXTRAÍDA DE {filename}]\n{plain_table}")
+
         image_summaries = summarize_images(all_images) if all_images else []
 
+        # 🔹 Salva tudo no summaries.json
         with open(SUMMARIES_PATH, "w", encoding="utf-8") as f:
             json.dump({
                 "text_summaries": text_summaries,
@@ -116,9 +146,9 @@ def get_rag_pipeline(force_regenerate=False):
                 "image_summaries": image_summaries
             }, f, ensure_ascii=False, indent=2)
 
-        # Indexa vetores e popula docstore numa tacada só
+        # 🔹 Indexa os embeddings com cada tipo
         add_documents(all_texts, text_summaries, retriever)
-        add_documents(all_tables, table_summaries, retriever)
+        add_documents(all_tables_html, table_summaries, retriever)
         add_documents(all_images, image_summaries, retriever)
 
         print("[regen] Embeddings, summaries e docstore gerados do zero.")
