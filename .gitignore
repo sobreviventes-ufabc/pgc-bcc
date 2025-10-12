@@ -45,3 +45,12 @@ build/
 dist/
 *.egg-info/
 .eggs/
+
+# Environment files
+# Allow specific files in front-end folder
+!front-end/.env.example
+!front-end/.env.local
+# Ignore all other .env files
+.env
+.env.*
+*.env
