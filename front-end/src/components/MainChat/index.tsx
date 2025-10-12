@@ -61,21 +61,21 @@ const MainChat: React.FC = () => {
               </ChatText>
             )}
             <div ref={messagesEndRef} />
+            {messages.some(msg => msg.role !== 'user') && (
+              <div className="main-chat-new-chat-button-container">
+                <Button
+                  text="Novo chat"
+                  onClick={handleNewChatClick}
+                  variation="small"
+                  icon="/img/icon-new-chat-button.svg"
+                  iconAlt="Novo chat"
+                  iconWidth={20}
+                  iconHeight={20}
+                />
+              </div>
+            )}
           </div>
         </div>
-        {messages.some(msg => msg.role !== 'user') && (
-          <div className="main-chat-new-chat-button-container">
-            <Button
-              text="Novo chat"
-              onClick={handleNewChatClick}
-              variation="small"
-              icon="/img/icon-new-chat-button.svg"
-              iconAlt="Novo chat"
-              iconWidth={20}
-              iconHeight={20}
-            />
-          </div>
-        )}
         <div className="main-chat-input container">
           <Input
             onSend={sendMessage}
