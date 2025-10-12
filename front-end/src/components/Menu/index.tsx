@@ -16,16 +16,16 @@ const menuItems = [
 
 interface MenuProps {
   isOpen?: boolean;
-  onClickBackground?: () => void;
+  onCancel?: () => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ isOpen = true, onClickBackground }) => {
+const Menu: React.FC<MenuProps> = ({ isOpen = true, onCancel }) => {
   return (
     <Fragment>
       {isOpen && (
         <div
           className={classNames('menu-bg', { 'open': isOpen })}
-          onClick={onClickBackground}
+          onClick={onCancel}
         ></div>
       )}
       <nav className={classNames('menu-component', { 'menu-open': isOpen })}>

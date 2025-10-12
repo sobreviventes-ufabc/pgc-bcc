@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Logo from '@/components/Logo';
 import Menu from '@/components/Menu';
+import Modal from '@/components/Modal';
 import './index.css';
 
 interface HeaderProps {
@@ -12,9 +13,17 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleMenuClick = () => setMenuOpen(true);
     const handleMenuClose = () => setMenuOpen(false);
+    
+    const handleNewChatClick = () => setModalOpen(true);
+    const handleModalCancel = () => setModalOpen(false);
+    const handleModalConfirm = () => {
+        setModalOpen(false);
+        onNewChatClick();
+    };
 
     return (
         <header className="header-component">
@@ -22,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
                 <div className="header-menu">
                     <button
                       type="button"
-                      className="header-menu-button"
+                      className="header-button header-menu-button"
                       onClick={handleMenuClick}
                     >
                         <Image
@@ -42,8 +51,8 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
                 <div className="header-new-chat">
                     <button
                       type="button"
-                      className="header-new-chat-button"
-                      onClick={onNewChatClick}
+                      className="header-button header-new-chat-button"
+                      onClick={handleNewChatClick}
                     >
                         <Image
                           src="/img/icon-new-chat.svg"
@@ -58,7 +67,12 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
             <div className="header-line"></div>
             <Menu
               isOpen={menuOpen}
-              onClickBackground={handleMenuClose}
+              onCancel={handleMenuClose}
+            />
+            <Modal
+              isOpen={modalOpen}
+              onConfirm={handleModalConfirm}
+              onCancel={handleModalCancel}
             />
         </header>
     );
