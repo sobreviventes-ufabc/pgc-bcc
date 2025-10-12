@@ -10,7 +10,15 @@
     align-items: center;
     z-index: 1000;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: opacity 0.3s ease;
+}
+
+.modal-fade-in {
+    opacity: 1;
+}
+
+.modal-fade-out {
+    opacity: 0;
 }
 
 .modal-content {
@@ -24,6 +32,17 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     position: relative;
     cursor: default;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-content-fade-in {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.modal-content-fade-out {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
 }
 
 .modal-close-button {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Button from '../Button';
 import './Modal.css';
@@ -10,15 +10,28 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onConfirm, onCancel }) => {
-  if (!isOpen) return null;
+  const [isVisible, setIsVisible] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+      setTimeout(() => setIsAnimating(true), 10);
+    } else if (isVisible) {
+      setIsAnimating(false);
+      setTimeout(() => setIsVisible(false), 300);
+    }
+  }, [isOpen, isVisible]);
+
+  if (!isVisible) return null;
 
   return (
     <div 
-      className="modal-overlay" 
+      className={`modal-overlay ${isAnimating ? 'modal-fade-in' : 'modal-fade-out'}`}
       onClick={onCancel}
     >
       <div 
-        className="modal-content" 
+        className={`modal-content ${isAnimating ? 'modal-content-fade-in' : 'modal-content-fade-out'}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button 
