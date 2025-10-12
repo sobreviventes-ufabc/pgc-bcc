@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
 
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 
@@ -10,8 +11,26 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  plugins: [react()],
+  esbuild: {
+    jsx: 'automatic',
+  },
   test: {
     projects: [
+      {
+        test: {
+          name: 'unit-tests',
+          include: ['src/**/*.test.{js,ts,jsx,tsx}'],
+          environment: 'jsdom',
+          setupFiles: ['vitest.setup.unit.ts'],
+          globals: true,
+        },
+        resolve: {
+          alias: {
+            '@': path.resolve(dirname, './src'),
+          },
+        },
+      },
       {
         extends: true,
         plugins: [
@@ -31,5 +50,10 @@ export default defineConfig({
         },
       },
     ],
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(dirname, './src'),
+    },
   },
 });
