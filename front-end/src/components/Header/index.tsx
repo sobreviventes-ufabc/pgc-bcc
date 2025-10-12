@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
             <div className="header-line"></div>
             <Menu
               isOpen={menuOpen}
-              onClickBackground={handleMenuClose}
+              onCancel={handleMenuClose}
             />
         </header>
     );

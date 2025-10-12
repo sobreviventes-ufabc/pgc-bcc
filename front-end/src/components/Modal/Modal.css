@@ -1,0 +1,78 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--menu-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--menu-bg);
+    width: 360px;
+    height: 256px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    cursor: default;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-button:hover {
+    opacity: 0.7;
+}
+
+.modal-title {
+    color: var(--black);
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.modal-message {
+    color: var(--black);
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 16px 0;
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.modal-actions .button-component {
+    width: 160px;
+    min-width: 160px;
+    height: 64px;
+    min-height: 64px;
+}
