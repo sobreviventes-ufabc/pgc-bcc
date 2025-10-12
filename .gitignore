@@ -47,10 +47,13 @@ dist/
 .eggs/
 
 # Environment files
-# Allow specific files in front-end folder
+# Allow specific .env.example files
+!.env.example
 !front-end/.env.example
 !front-end/.env.local
 # Ignore all other .env files
 .env
-.env.*
-*.env
+.env.local
+.env.development
+.env.production
+.env.test

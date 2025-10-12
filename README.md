@@ -41,27 +41,86 @@ rag_pipeline/
 
 ### Instalação
 
-```bash
-python -m venv .venv
-source .venv/bin/activate     # Linux/macOS
-# .venv\Scripts\activate      # Windows
+1. **Clone o repositório e configure o ambiente Python**:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate     # Linux/macOS
+   # .venv\Scripts\activate      # Windows
+   
+   pip install -r requirements.txt
+   ```
 
-pip install -r requirements.txt
+2. **Configure as variáveis de ambiente**:
+   ```bash
+   cp .env.example .env
+   # Edite o arquivo .env com suas chaves de API
+   ```
+
+3. **Verifique se o Ollama está rodando**:
+   ```bash
+   # Inicie o Ollama se necessário
+   ollama serve
+   ```
+
+> **Nota**: Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
+
+## 🔐 Configuração de Variáveis de Ambiente
+
+### Setup para Desenvolvimento
+
+1. **Copie o arquivo de exemplo**:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Edite o arquivo `.env`** com suas chaves reais:
+   ```bash
+   # API Keys obrigatórias
+   GROQ_API_KEY=sua_chave_groq_aqui
+   OPENAI_API_KEY=sua_chave_openai_aqui
+   
+   # Base URL do Ollama (padrão: localhost)
+   OLLAMA_BASE_URL=http://localhost:11434
+   
+   # Provedor de modelo para geração de texto (padrão: ollama)
+   # Opções: ollama, openai, groq
+   MODEL_PROVIDER=ollama
+   ```
+
+### Obtendo as API Keys
+
+- **Groq**: Registre-se em [console.groq.com](https://console.groq.com) para obter sua chave gratuita
+- **OpenAI**: Acesse [platform.openai.com/api-keys](https://platform.openai.com/api-keys) para gerar uma API key
+
+### Configuração para Produção/Servidor
+
+Em ambiente de produção, defina as variáveis de ambiente diretamente no sistema:
+
+```bash
+# Linux/macOS
+export GROQ_API_KEY="sua_chave_groq"
+export OPENAI_API_KEY="sua_chave_openai"
+export OLLAMA_BASE_URL="http://seu-servidor-ollama:11434"
+export MODEL_PROVIDER="ollama"
+
+# Windows
+set GROQ_API_KEY=sua_chave_groq
+set OPENAI_API_KEY=sua_chave_openai
+set OLLAMA_BASE_URL=http://seu-servidor-ollama:11434
+set MODEL_PROVIDER=ollama
 ```
 
-> Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
+### Validação das Variáveis
 
-## 🔐 Variáveis de ambiente
+O sistema valida automaticamente se todas as variáveis obrigatórias estão configuradas:
+- `GROQ_API_KEY`
+- `OPENAI_API_KEY` 
+- `OLLAMA_BASE_URL`
+- `MODEL_PROVIDER` (opcional, padrão: "ollama")
 
-Crie um `.env` (ou exporte no shell):
-
-```bash
-# Fallbacks de LLM (opcional)
-export OPENAI_API_KEY="sk-..."
-export GROQ_API_KEY="gsk-..."
-
-# Se o Ollama estiver remoto
-export OLLAMA_HOST="http://<ip-ou-host>:11434"
+Se alguma variável estiver faltando, você verá um erro como:
+```
+ValueError: Missing required environment variables: GROQ_API_KEY, OLLAMA_BASE_URL
 ```
 
 ## 📦 Baixar os modelos no Ollama
