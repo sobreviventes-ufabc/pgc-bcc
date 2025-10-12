@@ -5,18 +5,28 @@ import React from 'react';
 import Header from '@/components/Header';
 import ChatText from '@/components/ChatText';
 import Input from '@/components/Input';
+import Button from '@/components/Button';
+import Modal from '@/components/Modal';
 import { useChat } from '@/context/ChatContext';
 import './index.css';
 
 const MainChat: React.FC = () => {
   const { messages, loading, sendMessage } = useChat();
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, loading]);
+
+  const handleNewChatClick = () => setModalOpen(true);
+  const handleModalCancel = () => setModalOpen(false);
+  const handleModalConfirm = () => {
+    setModalOpen(false);
+    window.location.reload();
+  };
 
   return (
     <div className="main-chat-component">
@@ -53,15 +63,33 @@ const MainChat: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
         </div>
+        {messages.some(msg => msg.role !== 'user') && (
+          <div className="main-chat-new-chat-button-container">
+            <Button
+              text="Novo chat"
+              onClick={handleNewChatClick}
+              variation="small"
+              icon="/img/icon-new-chat-button.svg"
+              iconAlt="Novo chat"
+              iconWidth={20}
+              iconHeight={20}
+            />
+          </div>
+        )}
         <div className="main-chat-input container">
           <Input
             onSend={sendMessage}
             id="main-chat-input" />
         </div>
         <footer className="main-chat-footer container">
-          O UFABChat pode cometer erros. Por isso, é bom checar as respostas.
+          O UFABChat pode cometer erros. Sempre verifique as respostas.
         </footer>
       </section>
+      <Modal
+        isOpen={modalOpen}
+        onConfirm={handleModalConfirm}
+        onCancel={handleModalCancel}
+      />
     </div>
   );
 };

@@ -29,6 +29,18 @@
   padding: 12px;
 }
 
+.main-chat-new-chat-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.main-chat-new-chat-button-container .button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
 .main-chat-input,
 .main-chat-footer {
   flex: 0 0 auto;
