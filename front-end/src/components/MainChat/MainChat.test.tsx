@@ -96,7 +96,7 @@ describe('MainChat Component', () => {
     it('renders footer text correctly', () => {
       render(<MainChat />);
       
-      const footerText = screen.getByText('O UFABChat pode cometer erros. Por isso, é bom checar as respostas.');
+      const footerText = screen.getByText('O UFABChat pode cometer erros. Sempre verifique as respostas.');
       expect(footerText).toBeInTheDocument();
     });
 

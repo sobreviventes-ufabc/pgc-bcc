@@ -41,7 +41,7 @@ describe('Header Component', () => {
       expect(screen.getByTestId('menu-mock')).toBeInTheDocument();
     });
 
-    it('calls onNewChatClick when new chat button is clicked', () => {
+    it('calls onNewChatClick when new chat button is clicked', async () => {
       const onNewChatClick = vi.fn();
       render(
         <Header 
@@ -57,6 +57,10 @@ describe('Header Component', () => {
       
       if (newChatBtn) {
         fireEvent.click(newChatBtn);
+        
+        const confirmButton = await screen.findByText('Confirmar');
+        fireEvent.click(confirmButton);
+        
         expect(onNewChatClick).toHaveBeenCalledTimes(1);
       }
     });
