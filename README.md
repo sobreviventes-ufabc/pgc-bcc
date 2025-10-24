@@ -39,15 +39,20 @@ rag_pipeline/
 - [Ollama](https://ollama.com/download) (para embeddings locais)
 - (Opcional) chaves **OpenAI** / **Groq** para fallback do LLM
 
-### Instalação
+### Instalação e execução do back-end python
 
-1. **Clone o repositório e configure o ambiente Python**:
+0. **Entre na past back-end**:
+   ```bash
+   cd back-end
+   ```
+
+1. **Configure o ambiente Python**:
    ```bash
    python -m venv .venv
    source .venv/bin/activate     # Linux/macOS
    # .venv\Scripts\activate      # Windows
    
-   cd rag_pipeline
+   cd back-end
 
    pip install -r requirements.txt
    ```

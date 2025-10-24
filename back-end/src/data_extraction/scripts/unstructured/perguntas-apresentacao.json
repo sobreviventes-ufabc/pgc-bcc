@@ -1,0 +1,252 @@
+[
+  {
+    "pergunta": "Qual o prazo para o aluno ingressante solicitar o cancelamento de disciplinas?",
+    "resposta_esperada": "O aluno ingressante poderá solicitar o cancelamento de até 2 disciplinas no prazo de até 6 semanas após o início das aulas.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "Quais são os critérios de permanência mencionados para o cancelamento de disciplinas?",
+    "resposta_esperada": "O CR (Coeficiente de Rendimento) não pode estar abaixo de 2 em 3 quadrimestres consecutivos e o aluno deve aprovar no mínimo 15% dos créditos do BC&T em cada 3 quadrimestres consecutivos.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "Qual a resolução que estabelece o prazo de quatro semanas para cancelamento de disciplinas?",
+    "resposta_esperada": "A Resolução ConsEP No. 66, de 10/05/2010, estabelece um prazo de até quatro semanas após o início das aulas para o cancelamento de até duas disciplinas.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "O que é o programa PET?",
+    "resposta_esperada": "PET significa Programa de Ensino Tutorial ou Programa de Educação Tutorial.",
+    "documento": "apresentacao_pet.pdf"
+  },
+  {
+    "pergunta": "Quantos grupos o PET Nacional tinha em 2013 e em quantas Instituições de Ensino Superior?",
+    "resposta_esperada": "Em 2013, o PET Nacional contava com 779 grupos distribuídos entre 114 Instituições de Ensino Superior.",
+    "documento": "apresentacao_pet.pdf"
+  },
+  {
+    "pergunta": "Quais são os objetivos do PET?",
+    "resposta_esperada": "Os objetivos do PET incluem o investimento acadêmico em cursos de graduação, formar globalmente o aluno, complementar sua formação acadêmica com atividades extracurriculares e realizar ações de Ensino, Pesquisa e Extensão.",
+    "documento": "apresentacao_pet.pdf"
+  },
+  {
+    "pergunta": "Qual o período de atuação do Grupo de Trabalho sobre Evasão de Discentes da UFABC?",
+    "resposta_esperada": "O Grupo de Trabalho sobre Evasão de Discentes de Graduação da UFABC atuou de 04/05/2011 a 15/09/2011.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Quem foi designado como Pró-reitor de Graduação no GT de Evasão?",
+    "resposta_esperada": "Derval dos Santos Rosa foi designado como Pró-reitor de Graduação para integrar o Grupo de Trabalho.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Qual o prazo para conclusão dos trabalhos do GT de Evasão?",
+    "resposta_esperada": "O prazo para conclusão dos trabalhos do Grupo de Trabalho era de 90 dias.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Quais são as três categorias em que os discentes da UFABC foram agrupados?",
+    "resposta_esperada": "Os discentes da UFABC foram agrupados em alunos ativos, alunos temporários e ex-alunos.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "O que define um 'aluno ativo'?",
+    "resposta_esperada": "Um 'aluno ativo' é aquele que possui vínculo com a graduação desde o seu ingresso até a sua passagem para a categoria de 'ex-aluno', quando o vínculo é formalmente finalizado.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Qual o número estimado de alunos de Graduação no câmpus de Santo André da UFABC?",
+    "resposta_esperada": "O número estimado de alunos de Graduação no câmpus de Santo André é de 7.500.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quantos docentes qualificados estavam distribuídos nos 3 Centros em 06/11/2012?",
+    "resposta_esperada": "Em 06/11/2012, havia 475 docentes qualificados distribuídos em 3 Centros (CMCC, CCNH e CECS).",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quem presidiu a Comissão nomeada pela SESu em março de 2005?",
+    "resposta_esperada": "A Comissão nomeada pela SESu em março de 2005 foi presidida pelo Prof. Luiz Bevilacqua.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Cite dois benefícios do modelo de Bacharelado Interdisciplinar.",
+    "resposta_esperada": "Dois benefícios do modelo são: postergar o momento da escolha profissional e combater a evasão.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Qual a forma de ingresso na UFABC para os BIs?",
+    "resposta_esperada": "A forma de ingresso na UFABC para os Bacharelados Interdisciplinares (BIs) é pelo SiSU/MEC.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quantas vagas foram ofertadas para o BC&T (SA) em 2008?",
+    "resposta_esperada": "Em 2008, foram ofertadas 1500 vagas para o BC&T (SA).",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Qual a proporção de alunos que ingressam na UFABC por período (diurno/noturno)?",
+    "resposta_esperada": "O ingresso anual na graduação é de 50% no período diurno e 50% no período noturno.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quantas horas de atividades complementares são necessárias para a conclusão do curso de BC&H?",
+    "resposta_esperada": "São necessárias 120 horas de atividades complementares para a conclusão do curso de BC&H.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "Qual o tempo previsto e o prazo máximo para a conclusão do curso de BC&H?",
+    "resposta_esperada": "O tempo previsto para a conclusão é de 9 quadrimestres, e o prazo máximo é de 18 quadrimestres.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "No primeiro quadrimestre, em quantas disciplinas a matrícula é automática para o BC&H?",
+    "resposta_esperada": "No primeiro quadrimestre, a matrícula é automática em 5 disciplinas para o BC&H, com a possibilidade de cancelar 2 até uma determinada data.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "O que é o regime curricular quadrimestral?",
+    "resposta_esperada": "É um regime que oferece maior dinâmica das disciplinas e maior amplitude na formação.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "Qual o perfil do egresso de BC&T?",
+    "resposta_esperada": "O egresso de BC&T atua, de forma generalista, como pesquisador, gestor, analista e consultor nas áreas de desenvolvimento científico e tecnológico.",
+    "documento": "siu_2016_apresentacao_bct.pdf"
+  },
+  {
+    "pergunta": "Qual o tempo previsto e o prazo máximo para a conclusão do curso de BC&T?",
+    "resposta_esperada": "O tempo previsto para a conclusão é de 9 quadrimestres, e o prazo máximo é de 18 quadrimestres.",
+    "documento": "siu_2016_apresentacao_bct.pdf"
+  },
+  {
+    "pergunta": "Há estágio obrigatório para os cursos de BC&T?",
+    "resposta_esperada": "Não há estágio obrigatório para os cursos de BC&T.",
+    "documento": "siu_2016_apresentacao_bct.pdf"
+  },
+  {
+    "pergunta": "Qual era o critério de aproveitamento para desligamento do aluno, de acordo com as Informações Acadêmicas 2007/2008/2009?",
+    "resposta_esperada": "O aluno não poderia apresentar um Coeficiente de Rendimento Acumulado (CR) abaixo de 2,00 durante 3 trimestres consecutivos.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Quantos alunos ingressantes de 2006 foram jubilados em 2007?",
+    "resposta_esperada": "Em 2007, 133 alunos ingressantes de 2006 foram jubilados.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Quais os objetivos dos critérios de desligamento do aluno?",
+    "resposta_esperada": "Os objetivos são: evitar a permanência indefinida do aluno, assegurar o bom aproveitamento e desocupar uma vaga para que outro candidato possa ingressar na UFABC.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Quantos alunos de graduação havia ao final de 2009?",
+    "resposta_esperada": "Havia 2600 alunos de graduação ao final de 2009.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "Em que ano a expansão das universidades federais ocorreu?",
+    "resposta_esperada": "A expansão das universidades federais ocorreu em 2006.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "Quais são os eixos do conhecimento no BC&T?",
+    "resposta_esperada": "Os eixos do conhecimento no BC&T são: Estrutura da Matéria, Energia, Processos de Transformação, Informação e Comunicação, Representação e Simulação, Humanidades.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quantas horas totais de crédito são necessárias para a conclusão do curso de BC&H?",
+    "resposta_esperada": "O total de créditos é de 190, o que equivale a 2400 horas.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "Quem foi o responsável pela pauta na Comissão de Graduação em setembro de 2011 sobre o cancelamento de disciplinas?",
+    "resposta_esperada": "O Prof. Ronei Miotto pautou duas minutas de Resolução na Comissão de Graduação em setembro de 2011.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "Qual o número de créditos que um aluno deverá cursar a cada três trimestres consecutivos para não ser desligado, de acordo com o critério de permanência de 2007/2008/2009?",
+    "resposta_esperada": "O aluno deverá cursar, no mínimo, 15% dos créditos do BCT (equivalente a 28,5 créditos) a cada três trimestres consecutivos.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Qual era a quantidade de vagas ofertadas para BC&T (SA) em 2006 e 2007?",
+    "resposta_esperada": "Em 2006, foram ofertadas 500 vagas e, em 2007, 1000 vagas.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quais os eixos do conhecimento no BC&H?",
+    "resposta_esperada": "Os eixos do conhecimento no BC&H incluem Estrutura da Matéria, Energia, Processos de Transformação, Comunicação e Informação, Representação e Simulação, Humanidades, Estado, Sociedade e Mercado, Pensamento, Expressão e Significado, Espaço, Cultura e Temporalidade e Ciência, Tecnologia e Inovação.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quais os tipos de matrículas para as disciplinas dos Bacharelados Interdisciplinares?",
+    "resposta_esperada": "Os tipos de matrículas são em disciplinas obrigatórias, de opção limitada e de opção livre.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "O que são 'alunos temporários'?",
+    "resposta_esperada": "Um 'aluno temporário' possui um vínculo com a graduação válido por um período bem determinado, sem ter ingressado através de processo seletivo ou transferência externa.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Quantas vagas anuais de ingresso na graduação a UFABC tinha em 2012?",
+    "resposta_esperada": "Em 2012, o ingresso anual era de 1960 alunos, sendo 1125 para o BC&T SA e 435 BC&T + 400 BC&H SBC.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Qual a distribuição de vagas para o ingresso universal e ações afirmativas?",
+    "resposta_esperada": "A distribuição é de 50% das vagas para ingresso universal e 50% para ações afirmativas (alunos oriundos de escola pública).",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Quantas disciplinas um aluno de graduação pode cancelar por período letivo, de acordo com a Resolução ConsEP No. 66?",
+    "resposta_esperada": "De acordo com a Resolução ConsEP No. 66, um aluno de graduação pode cancelar sua matrícula em até duas disciplinas para cada período letivo.",
+    "documento": "apresentacao_cancelamento_disciplinas.pdf"
+  },
+  {
+    "pergunta": "Em que ano a UFABC tinha 3 grupos PET?",
+    "resposta_esperada": "O documento não especifica a quantidade de grupos PET da UFABC em um ano específico, mas afirma que o PET Nacional contava com 779 grupos em 114 IES.",
+    "documento": "apresentacao_pet.pdf"
+  },
+  {
+    "pergunta": "O que era utilizado como critério para desligamento do aluno entre 2007 e 2009?",
+    "resposta_esperada": "Os coeficientes de rendimento (CR) e de progressão (CP) eram utilizados como critérios para desligamento do aluno da UFABC entre 2007 e 2009.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Quantos alunos ingressantes de 2007 foram jubilados em 2008?",
+    "resposta_esperada": "Em 2008, 82 alunos ingressantes de 2007 foram jubilados.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  },
+  {
+    "pergunta": "Qual o Coeficiente de Aproveitamento (CA) necessário para a conclusão dos cursos de BC&H e BC&T?",
+    "resposta_esperada": "O CA necessário para a conclusão é 2,0.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "O que o Projeto Pedagógico da UFABC enfatiza?",
+    "resposta_esperada": "O Projeto Pedagógico da UFABC enfatiza a formação para o futuro, a revisão da estrutura de conteúdos, a ênfase na formação básica, a liberdade de trajetórias e a eliminação de barreiras através da interdisciplinaridade.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "O que o documento 'apresentacao_sobre_evasao.pdf' define como 'aluno ingressante'?",
+    "resposta_esperada": "Um 'aluno ingressante' é aquele que ingressou na UFABC após um processo seletivo ou transferência externa e ainda não cumpriu os requisitos para se tornar regular.",
+    "documento": "apresentacao_sobre_evasao.pdf"
+  },
+  {
+    "pergunta": "Qual a duração prevista para os Bacharelados Interdisciplinares (BC&T ou BC&H)?",
+    "resposta_esperada": "A duração prevista é de 3 anos.",
+    "documento": "apresentacao_sobre_os_bis.pdf"
+  },
+  {
+    "pergunta": "Onde o Bacharel em Ciências e Humanidades pode atuar?",
+    "resposta_esperada": "O profissional está habilitado para exercer funções na administração pública e privada e em organizações que tenham como tarefa coordenar esforços para a consecução de metas econômicas, políticas ou sociais.",
+    "documento": "siu_2016_apresentacao_bch.pdf"
+  },
+  {
+    "pergunta": "Quantos alunos ingressantes de 2008 foram jubilados em 2009?",
+    "resposta_esperada": "Em 2009, 3 alunos ingressantes de 2008 foram jubilados.",
+    "documento": "jubilacao_apresentacao_161012.pdf"
+  }
+]
