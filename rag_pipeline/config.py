@@ -24,3 +24,5 @@ PERSIST_DIR = (BASE_DIR / ".cache_chunks" / "chroma_store").resolve()
 PERSIST_DIR.mkdir(parents=True, exist_ok=True)
 
 MAX_WORKERS = min(10, os.cpu_count() or 4)
+
+WORKER_LAMBDA_NAME = os.environ.get("WORKER_LAMBDA_NAME", None)

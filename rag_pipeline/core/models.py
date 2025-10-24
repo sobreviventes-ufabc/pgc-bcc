@@ -32,8 +32,8 @@ def get_llama_model():
     
     if model_provider == "groq":
         try:
-            model = ChatGroq(model="llama3-8b-8192")
-            print("Usando modelo Groq: llama3-8b-8192")
+            model = ChatGroq(model="llama-3.1-8b-instant")
+            print("Usando modelo Groq: llama-3.1-8b-instant")
             return model
         except Exception as e:
             raise RuntimeError(f"Erro ao usar modelo Groq: {e}")

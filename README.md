@@ -47,6 +47,8 @@ rag_pipeline/
    source .venv/bin/activate     # Linux/macOS
    # .venv\Scripts\activate      # Windows
    
+   cd rag_pipeline
+
    pip install -r requirements.txt
    ```
 
@@ -58,8 +60,13 @@ rag_pipeline/
 
 3. **Verifique se o Ollama está rodando**:
    ```bash
-   # Inicie o Ollama se necessário
    ollama serve
+   ```
+
+4. **Se for usar modelos locais, instale os modelos**:
+   ```bash
+   ollama pull llama3.2:latest
+   ollama pull nomic-embed-text:latest
    ```
 
 > **Nota**: Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.

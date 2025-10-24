@@ -1,11 +1,12 @@
 from fastapi import FastAPI
+import uvicorn
+from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Literal
 import anyio
 from core.retriever_pipeline import get_rag_pipeline
 from contextlib import asynccontextmanager
-
 
 class QueryRequest(BaseModel):
     question: str
@@ -25,6 +26,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
+handler = Mangum(app)  # Entry point for AWS Lambda.
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
@@ -81,3 +85,9 @@ async def chat(req: ChatRequest):
 @app.get("/health")
 def health():
     return {"ok": True}
+
+if __name__ == "__main__":
+    # Run this as a server directly.
+    port = 8000
+    print(f"Running the FastAPI server on port {port}.")
+    uvicorn.run("api:app", host="0.0.0.0", port=port)
