@@ -13,6 +13,7 @@ from base64 import b64decode
 from IPython.display import Image, display
 from unstructured.partition.pdf import partition_pdf
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dotenv import load_dotenv
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -28,9 +29,20 @@ from langchain.schema.document import Document
 from langchain_ollama.embeddings import OllamaEmbeddings
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
+load_dotenv(BASE_DIR / ".env")  # Only loads if file exists, doesn't override existing env vars
+
+required_env_vars = ["GROQ_API_KEY", "OPENAI_API_KEY", "OLLAMA_BASE_URL"]
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+if missing_vars:
+    raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+
+MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "ollama").lower()
+valid_providers = ["ollama", "openai", "groq"]
+if MODEL_PROVIDER not in valid_providers:
+    raise ValueError(f"Invalid MODEL_PROVIDER '{MODEL_PROVIDER}'. Must be one of: {', '.join(valid_providers)}")
+
 # CONFIG
-os.environ["GROQ_API_KEY"] = "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" 
-os.environ["OPENAI_API_KEY"] = "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"
 PDF_DIR = Path("data_extraction/documentos_ufabc/Prograd/Sobre/Apresentacoes")
 CHUNKS_PATH = Path(".cache_chunks/chunks_classificados.json")
 SUMMARIES_PATH = Path(".cache_chunks/summaries.json")
@@ -43,28 +55,40 @@ def get_llava_model():
     try:
         model = ChatOllama(
             model="llava:13b",
-            base_url="http://192.168.18.9:11434").bind()
+            base_url=os.getenv("OLLAMA_BASE_URL")).bind()
         print("Usando modelo local remoto para imagens: llava:13b")
         return model
     except Exception as e:
         raise RuntimeError(f"Erro ao iniciar modelo llava: {e}")
 
 def get_llama_model():
-    try:
-        model = ChatOllama(
-            model="llama3.1:8b",
-            base_url="http://192.168.18.9:11434").bind()
-        print("Usando modelo local remoto para texto: llama3.1:8b")
-        return model
-    except Exception:
+    model_provider = os.getenv("MODEL_PROVIDER", "ollama").lower()
+    
+    if model_provider == "ollama":
+        try:
+            model = ChatOllama(model="llama3.1:8b", base_url=os.getenv("OLLAMA_BASE_URL")).bind()
+            print("Usando modelo Ollama para texto: llama3.1:8b")
+            return model
+        except Exception as e:
+            raise RuntimeError(f"Erro ao usar modelo Ollama: {e}")
+    
+    if model_provider == "openai":
+        try:
+            model = ChatOpenAI(model="gpt-4o-mini")
+            print("Usando modelo OpenAI: gpt-4o-mini")
+            return model
+        except Exception as e:
+            raise RuntimeError(f"Erro ao usar modelo OpenAI: {e}")
+    
+    if model_provider == "groq":
         try:
             model = ChatGroq(model="llama3-8b-8192")
-            print("Usando modelo via Groq: llama3-8b-8192")
+            print("Usando modelo Groq: llama3-8b-8192")
             return model
-        except Exception:
-            model = ChatOpenAI(model="gpt-4o-mini")
-            print("Usando modelo via OpenAI: gpt-4o-mini")
-            return model
+        except Exception as e:
+            raise RuntimeError(f"Erro ao usar modelo Groq: {e}")
+    
+    raise RuntimeError(f"Provedor de modelo inválido: {model_provider}")
 
 def test_response_with_openai(retriever):
     def get_openai_model():
@@ -317,7 +341,7 @@ def get_rag_pipeline(force_regenerate=False):
 
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
     
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url=os.getenv("OLLAMA_BASE_URL"))
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,

@@ -1,11 +1,19 @@
 import os
 from pathlib import Path
-
-# CONFIG
-os.environ["GROQ_API_KEY"] = "gsk_2dNbVsmRut4gCoos4ePGWG..."
-os.environ["OPENAI_API_KEY"] = "sk-proj-oPWpW6nZ6hYM4fP_EXZG..."
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")  # Only loads if file exists, doesn't override existing env vars
+
+required_env_vars = ["GROQ_API_KEY", "OPENAI_API_KEY", "OLLAMA_BASE_URL"]
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+if missing_vars:
+    raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
+
+MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "ollama").lower()
+valid_providers = ["ollama", "openai", "groq"]
+if MODEL_PROVIDER not in valid_providers:
+    raise ValueError(f"Invalid MODEL_PROVIDER '{MODEL_PROVIDER}'. Must be one of: {', '.join(valid_providers)}")
 
 PDF_DIR = (BASE_DIR / "data_extraction" / "documentos_ufabc").resolve()
 CHUNKS_PATH = (BASE_DIR / ".cache_chunks" / "chunks_classificados.json").resolve()

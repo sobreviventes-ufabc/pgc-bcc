@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 from bs4 import BeautifulSoup
 import shutil
@@ -105,7 +106,7 @@ def get_rag_pipeline(force_regenerate=False):
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
 
     # 2) Vectorstore + docstore (persistidos)
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url="http://192.168.18.9:11434")
+    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url=os.getenv("OLLAMA_BASE_URL"))
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
