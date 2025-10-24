@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from pathlib import Path
 from bs4 import BeautifulSoup
 import shutil
@@ -11,7 +12,7 @@ from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
-from config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR
+from config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR, get_runtime_chroma_path, IS_USING_IMAGE_RUNTIME, copy_chroma_to_tmp
 from core.models import get_llama_model
 from data.pdf_utils import extract_chunks_from_pdf, classify_chunks
 from data.summarization import summarize_elements, summarize_images, add_documents
@@ -107,10 +108,19 @@ def get_rag_pipeline(force_regenerate=False):
 
     # 2) Vectorstore + docstore (persistidos)
     embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url=os.getenv("OLLAMA_BASE_URL"))
+
+    # Hack needed for AWS Lambda's base Python image (to work with an updated version of SQLite).
+    # In Lambda runtime, we need to copy ChromaDB to /tmp so it can have write permissions.
+    if IS_USING_IMAGE_RUNTIME:
+        __import__("pysqlite3")
+        sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+        copy_chroma_to_tmp()
+
+
     vectorstore = Chroma(
         collection_name="multi_modal_rag",
         embedding_function=embedding_functions,
-        persist_directory=str(PERSIST_DIR)
+        persist_directory=get_runtime_chroma_path()
     )
     docstore_dir = PERSIST_DIR / "docstore"
     docstore_dir.mkdir(parents=True, exist_ok=True)

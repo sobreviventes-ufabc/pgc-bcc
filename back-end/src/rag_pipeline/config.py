@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+IS_USING_IMAGE_RUNTIME = bool(os.environ.get("IS_USING_IMAGE_RUNTIME", False))
 BASE_DIR = Path(__file__).resolve().parent.parent
 SRC_PARENT_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(SRC_PARENT_DIR / ".env")  # Loads .env from parent of src
@@ -27,3 +28,23 @@ PERSIST_DIR.mkdir(parents=True, exist_ok=True)
 MAX_WORKERS = min(10, os.cpu_count() or 4)
 
 WORKER_LAMBDA_NAME = os.environ.get("WORKER_LAMBDA_NAME", None)
+
+def copy_chroma_to_tmp():
+    dst_chroma_path = get_runtime_chroma_path()
+
+    if not os.path.exists(dst_chroma_path):
+        os.makedirs(dst_chroma_path)
+
+    tmp_contents = os.listdir(dst_chroma_path)
+    if len(tmp_contents) == 0:
+        print(f"Copying ChromaDB from {CHROMA_PATH} to {dst_chroma_path}")
+        os.makedirs(dst_chroma_path, exist_ok=True)
+        shutil.copytree(CHROMA_PATH, dst_chroma_path, dirs_exist_ok=True)
+    else:
+        print(f"✅ ChromaDB already exists in {dst_chroma_path}")
+
+def get_runtime_chroma_path():
+    if IS_USING_IMAGE_RUNTIME:
+        return f"/tmp/{str(PERSIST_DIR)}"
+    else:
+        return str(PERSIST_DIR)

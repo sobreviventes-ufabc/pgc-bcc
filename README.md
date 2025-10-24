@@ -204,3 +204,11 @@ Os paths são absolutos (via `Path.resolve()`) a partir da raiz do repositório:
 - Cache de chunks: `.cache_chunks/chunks_classificados.json`
 - Cache de summaries: `.cache_chunks/summaries.json`
 - Vetores/Chroma + docstore: `.cache_chunks/chroma_store/`
+
+
+docker build --platform linux/amd64 -t aws_rag_app .
+
+docker run --rm -p 8000:8000 \
+--entrypoint python \
+--env-file .env \
+aws_rag_app rag_pipeline/api.py

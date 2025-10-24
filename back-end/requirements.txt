@@ -19,9 +19,9 @@ pikepdf>=8.0.0
 Pillow>=9.5.0
 opencv-python>=4.8.0.76
 lxml>=4.9.0
-numpy>=1.24.0
 ipython>=8.12.0
 boto3==1.34.117
 mangum==0.17.0
 uvicorn==0.30.0
 pypdf==4.2.0
+numpy==2.2.1
