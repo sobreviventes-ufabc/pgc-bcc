@@ -6,14 +6,13 @@ from bs4 import BeautifulSoup
 import shutil
 
 from langchain_community.vectorstores import Chroma
-from langchain_ollama.embeddings import OllamaEmbeddings
 from langchain.storage import LocalFileStore
 from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
-from config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR, get_runtime_chroma_path, IS_USING_IMAGE_RUNTIME, copy_chroma_to_tmp, OLLAMA_BASE_URL
-from core.models import get_llama_model
+from config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR, get_runtime_chroma_path, IS_USING_IMAGE_RUNTIME, copy_chroma_to_tmp
+from core.models import get_llama_model, get_embeddings_model
 from data.pdf_utils import extract_chunks_from_pdf, classify_chunks
 from data.summarization import summarize_elements, summarize_images, add_documents
 from core.prompt_utils import parse_docs, build_prompt, clean_summary
@@ -107,7 +106,7 @@ def get_rag_pipeline(force_regenerate=False):
     print(f"\nTextos: {len(all_texts)}, Tabelas: {len(all_tables)}, Imagens: {len(all_images)}")
 
     # 2) Vectorstore + docstore (persistidos)
-    embedding_functions = OllamaEmbeddings(model="nomic-embed-text", base_url=OLLAMA_BASE_URL)
+    embedding_functions = get_embeddings_model()
 
     # Hack needed for AWS Lambda's base Python image (to work with an updated version of SQLite).
     # In Lambda runtime, we need to copy ChromaDB to /tmp so it can have write permissions.

@@ -101,12 +101,20 @@ rag_pipeline/
    # Provedor de modelo para geração de texto (padrão: ollama)
    # Opções: ollama, openai, groq
    MODEL_PROVIDER=ollama
+   
+   # Provedor de embeddings (padrão: ollama)
+   # Opções: ollama, nomic
+   EMBEDDINGS_PROVIDER=ollama
+   
+   # Chave da API Nomic (necessária apenas se EMBEDDINGS_PROVIDER=nomic)
+   NOMIC_KEY=sua_chave_nomic_aqui
    ```
 
 ### Obtendo as API Keys
 
 - **Groq**: Registre-se em [console.groq.com](https://console.groq.com) para obter sua chave gratuita
 - **OpenAI**: Acesse [platform.openai.com/api-keys](https://platform.openai.com/api-keys) para gerar uma API key
+- **Nomic**: Registre-se em [atlas.nomic.ai](https://atlas.nomic.ai) para obter sua chave de API (necessária apenas se usar `EMBEDDINGS_PROVIDER=nomic`)
 
 ### Configuração para Produção/Servidor
 
@@ -118,12 +126,16 @@ export GROQ_API_KEY="sua_chave_groq"
 export OPENAI_API_KEY="sua_chave_openai"
 export OLLAMA_BASE_URL="http://seu-servidor-ollama:11434"
 export MODEL_PROVIDER="ollama"
+export EMBEDDINGS_PROVIDER="ollama"
+export NOMIC_KEY="sua_chave_nomic"
 
 # Windows
 set GROQ_API_KEY=sua_chave_groq
 set OPENAI_API_KEY=sua_chave_openai
 set OLLAMA_BASE_URL=http://seu-servidor-ollama:11434
 set MODEL_PROVIDER=ollama
+set EMBEDDINGS_PROVIDER=ollama
+set NOMIC_KEY=sua_chave_nomic
 ```
 
 ### Validação das Variáveis
@@ -133,11 +145,30 @@ O sistema valida automaticamente se todas as variáveis obrigatórias estão con
 - `OPENAI_API_KEY` 
 - `OLLAMA_BASE_URL`
 - `MODEL_PROVIDER` (opcional, padrão: "ollama")
+- `EMBEDDINGS_PROVIDER` (opcional, padrão: "ollama")
+- `NOMIC_KEY` (obrigatória apenas se `EMBEDDINGS_PROVIDER=nomic`)
 
 Se alguma variável estiver faltando, você verá um erro como:
 ```
 ValueError: Missing required environment variables: GROQ_API_KEY, OLLAMA_BASE_URL
 ```
+
+### Configuração de Provedores
+
+#### Provedores de Modelos de Texto (MODEL_PROVIDER)
+- **ollama** (padrão): Usa modelo local `llama3.1:8b`
+- **openai**: Usa `gpt-4o-mini` da OpenAI
+- **groq**: Usa `llama-3.1-8b-instant` da Groq
+
+#### Provedores de Embeddings (EMBEDDINGS_PROVIDER)
+- **ollama** (padrão): Usa modelo local `nomic-embed-text` via Ollama
+- **nomic**: Usa API Nomic `nomic-embed-text-v1.5` (requer `NOMIC_KEY`)
+
+**Vantagens de usar Nomic API para embeddings:**
+- Não requer instalação local do modelo
+- Embeddings otimizados e mais rápidos
+- Ideal para ambientes serverless (AWS Lambda, etc.)
+- Melhor performance em produção
 
 ## 📦 Baixar os modelos no Ollama
 
