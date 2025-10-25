@@ -1,3 +1,4 @@
+# Python
 **/__pycache__/
 **/*.pyc
 **/*.pyo
@@ -7,6 +8,37 @@
 *$py.class
 .pytest_cache/
 .cache/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Data extraction (not needed in production)
 src/data_extraction/
+
+# Large files
 *.pdf
 *.log
+*.db
+*.sqlite
+*.sqlite3
+
+# Development files
+.git/
+.gitignore
+README.md
+requirements-dev.txt
+.DS_Store
+.idea/
+.vscode/
+
+# Cache and temporary files
+.cache_chunks/chroma_store/*/data_level0.bin
+.cache_chunks/chroma_store/*/link_lists.bin
+.cache_chunks/chroma_store/*/length.bin
+.cache_chunks/chroma_store/*/header.bin
+
+# Keep only essential cache files (JSON configs)
+!.cache_chunks/*.json

@@ -13,7 +13,7 @@ missing_vars = [var for var in required_env_vars if not os.getenv(var)]
 if missing_vars:
     raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
-MODEL_PROVIDER = os.getenv("MODEL_PROVIDER", "ollama").lower()
+MODEL_PROVIDER = os.getenv("MODEL_PROVIDER")
 valid_providers = ["ollama", "openai", "groq"]
 if MODEL_PROVIDER not in valid_providers:
     raise ValueError(f"Invalid MODEL_PROVIDER '{MODEL_PROVIDER}'. Must be one of: {', '.join(valid_providers)}")

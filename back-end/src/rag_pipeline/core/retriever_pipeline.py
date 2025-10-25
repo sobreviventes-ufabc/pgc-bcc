@@ -111,8 +111,6 @@ def get_rag_pipeline(force_regenerate=False):
     # Hack needed for AWS Lambda's base Python image (to work with an updated version of SQLite).
     # In Lambda runtime, we need to copy ChromaDB to /tmp so it can have write permissions.
     if IS_USING_IMAGE_RUNTIME:
-        __import__("pysqlite3")
-        sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
         copy_chroma_to_tmp()
 
 
