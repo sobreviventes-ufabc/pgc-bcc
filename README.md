@@ -73,6 +73,10 @@ rag_pipeline/
    ollama pull llama3.2:latest
    ollama pull nomic-embed-text:latest
    ```
+5.  **Rode a API**:
+   ```bash
+   python3 src/rag_pipeline/api.py
+   ```
 
 > **Nota**: Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
 
@@ -208,7 +212,15 @@ Os paths são absolutos (via `Path.resolve()`) a partir da raiz do repositório:
 
 docker build --platform linux/amd64 -t aws_rag_app .
 
+# Option 1: Use host network (recommended for full host access on Linux)
+docker run --rm --network host \
+--entrypoint python \
+--env-file .env \
+aws_rag_app rag_pipeline/api.py
+
+# Option 2: Use bridge mode with host gateway (for macOS/Windows or port mapping)
 docker run --rm -p 8000:8000 \
+--add-host=host.docker.internal:host-gateway \
 --entrypoint python \
 --env-file .env \
 aws_rag_app rag_pipeline/api.py
