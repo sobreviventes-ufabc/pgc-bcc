@@ -11,11 +11,11 @@ from langchain.retrievers.multi_vector import MultiVectorRetriever
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
-from config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR, get_runtime_chroma_path, IS_USING_IMAGE_RUNTIME, copy_chroma_to_tmp
-from core.models import get_llama_model, get_embeddings_model
-from data.pdf_utils import extract_chunks_from_pdf, classify_chunks
-from data.summarization import summarize_elements, summarize_images, add_documents
-from core.prompt_utils import parse_docs, build_prompt, clean_summary
+from ..config import PDF_DIR, CHUNKS_PATH, SUMMARIES_PATH, PERSIST_DIR, get_runtime_chroma_path, IS_USING_IMAGE_RUNTIME, copy_chroma_to_tmp
+from .models import get_llama_model, get_embeddings_model
+from ..data.pdf_utils import extract_chunks_from_pdf, classify_chunks
+from ..data.summarization import summarize_elements, summarize_images, add_documents
+from .prompt_utils import parse_docs, build_prompt, clean_summary
 
 
 def _docstore_is_empty(docstore_dir: Path) -> bool:

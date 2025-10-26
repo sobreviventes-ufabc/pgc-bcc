@@ -1,5 +1,5 @@
-from core.retriever_pipeline import get_rag_pipeline
-from utils.display_utils import display_base64_image
+from .core.retriever_pipeline import get_rag_pipeline
+from .utils.display_utils import display_base64_image
 
 def main():
     regenerate = input("🔄 Deseja gerar os chunks novamente? (s/n): ").strip().lower() == "s"

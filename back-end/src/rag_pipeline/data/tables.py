@@ -2,8 +2,8 @@ import json
 import uuid
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from data.retry import retry_with_backoff
-from core.models import get_llama_model
+from .retry import retry_with_backoff
+from ..core.models import get_llama_model
 
 def reestruturar_tabelas(html_limpo: str) -> str:
     """

@@ -2,7 +2,7 @@ import time
 import html
 import re
 from unstructured.partition.pdf import partition_pdf
-from data.tables import reestruturar_tabelas
+from .tables import reestruturar_tabelas
 
 def extract_chunks_from_pdf(file_path):
     """

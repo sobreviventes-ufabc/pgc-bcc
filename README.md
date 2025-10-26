@@ -73,10 +73,76 @@ rag_pipeline/
    ollama pull llama3.2:latest
    ollama pull nomic-embed-text:latest
    ```
-5.  **Rode a API**:
+
+5. **Rode a aplicação** (escolha uma das opções):
+
+   ### 🌐 **API FastAPI** (Servidor Web)
+   
+   **Opção 1 - Como módulo (Recomendado):**
    ```bash
-   python3 src/rag_pipeline/api.py
+   cd src
+   python3 -m rag_pipeline.api
    ```
+   
+   **Opção 2 - Do diretório back-end:**
+   ```bash
+   # A partir do diretório back-end
+   python3 -m src.rag_pipeline.api
+   ```
+   
+   **Opção 3 - Com PYTHONPATH:**
+   ```bash
+   PYTHONPATH=src python3 src/rag_pipeline/api.py
+   ```
+
+   ### 💻 **CLI (Terminal Interativo)**
+   
+   **Opção 1 - Como módulo (Recomendado):**
+   ```bash
+   cd src
+   python3 -m rag_pipeline.main
+   ```
+   
+   **Opção 2 - Do diretório back-end:**
+   ```bash
+   # A partir do diretório back-end
+   python3 -m src.rag_pipeline.main
+   ```
+   
+   **Opção 3 - Com PYTHONPATH:**
+   ```bash
+   PYTHONPATH=src python3 src/rag_pipeline/main.py
+   ```
+
+   ### 🔍 **Diferenças entre API e CLI:**
+   
+   - **API (api.py)**: 
+     - Servidor web FastAPI rodando na porta 8000
+     - Aceita requisições HTTP (POST /ask, POST /chat, GET /health)
+     - Ideal para integração com front-end ou outras aplicações
+     - Carrega o modelo uma vez e reutiliza entre requisições
+   
+   - **CLI (main.py)**:
+     - Interface de terminal interativa
+     - Permite fazer perguntas diretamente no terminal
+     - Ideal para testes rápidos e desenvolvimento
+     - Pergunta se deve regenerar os chunks na inicialização
+     - Digite 'sair' para encerrar a sessão
+
+   ### 📝 **Exemplo de uso do CLI:**
+   ```bash
+   cd src
+   python3 -m rag_pipeline.main
+   
+   # Saída esperada:
+   # 🔄 Deseja gerar os chunks novamente? (s/n): n
+   # Usando cache de chunks existente...
+   # Pergunta (ou 'sair'): O que é o PGC?
+   # [Resposta do modelo]
+   # Pergunta (ou 'sair'): sair
+   ```
+
+> **Importante**: Use uma das opções acima para evitar erros de import relativo. Não execute diretamente `python3 src/rag_pipeline/api.py` pois isso causará `ImportError: attempted relative import with no known parent package`.
 
 > **Nota**: Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
 
@@ -208,7 +274,7 @@ Como fazer perguntas:
 Pergunta unica:
 ```
 curl --request POST \
-  --url http://127.0.0.1:8000/ask \
+  --url https://hyf6iki2p66fjhgv5bwmgbt6wu0lsbih.lambda-url.sa-east-1.on.aws/ask \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: insomnia/11.5.0' \
   --data '{
@@ -255,3 +321,121 @@ docker run --rm -p 8000:8000 \
 --entrypoint python \
 --env-file .env \
 aws_rag_app rag_pipeline/api.py
+
+## ☁️ Deploy para AWS Lambda (CDK)
+
+### Pré-requisitos
+
+1. **AWS CLI configurado**:
+   ```bash
+   aws configure
+   # Insira suas credenciais AWS (Access Key ID, Secret Access Key, região)
+   ```
+
+2. **AWS CDK instalado**:
+   ```bash
+   npm install -g aws-cdk
+   ```
+
+3. **Node.js** (versão 18+) instalado
+
+### Deploy
+
+1. **Entre no diretório CDK**:
+   ```bash
+   cd rag-cdk-infra
+   ```
+
+2. **Instale as dependências**:
+   ```bash
+   npm install
+   ```
+
+3. **Configure o Bootstrap CDK** (apenas na primeira vez):
+   ```bash
+   cdk bootstrap
+   ```
+
+4. **Deploy da aplicação**:
+   ```bash
+   cdk deploy
+   ```
+
+5. **Após o deploy**, você receberá uma URL como:
+   ```
+   ✅ RagCdkInfraStack
+   Outputs:
+   RagCdkInfraStack.FunctionUrl = https://sua-funcao-id.lambda-url.sa-east-1.on.aws/health
+   ```
+
+### Testando o Deploy
+
+```bash
+# Teste o endpoint de saúde
+curl https://sua-funcao-id.lambda-url.sa-east-1.on.aws/health
+
+# Teste uma pergunta
+curl -X POST "https://sua-funcao-id.lambda-url.sa-east-1.on.aws/ask" \
+  -H "Content-Type: application/json" \
+  -d '{"question": "O que é o PGC?"}'
+```
+
+### Configuração do Ambiente
+
+O CDK carrega automaticamente as variáveis de ambiente do arquivo `back-end/.env`. Certifique-se de que todas as variáveis necessárias estão configuradas:
+
+- `GROQ_API_KEY` (obrigatória)
+- `OPENAI_API_KEY` (opcional)
+- `NOMIC_KEY` (obrigatória se usando embeddings Nomic)
+- `MODEL_PROVIDER` (padrão: groq)
+- `EMBEDDINGS_PROVIDER` (padrão: nomic)
+
+## 📊 Verificando Logs do Lambda
+
+### Método Rápido (Script Automatizado)
+
+Use o script fornecido no diretório CDK:
+
+```bash
+cd rag-cdk-infra
+./check-logs.sh
+```
+
+### Método Manual (AWS CLI)
+
+1. **Listar os log streams mais recentes**:
+   ```bash
+   aws logs describe-log-streams \
+     --log-group-name "/aws/lambda/RagCdkInfraStack-ApiFunc9527395A-CbVbFfQfMSzf" \
+     --order-by LastEventTime --descending --max-items 3
+   ```
+
+2. **Obter logs de um stream específico**:
+   ```bash
+   # Substitua STREAM_NAME pelo nome obtido no comando anterior
+   aws logs get-log-events \
+     --log-group-name "/aws/lambda/RagCdkInfraStack-ApiFunc9527395A-CbVbFfQfMSzf" \
+     --log-stream-name "STREAM_NAME" \
+     --start-time $(date -d '10 minutes ago' +%s)000
+   ```
+
+### Logs em Tempo Real
+
+Para monitorar logs em tempo real durante testes:
+
+```bash
+# Instalar ferramenta de streaming de logs (opcional)
+npm install -g aws-logs-cli
+
+# Stream logs em tempo real
+aws-logs /aws/lambda/RagCdkInfraStack-ApiFunc9527395A-CbVbFfQfMSzf
+```
+
+### Limpeza
+
+Para remover todos os recursos AWS criados:
+
+```bash
+cd rag-cdk-infra
+cdk destroy
+```

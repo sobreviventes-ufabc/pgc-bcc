@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Literal
 import anyio
-from core.retriever_pipeline import get_rag_pipeline
+from .core.retriever_pipeline import get_rag_pipeline
 from contextlib import asynccontextmanager
 
 class QueryRequest(BaseModel):
@@ -90,4 +90,4 @@ if __name__ == "__main__":
     # Run this as a server directly.
     port = 8000
     print(f"Running the FastAPI server on port {port}.")
-    uvicorn.run("api:app", host="0.0.0.0", port=port)
+    uvicorn.run("rag_pipeline.api:app", host="0.0.0.0", port=port)

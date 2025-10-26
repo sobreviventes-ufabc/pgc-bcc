@@ -2,8 +2,8 @@ from langchain_ollama import ChatOllama
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
 from langchain_ollama.embeddings import OllamaEmbeddings
-from core.nomic_embeddings import NomicEmbeddings
-from config import OLLAMA_BASE_URL, MODEL_PROVIDER, EMBEDDINGS_PROVIDER, NOMIC_KEY
+from .nomic_embeddings import NomicEmbeddings
+from ..config import OLLAMA_BASE_URL, MODEL_PROVIDER, EMBEDDINGS_PROVIDER, NOMIC_KEY
 
 def get_llava_model():
     try:

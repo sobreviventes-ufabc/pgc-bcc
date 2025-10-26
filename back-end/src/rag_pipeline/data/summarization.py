@@ -5,8 +5,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage
 from langchain.schema.document import Document
-from data.retry import retry_with_backoff
-from core.models import get_llama_model, get_llava_model
+from .retry import retry_with_backoff
+from ..core.models import get_llama_model, get_llava_model
 
 def summarize_elements(elements, is_table=False):
     prompt_template = """

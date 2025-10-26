@@ -20,6 +20,14 @@ RUN pip install --no-cache-dir -r requirements.txt --upgrade && \
     # Clean up pip cache and unnecessary files
     pip cache purge
 
+# Set environment variables for NLTK and matplotlib
+ENV NLTK_DATA=/tmp/nltk_data
+ENV MPLCONFIGDIR=/tmp/matplotlib
+
+# Pre-download NLTK data to prevent runtime download issues
+RUN mkdir -p /tmp/nltk_data && \
+    python -c "import nltk; nltk.download('averaged_perceptron_tagger_eng', download_dir='/tmp/nltk_data', quiet=True); nltk.download('punkt', download_dir='/tmp/nltk_data', quiet=True); nltk.download('stopwords', download_dir='/tmp/nltk_data', quiet=True)"
+
 # For local testing.
 EXPOSE 8000
 # Set IS_USING_IMAGE_RUNTIME Environment Variable

@@ -4,7 +4,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.messages import HumanMessage
 from langchain_openai import ChatOpenAI
 
-from core.prompt_utils import parse_docs
+from ..core.prompt_utils import parse_docs
 
 def test_response_with_openai(retriever):
     def get_openai_model():

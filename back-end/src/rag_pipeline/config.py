@@ -3,12 +3,27 @@ import shutil
 from pathlib import Path
 from dotenv import load_dotenv
 
+import os
+import shutil
+from pathlib import Path
+from dotenv import load_dotenv
+
 IS_USING_IMAGE_RUNTIME = bool(os.environ.get("IS_USING_IMAGE_RUNTIME", False))
 BASE_DIR = Path(__file__).resolve().parent.parent
 SRC_PARENT_DIR = Path(__file__).resolve().parent.parent.parent
-load_dotenv(SRC_PARENT_DIR / ".env")  # Loads .env from parent of src
 
-required_env_vars = ["GROQ_API_KEY", "OPENAI_API_KEY", "OLLAMA_BASE_URL"]
+# Only load .env file if not in Lambda environment
+if not IS_USING_IMAGE_RUNTIME:
+    load_dotenv(SRC_PARENT_DIR / ".env")  # Loads .env from parent of src
+
+# For Lambda, environment variables are already set via CDK
+# For local development, they come from .env file
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") 
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
+NOMIC_KEY = os.getenv("NOMIC_KEY")
+
+required_env_vars = ["GROQ_API_KEY", "OLLAMA_BASE_URL"]
 missing_vars = [var for var in required_env_vars if not os.getenv(var)]
 if missing_vars:
     raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
@@ -34,11 +49,6 @@ PERSIST_DIR.mkdir(parents=True, exist_ok=True)
 MAX_WORKERS = min(10, os.cpu_count() or 4)
 
 WORKER_LAMBDA_NAME = os.environ.get("WORKER_LAMBDA_NAME", None)
-
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
-NOMIC_KEY = os.getenv("NOMIC_KEY")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 def copy_chroma_to_tmp():
     dst_chroma_path = get_runtime_chroma_path()

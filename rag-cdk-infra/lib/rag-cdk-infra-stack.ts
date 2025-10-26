@@ -21,9 +21,21 @@ export class RagCdkInfraStack extends cdk.Stack {
     });
     const apiFunction = new DockerImageFunction(this, "ApiFunc", {
       code: apiImageCode,
-      memorySize: 256,
-      timeout: cdk.Duration.seconds(30),
+      memorySize: 1024,
+      timeout: cdk.Duration.seconds(300),
       architecture: Architecture.X86_64,
+      environment: {
+        GROQ_API_KEY: process.env.GROQ_API_KEY || "",
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY || "",
+        OLLAMA_BASE_URL: "http://localhost:11434",
+        MODEL_PROVIDER: "groq",
+        EMBEDDINGS_PROVIDER: "nomic", 
+        NOMIC_KEY: process.env.NOMIC_KEY || "",
+        TABLE_NAME: process.env.TABLE_NAME || "",
+        NLTK_DATA: "/tmp/nltk_data",
+        MPLCONFIGDIR: "/tmp/matplotlib",
+        HOME: "/tmp",
+      },
     });
 
     // Public URL for the API function.
@@ -33,7 +45,7 @@ export class RagCdkInfraStack extends cdk.Stack {
 
     // Output the URL for the API function.
     new cdk.CfnOutput(this, "FunctionUrl", {
-      value: functionUrl.url + "/health",
+      value: functionUrl.url + "health",
     });
   }
 }
