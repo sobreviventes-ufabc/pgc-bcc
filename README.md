@@ -263,18 +263,12 @@ ollama serve
 ```
 
 
-Comando para iniciar a API:
-
-```
-uvicorn api:app --reload
-```
-
 Como fazer perguntas:
 
 Pergunta unica:
 ```
 curl --request POST \
-  --url https://hyf6iki2p66fjhgv5bwmgbt6wu0lsbih.lambda-url.sa-east-1.on.aws/ask \
+  --url http://127.0.0.1:8000/ask \
   --header 'Content-Type: application/json' \
   --header 'User-Agent: insomnia/11.5.0' \
   --data '{
