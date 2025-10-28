@@ -42,9 +42,9 @@ def build_prompt(kwargs):
     question = kwargs["question"]
     context_text = "".join(docs["texts"])
     
-    # For Groq, limit context size to avoid token limits (roughly 4000 chars ≈ 1000 tokens)
-    if MODEL_PROVIDER == "groq" and len(context_text) > 4000:
-        context_text = context_text[:4000] + "\n\n[CONTEXTO TRUNCADO DEVIDO A LIMITES DO MODELO]"
+    # For Groq, limit context size to avoid token limits (roughly 400000 chars ≈ 100K tokens)
+    if MODEL_PROVIDER == "groq" and len(context_text) > 400000:
+        context_text = context_text[:400000] + "\n\n[CONTEXTO TRUNCADO DEVIDO A LIMITES DO MODELO]"
     
     # Create base prompt text
     base_prompt = f"""
