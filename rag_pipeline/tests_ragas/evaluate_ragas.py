@@ -15,6 +15,8 @@ from datasets import Dataset
 import ragas
 from ragas import evaluate
 from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
+from langchain_ollama import OllamaEmbeddings
+
 
 # Força execução totalmente sequencial (sem threads/async)
 ragas.CONCURRENCY_LIMIT = 1
@@ -32,6 +34,8 @@ log = logging.getLogger(__name__)
 TESTSET_CSV = os.path.join(os.path.dirname(__file__), "testset.csv")
 OUT_EVAL_CSV = os.path.join(os.path.dirname(__file__), "eval.csv")
 OUT_SUMMARY = os.path.join(os.path.dirname(__file__), "metrics_summary.txt")
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL")
+
 
 # === Inicializa LLM local (Ollama) ===
 try:
@@ -46,14 +50,15 @@ def make_llm():
     log.info("🚀 Inicializando modelo local 'phi3:mini' com Ollama...")
     try:
         llm_instance = ChatOllama(
-            model="phi3:mini",
+            model="llama3.1:8b",
+            base_url=OLLAMA_BASE_URL,
             temperature=0,
-            num_ctx=4096,
+            num_ctx=32900,
             num_predict=512,
             verbose=False,
-            timeout=None  # ✅ Desativa qualquer timeout interno
+            timeout=None
         )
-        log.info("✅ LLM local 'phi3:mini' inicializado com sucesso.")
+        log.info("✅ LLM local 'llama3.1:8b' inicializado com sucesso.")
         return llm_instance
     except Exception as e:
         raise RuntimeError(f"Falha ao inicializar LLM local via Ollama: {e}")
@@ -104,7 +109,15 @@ def safe_evaluate(dataset, metrics, llm, retries=3, delay=10):
     for attempt in range(1, retries + 1):
         try:
             log.info(f"🧠 Execução tentativa {attempt}/{retries}")
-            return evaluate(dataset=dataset, metrics=metrics, llm=llm)
+
+            # ✅ Força embeddings locais via Ollama
+            embeddings = OllamaEmbeddings(
+                model="nomic-embed-text",
+                base_url=OLLAMA_BASE_URL
+            )
+
+            return evaluate(dataset=dataset, metrics=metrics, llm=llm, embeddings=embeddings)
+
         except Exception as e:
             log.error(f"Erro na tentativa {attempt}: {e}")
             if attempt < retries:
@@ -141,11 +154,8 @@ def main():
 
     # === Gera resumo ===
     try:
-        summary_dict = {
-            col: df_results[col].mean()
-            for col in df_results.columns
-            if col not in ("question", "answer", "contexts", "ground_truth")
-        }
+        numeric_cols = df_results.select_dtypes(include=["float64", "int64"]).columns
+        summary_dict = {col: df_results[col].mean() for col in numeric_cols}
         with open(OUT_SUMMARY, "w", encoding="utf-8") as f:
             f.write("Resumo da Avaliação RAGAS\n")
             f.write("==========================\n\n")
