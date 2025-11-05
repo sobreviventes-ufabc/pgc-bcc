@@ -48,7 +48,10 @@ def build_prompt(kwargs):
     
     # Create base prompt text
     base_prompt = f"""
-Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais. 
+Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais.
+Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais.
+Caso sejam solicitadas datas, sempre inclua o dia, o mês por extenso e o número do mês (ex: “30 de Janeiro – mês 1”, “30 de Fevereiro - mês 2”).
+Use o ano da pergunta e nunca avance para outro.
 De preferencia para responder usando o contexto. Use algo do histórico da conversa somente se for solicitado.
 
 Contexto: {context_text}
