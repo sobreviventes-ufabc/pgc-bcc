@@ -1,8 +1,8 @@
-# 🤖 Chatbot Assistente UFABC (RAG)
+# Chatbot Assistente UFABC (RAG)
 
 Chatbot para a UFABC baseado em **Retrieval-Augmented Generation (RAG)**. Ele busca trechos em documentos institucionais (PDFs, tabelas e imagens), sumariza e usa um LLM para responder com contexto.
 
-## ✨ Principais features
+## Principais features
 
 - **RAG multimodal**: texto, tabelas (HTML) e imagens (sumarizadas na indexação)
 - **Persistência**: vetores em **Chroma** e **docstore** em disco (LocalFileStore)
@@ -11,7 +11,7 @@ Chatbot para a UFABC baseado em **Retrieval-Augmented Generation (RAG)**. Ele bu
 - **Ollama** para embeddings locais (fallbacks de LLM: Groq/OpenAI, se configurados)
 - **Classificação robusta** em `parse_docs` (evita confundir texto com base64)
 
-## 🗂️ Estrutura do projeto
+## Estrutura do projeto
 
 ```
 rag_pipeline/
@@ -33,7 +33,7 @@ rag_pipeline/
 └── .cache_chunks/             # gerado em runtime (chroma_store, summaries, chunks)
 ```
 
-## 🧩 Requisitos
+## Requisitos
 
 - Python **3.10+**
 - [Ollama](https://ollama.com/download) (para embeddings locais)
@@ -76,7 +76,7 @@ rag_pipeline/
 
 5. **Rode a aplicação** (escolha uma das opções):
 
-   ### 🌐 **API FastAPI** (Servidor Web)
+   ### **API FastAPI** (Servidor Web)
    
    **Opção 1 - Como módulo (Recomendado):**
    ```bash
@@ -95,7 +95,7 @@ rag_pipeline/
    PYTHONPATH=src python3 src/rag_pipeline/api.py
    ```
 
-   ### 💻 **CLI (Terminal Interativo)**
+   ### **CLI (Terminal Interativo)**
    
    **Opção 1 - Como módulo (Recomendado):**
    ```bash
@@ -114,7 +114,7 @@ rag_pipeline/
    PYTHONPATH=src python3 src/rag_pipeline/main.py
    ```
 
-   ### 🔍 **Diferenças entre API e CLI:**
+   ### **Diferenças entre API e CLI:**
    
    - **API (api.py)**: 
      - Servidor web FastAPI rodando na porta 8000
@@ -129,13 +129,13 @@ rag_pipeline/
      - Pergunta se deve regenerar os chunks na inicialização
      - Digite 'sair' para encerrar a sessão
 
-   ### 📝 **Exemplo de uso do CLI:**
+   ### **Exemplo de uso do CLI:**
    ```bash
    cd src
    python3 -m rag_pipeline.main
    
    # Saída esperada:
-   # 🔄 Deseja gerar os chunks novamente? (s/n): n
+   # Deseja gerar os chunks novamente? (s/n): n
    # Usando cache de chunks existente...
    # Pergunta (ou 'sair'): O que é o PGC?
    # [Resposta do modelo]
@@ -146,7 +146,7 @@ rag_pipeline/
 
 > **Nota**: Se o `unstructured.partition.pdf` pedir extras (OCR), instale variantes como `unstructured[all-docs]`.
 
-## 🔐 Configuração de Variáveis de Ambiente
+## Configuração de Variáveis de Ambiente
 
 ### Setup para Desenvolvimento
 
@@ -236,7 +236,7 @@ ValueError: Missing required environment variables: GROQ_API_KEY, OLLAMA_BASE_UR
 - Ideal para ambientes serverless (AWS Lambda, etc.)
 - Melhor performance em produção
 
-## 📦 Baixar os modelos no Ollama
+## Baixar os modelos no Ollama
 
 Certifique-se de que o Ollama está rodando (ollama serve) e então baixe os modelos usados pelo projeto:
 ```bash
@@ -291,7 +291,7 @@ curl --request POST \
 }'
 ```
 
-## 🗺️ Configuração de paths
+## Configuração de paths
 
 Os paths são absolutos (via `Path.resolve()`) a partir da raiz do repositório:
 
@@ -316,7 +316,7 @@ docker run --rm -p 8000:8000 \
 --env-file .env \
 aws_rag_app rag_pipeline/api.py
 
-## ☁️ Deploy para AWS Lambda (CDK)
+## Deploy para AWS Lambda (CDK)
 
 ### Pré-requisitos
 
@@ -357,7 +357,7 @@ aws_rag_app rag_pipeline/api.py
 
 5. **Após o deploy**, você receberá uma URL como:
    ```
-   ✅ RagCdkInfraStack
+   RagCdkInfraStack
    Outputs:
    RagCdkInfraStack.FunctionUrl = https://sua-funcao-id.lambda-url.sa-east-1.on.aws/health
    ```
@@ -384,7 +384,7 @@ O CDK carrega automaticamente as variáveis de ambiente do arquivo `back-end/.en
 - `MODEL_PROVIDER` (padrão: groq)
 - `EMBEDDINGS_PROVIDER` (padrão: nomic)
 
-## 📊 Verificando Logs do Lambda
+## Verificando Logs do Lambda
 
 ### Método Rápido (Script Automatizado)
 
