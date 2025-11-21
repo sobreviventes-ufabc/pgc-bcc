@@ -4,6 +4,7 @@
   top: 0;
   left: 0;
   height: 100vh;
+  height: 100dvh;
   width: 100%;
 }
 
@@ -13,7 +14,8 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding-bottom: 16px;
+  min-height: 100dvh;
+  padding-bottom: 24px;
   max-width: 100%;
   width: 570px;
   margin: 0 auto;
@@ -90,8 +92,38 @@
   margin-bottom: 45px;
 }
 
+@media (max-width: 768px) {
+  .hero-home.hidden .chat-input {
+    transform: translateY(38vh);
+    margin-bottom: 45px;
+  }
+}
+
 .hero-home.hidden .app-logo {
-  transform: translateY(-33vh) scale(.53) translateX(-12px);
+  transform: translateY(max(-33vh, calc(-50vh + 130px))) scale(.6) translateX(-12px);
   animation: delayedHide 1s forwards;
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS Safari specific */
+  .hero-home.hidden .app-logo {
+    transform: translateY(max(-20vh, calc(-50vh + 190px))) scale(.6) translateX(-12px);
+    animation: delayedHide 1s forwards;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-home.hidden .app-logo {
+    transform: translateY(max(-26vh, calc(-50vh + 150px))) scale(.6) translateX(-12px);
+    animation: delayedHide 1s forwards;
+  }
+  
+  @supports (-webkit-touch-callout: none) {
+    /* iOS Safari specific on mobile */
+    .hero-home.hidden .app-logo {
+      transform: translateY(max(-20vh, calc(-50vh + 190px))) scale(.6) translateX(-12px);
+      animation: delayedHide 1s forwards;
+    }
+  }
 }
 

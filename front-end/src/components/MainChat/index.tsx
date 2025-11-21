@@ -13,10 +13,13 @@ import './index.css';
 const MainChat: React.FC = () => {
   const { messages, loading, sendMessage } = useChat();
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const lastMessageRef = React.useRef<HTMLDivElement>(null);
   const [modalOpen, setModalOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (messagesEndRef.current) {
+    if (messages.length > 0 && messages[messages.length - 1].role !== 'user' && lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, loading]);
@@ -45,14 +48,18 @@ const MainChat: React.FC = () => {
                   {msg.content}
                 </ChatText>
               ) : (
-                <ChatText
+                <div 
                   key={idx}
-                  variation="received"
+                  ref={idx === messages.length - 1 ? lastMessageRef : null}
                 >
-                  <span
-                    dangerouslySetInnerHTML={{ __html: msg.content.replace('```html', '').replace('```', '') }}
-                  />
-                </ChatText>
+                  <ChatText
+                    variation="received"
+                  >
+                    <span
+                      dangerouslySetInnerHTML={{ __html: msg.content.replace('```html', '').replace('```', '') }}
+                    />
+                  </ChatText>
+                </div>
               )
             ))}
             {loading && (
