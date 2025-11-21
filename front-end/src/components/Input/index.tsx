@@ -14,6 +14,22 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend, id, autoFocus = false }) 
   const [message, setMessage] = useState('');
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
+  React.useEffect(() => {
+    const handleFocus = () => {
+      if (textareaRef.current && id === 'home-input') {
+        setTimeout(() => {
+          textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    };
+
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.addEventListener('focus', handleFocus);
+      return () => textarea.removeEventListener('focus', handleFocus);
+    }
+  }, [id]);
+
   const handleSend = () => {
     if (message.trim()) {
       if (onSend) {
@@ -24,6 +40,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend, id, autoFocus = false }) 
       setMessage('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
+        textareaRef.current.blur();
       }
     }
   };

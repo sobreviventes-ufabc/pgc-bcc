@@ -24,13 +24,13 @@ const HeroHome: React.FC = () => {
                   id="home-input" 
                   autoFocus={true}
                   onSend={async (message: string) => {
-                    setIsVisible(false);
-
-                    const mainChatInput = document.getElementById('main-chat-input');
-                    if (mainChatInput) {
-                      (mainChatInput as HTMLTextAreaElement).focus();
+                    // Blur home input to close keyboard
+                    const homeInput = document.getElementById('home-input');
+                    if (homeInput) {
+                      (homeInput as HTMLTextAreaElement).blur();
                     }
 
+                    setIsVisible(false);
                     await sendMessage(message);
                   }}
                 />

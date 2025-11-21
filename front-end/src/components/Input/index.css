@@ -23,6 +23,9 @@
   box-sizing: border-box;
   overflow-y: auto;
   transition: height 0.1s;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  -webkit-appearance: none;
 }
 
 .send-button {

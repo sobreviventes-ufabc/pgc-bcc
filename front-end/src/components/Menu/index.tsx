@@ -17,9 +17,18 @@ const menuItems = [
 interface MenuProps {
   isOpen?: boolean;
   onCancel?: () => void;
+  onNewChatClick?: () => void;
 }
 
-const Menu: React.FC<MenuProps> = ({ isOpen = true, onCancel }) => {
+const Menu: React.FC<MenuProps> = ({ isOpen = true, onCancel, onNewChatClick }) => {
+  const handleItemClick = (e: React.MouseEvent, item: typeof menuItems[0]) => {
+    if (item.title === 'Novo chat' && onNewChatClick) {
+      e.preventDefault();
+      onNewChatClick();
+      if (onCancel) onCancel();
+    }
+  };
+
   return (
     <Fragment>
       {isOpen && (
@@ -40,6 +49,7 @@ const Menu: React.FC<MenuProps> = ({ isOpen = true, onCancel }) => {
               <a
                 className="menu-link"
                 href={item.link}
+                onClick={(e) => handleItemClick(e, item)}
               >
                 {item.title}
               </a>

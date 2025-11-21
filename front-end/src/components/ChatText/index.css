@@ -8,6 +8,7 @@
   position: relative;
   max-width: 90%;
   margin: 8px 0;
+  overflow: hidden;
 }
 
 .chat-text-component.--sent {
@@ -22,6 +23,25 @@
 .chat-text-container {
   white-space: pre-wrap;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+
+.chat-text-container pre {
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+.chat-text-container code {
+  word-break: break-all;
+}
+
+.chat-text-container * {
+  max-width: 100%;
 }
 
 .chat-text-component:not(.--received)::before {

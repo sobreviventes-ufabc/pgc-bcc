@@ -68,6 +68,7 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
             <Menu
               isOpen={menuOpen}
               onCancel={handleMenuClose}
+              onNewChatClick={handleNewChatClick}
             />
             <Modal
               isOpen={modalOpen}
