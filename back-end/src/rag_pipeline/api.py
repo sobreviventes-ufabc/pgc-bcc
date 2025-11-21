@@ -1,9 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Header
 import uvicorn
 from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Literal
+from typing import List, Literal, Optional
 import anyio
 from .core.retriever_pipeline import get_rag_pipeline
 from contextlib import asynccontextmanager
@@ -39,47 +39,61 @@ app.add_middleware(
 
 
 @app.post("/ask")
-async def ask_question(req: QueryRequest):
+async def ask_question(req: QueryRequest, include_context: Optional[str] = Header(default="true")):
     pipeline = app.state.pipeline
     question = f"Pergunta: {req.question}"
 
     # .invoke é bloqueante: manda pra thread pool
     resp = await anyio.to_thread.run_sync(pipeline.invoke, question)
-    return {
-        "response": resp["response"],
-        "context": {
+    
+    # Check if context should be included (default: true)
+    should_include_context = include_context.lower() in ("true", "1", "yes")
+    
+    result = {"response": resp["response"]}
+    if should_include_context:
+        result["context"] = {
             "texts": resp["context"]["texts"],
             "images": resp["context"]["images"],
-        },
-    }
+        }
+    
+    return result
 
 
 # --- Novo endpoint /chat ---
 
 @app.post("/chat")
-async def chat(req: ChatRequest):
-    pipeline = app.state.pipeline
-    # Junta todas as mensagens (system e user) como contexto
-    # Formata como um histórico de conversa para o modelo
-    # Separa histórico e pergunta atual
-    history = []
-    for m in req.messages[:-1]:
-        if m.role in ("system", "user"):
-            history.append(f"{m.role}: {m.content}")
-    historico_str = "\n".join(history)
-    ultima_msg = req.messages[-1]
-    pergunta_str = f"{ultima_msg.role}: {ultima_msg.content}" if ultima_msg.role in ("system", "user") else ""
-    conversation = f"Histórico da conversa:\n{historico_str}\n\nPergunta: {pergunta_str}"
+async def chat(req: ChatRequest, include_context: Optional[str] = Header(default="true")):
+    try:
+        pipeline = app.state.pipeline
+        # Junta todas as mensagens (system e user) como contexto
+        # Formata como um histórico de conversa para o modelo
+        # Separa histórico e pergunta atual
+        history = []
+        for m in req.messages[:-1]:
+            if m.role in ("system", "user"):
+                history.append(f"{m.role}: {m.content}")
+        historico_str = "\n".join(history)
+        ultima_msg = req.messages[-1]
+        pergunta_str = f"{ultima_msg.role}: {ultima_msg.content}" if ultima_msg.role in ("system", "user") else ""
+        conversation = f"Histórico da conversa:\n{historico_str}\n\nPergunta: {pergunta_str}"
 
-    # Envia o histórico completo para o pipeline
-    resp = await anyio.to_thread.run_sync(pipeline.invoke, conversation)
-    return {
-        "response": resp["response"],
-        "context": {
-            "texts": resp["context"]["texts"],
-            "images": resp["context"]["images"],
-        },
-    }
+        # Envia o histórico completo para o pipeline
+        resp = await anyio.to_thread.run_sync(pipeline.invoke, conversation)
+        
+        # Check if context should be included (default: true)
+        should_include_context = include_context.lower() in ("true", "1", "yes")
+        
+        result = {"response": resp["response"]}
+        if should_include_context:
+            result["context"] = {
+                "texts": resp["context"]["texts"],
+                "images": resp["context"]["images"],
+            }
+        
+        return result
+    except Exception as e:
+        print(f"Error in /chat endpoint: {type(e).__name__}: {str(e)}")
+        raise
 
 
 @app.get("/health")

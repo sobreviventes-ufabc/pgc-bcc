@@ -49,7 +49,6 @@ def build_prompt(kwargs):
     # Create base prompt text
     base_prompt = f"""
 Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais.
-Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais.
 Caso sejam solicitadas datas, sempre inclua o dia, o mês por extenso e o número do mês (ex: “30 de Janeiro – mês 1”, “30 de Fevereiro - mês 2”).
 Use o ano da pergunta e nunca avance para outro.
 De preferencia para responder usando o contexto. Use algo do histórico da conversa somente se for solicitado.
@@ -58,7 +57,7 @@ Contexto: {context_text}
 
 {question}
 
-Formate a resposta em HTML. Vou usar esse HTML para injetar diretamente em um componente react usando dangerouslySetInnerHTML.
+Formate a resposta em HTML simples. Toda a resposta deve estar dentro de uma div e use apenas as tags <p>, <strong>, <span>, <small>, <ul>, <li>, <br />. Se for criar tabelas, construa usando apenas <table>, <thead>, <tbody>, <tr>, <td>, <th>. Vou usar esse HTML para injetar diretamente em um componente react usando dangerouslySetInnerHTML.
 """
 
     # For OpenAI models, support multi-modal content with images
