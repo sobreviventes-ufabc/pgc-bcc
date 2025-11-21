@@ -19,10 +19,22 @@ export async function POST(request: NextRequest) {
     const backendUrl = `${process.env.BACKEND_URL}/chat`;
     console.log('[API] Forwarding request to backend:', backendUrl);
     
+    // Get API key from environment
+    const apiKey = process.env.BACKEND_API_KEY;
+    if (!apiKey) {
+      console.error('[API] BACKEND_API_KEY environment variable is not configured');
+      return NextResponse.json(
+        { error: 'Backend API key not configured' },
+        { status: 500 }
+      );
+    }
+    
     const response = await fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'include-context': 'false',
       },
       body: JSON.stringify(body),
     });

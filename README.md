@@ -1,5 +1,7 @@
 # Chatbot Assistente UFABC (RAG)
 
+🌐 **Acesse o projeto:** https://ufabc-chat.vercel.app/
+
 Chatbot para a UFABC baseado em **Retrieval-Augmented Generation (RAG)**. Ele busca trechos em documentos institucionais (PDFs, tabelas e imagens), sumariza e usa um LLM para responder com contexto.
 
 ## Principais features
@@ -350,39 +352,84 @@ aws_rag_app rag_pipeline/api.py
    cdk bootstrap
    ```
 
-4. **Deploy da aplicação**:
+4. **Configure as variáveis de ambiente**:
+   Certifique-se de que o arquivo `back-end/.env` contém todas as variáveis necessárias, incluindo:
+   ```bash
+   API_KEY=your_secure_api_key_here
+   GROQ_API_KEY=your_groq_api_key
+   NOMIC_KEY=your_nomic_key
+   # ... outras variáveis
+   ```
+   
+   > **Importante**: O CDK lê o `API_KEY` do arquivo `back-end/.env` para configurar a autenticação do API Gateway.
+
+5. **Deploy da aplicação**:
    ```bash
    cdk deploy
    ```
 
-5. **Após o deploy**, você receberá uma URL como:
+6. **Após o deploy**, você receberá as seguintes saídas:
    ```
    RagCdkInfraStack
    Outputs:
-   RagCdkInfraStack.FunctionUrl = https://sua-funcao-id.lambda-url.sa-east-1.on.aws/health
+   RagCdkInfraStack.ApiGatewayUrl = https://quhv2plta1.execute-api.sa-east-1.amazonaws.com/prod/
+   RagCdkInfraStack.ApiKeyId = xxxxxxxxxxxxx
    ```
+   
+   A URL do API Gateway será usada pelo frontend. O `ApiKeyId` é apenas referência; o valor real do API Key é o configurado no `.env`.
 
 ### Testando o Deploy
 
 ```bash
-# Teste o endpoint de saúde
-curl https://sua-funcao-id.lambda-url.sa-east-1.on.aws/health
+# Teste o endpoint de saúde (substitua YOUR_API_KEY pelo valor do back-end/.env)
+curl -H "x-api-key: YOUR_API_KEY" \
+  https://quhv2plta1.execute-api.sa-east-1.amazonaws.com/prod/health
 
 # Teste uma pergunta
-curl -X POST "https://sua-funcao-id.lambda-url.sa-east-1.on.aws/ask" \
+curl -X POST "https://quhv2plta1.execute-api.sa-east-1.amazonaws.com/prod/ask" \
   -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR_API_KEY" \
   -d '{"question": "O que é o PGC?"}'
+
+# Teste o endpoint de chat
+curl -X POST "https://quhv2plta1.execute-api.sa-east-1.amazonaws.com/prod/chat" \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -d '{"messages": [{"role": "user", "content": "O que é o PGC?"}]}'
 ```
+
+> **Nota**: Todas as requisições ao API Gateway requerem o header `x-api-key` com o valor configurado no arquivo `back-end/.env`. Requisições sem API Key válido receberão erro 403 Forbidden.
 
 ### Configuração do Ambiente
 
 O CDK carrega automaticamente as variáveis de ambiente do arquivo `back-end/.env`. Certifique-se de que todas as variáveis necessárias estão configuradas:
 
+- `API_KEY` (obrigatória) - Chave de autenticação para API Gateway
 - `GROQ_API_KEY` (obrigatória)
 - `OPENAI_API_KEY` (opcional)
 - `NOMIC_KEY` (obrigatória se usando embeddings Nomic)
 - `MODEL_PROVIDER` (padrão: groq)
 - `EMBEDDINGS_PROVIDER` (padrão: nomic)
+
+### Configuração do Frontend
+
+O frontend Next.js precisa conhecer a URL do API Gateway e o API Key:
+
+1. **Crie um arquivo `.env.local`** no diretório `front-end/`:
+   ```bash
+   BACKEND_URL=https://quhv2plta1.execute-api.sa-east-1.amazonaws.com/prod
+   BACKEND_API_KEY=your_api_key_from_backend_env
+   ```
+
+2. **Use o mesmo API Key** configurado no arquivo `back-end/.env`
+
+3. **Reinicie o servidor Next.js** após alterar variáveis de ambiente:
+   ```bash
+   cd front-end
+   npm run dev
+   ```
+
+> **Segurança**: O API Key é usado apenas no servidor Next.js (API Route), nunca é exposto ao navegador do cliente.
 
 ## Verificando Logs do Lambda
 
