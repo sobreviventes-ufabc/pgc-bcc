@@ -10,11 +10,45 @@ import Modal from '@/components/Modal';
 import { useChat } from '@/context/ChatContext';
 import './index.css';
 
+const loadingMessages = [
+  'Buscando nos documentos oficiais',
+  'Investigando documentos institucionais',
+  'Lendo arquivos da UFABC',
+  'Analisando informações acadêmicas',
+  'Consultando registros da universidade'
+];
+
 const MainChat: React.FC = () => {
   const { messages, loading, sendMessage } = useChat();
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
   const lastMessageRef = React.useRef<HTMLDivElement>(null);
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [loadingMessage, setLoadingMessage] = React.useState('');
+  const [dots, setDots] = React.useState('');
+
+  React.useEffect(() => {
+    if (loading) {
+      // Set initial random message
+      setLoadingMessage(loadingMessages[Math.floor(Math.random() * loadingMessages.length)]);
+      
+      // Change message every 5 seconds
+      const messageInterval = setInterval(() => {
+        setLoadingMessage(loadingMessages[Math.floor(Math.random() * loadingMessages.length)]);
+      }, 5000);
+
+      // Animate dots every 500ms
+      let dotCount = 0;
+      const dotsInterval = setInterval(() => {
+        dotCount = (dotCount + 1) % 4;
+        setDots('.'.repeat(dotCount));
+      }, 500);
+
+      return () => {
+        clearInterval(messageInterval);
+        clearInterval(dotsInterval);
+      };
+    }
+  }, [loading]);
 
   React.useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role !== 'user' && lastMessageRef.current) {
@@ -55,16 +89,20 @@ const MainChat: React.FC = () => {
                   <ChatText
                     variation="received"
                   >
-                    <span
-                      dangerouslySetInnerHTML={{ __html: msg.content.replace('```html', '').replace('```', '') }}
-                    />
+                    {msg.isError ? (
+                      <span>{msg.content}</span>
+                    ) : (
+                      <span
+                        dangerouslySetInnerHTML={{ __html: msg.content.replace('```html', '').replace('```', '') }}
+                      />
+                    )}
                   </ChatText>
                 </div>
               )
             ))}
             {loading && (
-              <ChatText variation="received">
-                ...
+              <ChatText variation="loading">
+                {loadingMessage}{dots}
               </ChatText>
             )}
             <div ref={messagesEndRef} />
