@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { isDesktop } from '@/utils/deviceDetection';
 
 import './index.css';
 
@@ -40,7 +41,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSend, id, autoFocus = false }) 
       setMessage('');
       if (textareaRef.current) {
         textareaRef.current.style.height = 'auto';
-        textareaRef.current.blur();
+        
+        // Only blur on mobile devices
+        if (!isDesktop()) {
+          textareaRef.current.blur();
+        }
       }
     }
   };
