@@ -65,20 +65,21 @@ async def ask_question(req: QueryRequest, include_context: Optional[str] = Heade
 async def chat(req: ChatRequest, include_context: Optional[str] = Header(default="true")):
     try:
         pipeline = app.state.pipeline
-        # Junta todas as mensagens (system e user) como contexto
-        # Formata como um histórico de conversa para o modelo
         # Separa histórico e pergunta atual
         history = []
         for m in req.messages[:-1]:
             if m.role in ("system", "user"):
                 history.append(f"{m.role}: {m.content}")
-        historico_str = "\n".join(history)
+        historico_str = "\n".join(history) if history else None
+        
         ultima_msg = req.messages[-1]
-        pergunta_str = f"{ultima_msg.role}: {ultima_msg.content}" if ultima_msg.role in ("system", "user") else ""
-        conversation = f"Histórico da conversa:\n{historico_str}\n\nPergunta: {pergunta_str}"
-
-        # Envia o histórico completo para o pipeline
-        resp = await anyio.to_thread.run_sync(pipeline.invoke, conversation)
+        question = ultima_msg.content
+        
+        # Envia pergunta e histórico separadamente para o pipeline
+        resp = await anyio.to_thread.run_sync(
+            pipeline.invoke, 
+            {"question": f"Pergunta: {question}", "history": historico_str}
+        )
         
         # Check if context should be included (default: true)
         should_include_context = include_context.lower() in ("true", "1", "yes")
