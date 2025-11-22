@@ -12,7 +12,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     variation: {
-      options: ['sent', 'received'],
+      options: ['sent', 'received', 'loading'],
       control: { type: 'radio' },
     },
     children: {
@@ -36,6 +36,6 @@ export const ChatTextStory: Story = {
     children: 'Hello, world!',
   },
   globals: {
-    backgrounds: { value: 'dark' },
+    backgrounds: { value: 'grey' },
   },
 };

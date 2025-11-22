@@ -29,3 +29,39 @@
   width: 100%;
   background-color: var(--primary);
 }
+
+.header-menu,
+.header-new-chat {
+  position: relative;
+}
+
+.header-button {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.header-button:hover {
+  opacity: 0.8;
+}
+
+.header-button::after {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 1000;
+}
+
+.header-button:hover::after {
+  opacity: 1;
+}

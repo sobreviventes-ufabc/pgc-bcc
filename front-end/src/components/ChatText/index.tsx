@@ -4,7 +4,7 @@ import './index.css';
 
 interface ChatTextProps {
     children: React.ReactNode;
-    variation: 'sent' | 'received';
+    variation: 'sent' | 'received' | 'loading';
 }
 
 const ChatText: React.FC<ChatTextProps> = ({ children, variation }) => {

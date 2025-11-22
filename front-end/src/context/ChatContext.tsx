@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export type Message = {
   role: 'user' | 'system';
   content: string;
+  isError?: boolean;
 };
 
 interface ChatContextType {
@@ -29,12 +30,26 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         },
         body: JSON.stringify({ messages: newMessages }),
       });
+      
+      if (!response.ok) {
+        throw new Error('Erro na resposta da API');
+      }
+      
       const data = await response.json();
       if (data.response) {
         setMessages([...newMessages, { role: 'system' as const, content: data.response }]);
+      } else {
+        throw new Error('Resposta inválida da API');
       }
     } catch {
-      // Optionally handle error
+      setMessages([
+        ...newMessages, 
+        { 
+          role: 'system' as const, 
+          content: 'Desculpe, ocorreu um erro ao processar sua mensagem. Por favor, tente novamente.',
+          isError: true
+        }
+      ]);
     } finally {
       setLoading(false);
     }

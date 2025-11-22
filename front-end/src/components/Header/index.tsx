@@ -33,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
                       type="button"
                       className="header-button header-menu-button"
                       onClick={handleMenuClick}
+                      aria-label="Abrir menu"
                     >
                         <Image
                           src="/img/icon-burger.svg"
@@ -53,11 +54,12 @@ const Header: React.FC<HeaderProps> = ({ onNewChatClick }) => {
                       type="button"
                       className="header-button header-new-chat-button"
                       onClick={handleNewChatClick}
+                      aria-label="Nova conversa"
                     >
                         <Image
                           src="/img/icon-new-chat.svg"
                           className="header-icon-menu"
-                          alt="Menu"
+                          alt="Nova conversa"
                           width={47}
                           height={47}
                         />

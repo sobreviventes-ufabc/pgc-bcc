@@ -63,3 +63,9 @@
   font-size: 12px;
   padding-top: 0;
 }
+
+@media (min-width: 769px) {
+  .main-chat-footer {
+    padding-top: 12px;
+  }
+}

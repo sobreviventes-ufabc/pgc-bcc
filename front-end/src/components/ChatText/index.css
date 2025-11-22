@@ -4,11 +4,10 @@
   padding: 16px;
   background-color: var(--chat-text-bg-sent);
   border-radius: 4px;
-  box-shadow: 0 0 4px rgba(0, 0, 0 .25);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
   position: relative;
   max-width: 90%;
   margin: 8px 0;
-  overflow: hidden;
 }
 
 .chat-text-component.--sent {
@@ -21,12 +20,14 @@
 }
 
 .chat-text-container {
-  white-space: pre-wrap;
-  word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
   min-width: 0;
   flex: 1;
+}
+
+.chat-text-container p {
+  margin: 12px 0;
 }
 
 .chat-text-container pre {
@@ -54,10 +55,27 @@
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-left: 8px solid var(--chat-text-bg-sent);
+  filter: drop-shadow(2px 0 2px rgba(0, 0, 0, 0.25));
 }
 
 .chat-text-component.--received  .chat-text-container {
   color: var(--black);
+}
+
+.chat-text-component.--loading {
+  align-self: flex-start;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  min-width: 340px;
+}
+
+.chat-text-component.--loading .chat-text-container {
+  color: var(--black);
+}
+
+.chat-text-component.--loading::before {
+  display: none;
 }
 
 .chat-text-component.--received::before {
@@ -70,8 +88,41 @@
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
   border-right: 8px solid var(--chat-text-bg-received); /* Changed from border-left to border-right */
+  filter: drop-shadow(-2px 0 2px rgba(0, 0, 0, 0.25));
 }
 
 .chat-text-component ul {
   list-style-position: inside;
+}
+
+.chat-text-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.chat-text-container table th,
+.chat-text-container table td {
+  border: 1px solid var(--grey);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.chat-text-container table thead {
+  background-color: var(--secondary);
+  color: var(--white);
+  font-weight: bold;
+}
+
+.chat-text-container table thead th {
+  border-color: var(--secondary);
+}
+
+.chat-text-container table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.chat-text-container table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
