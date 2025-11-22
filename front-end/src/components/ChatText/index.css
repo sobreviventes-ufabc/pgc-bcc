@@ -103,6 +103,9 @@
   border-collapse: collapse;
   margin: 12px 0;
   font-size: 14px;
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .chat-text-container table th,
