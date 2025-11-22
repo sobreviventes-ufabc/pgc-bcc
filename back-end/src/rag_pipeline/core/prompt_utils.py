@@ -60,7 +60,7 @@ Contexto: {context_text}{history_section}
 
 {question}
 
-Formate a resposta em HTML simples. Toda a resposta deve estar dentro de uma div e use apenas as tags <p>, <strong>, <span>, <small>, <ul>, <li>, <br />. Se for criar tabelas, construa usando apenas <table>, <thead>, <tbody>, <tr>, <td>, <th>. Vou usar esse HTML para injetar diretamente em um componente react usando dangerouslySetInnerHTML.
+Formate a resposta em HTML simples. Toda a resposta deve estar dentro de uma div e use apenas as tags <p>, <strong>, <span>, <ul>, <li>, <br />. Se for criar tabelas, construa usando apenas <table>, <thead>, <tbody>, <tr>, <td>, <th>. Vou usar esse HTML para injetar diretamente em um componente react usando dangerouslySetInnerHTML.
 """
 
     # For OpenAI models, support multi-modal content with images

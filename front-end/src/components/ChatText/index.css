@@ -8,7 +8,6 @@
   position: relative;
   max-width: 90%;
   margin: 8px 0;
-  overflow: hidden;
 }
 
 .chat-text-component.--sent {
@@ -21,12 +20,14 @@
 }
 
 .chat-text-container {
-  white-space: pre-wrap;
-  word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
   min-width: 0;
   flex: 1;
+}
+
+.chat-text-container p {
+  margin: 12px 0;
 }
 
 .chat-text-container pre {
