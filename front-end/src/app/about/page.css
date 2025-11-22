@@ -2,23 +2,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   padding: 2rem;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-y: auto;
+}
+
+@media (min-width: 769px) {
+  .about-container {
+    justify-content: center;
+  }
 }
 
 .about-logo {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .about-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .about-content h1 {
@@ -32,7 +41,6 @@
 }
 
 .about-back {
-  margin-top: 2rem;
   padding: 0.75rem 2rem;
   font-size: 1rem;
   border-radius: 8px;
@@ -42,7 +50,4 @@
   cursor: pointer;
   font-weight: 600;
   align-self: center;
-}
-
-.about-container p { 
 }
