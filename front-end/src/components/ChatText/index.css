@@ -13,11 +13,13 @@
 
 .chat-text-component.--sent {
   align-self: flex-end;
+  color: var(--white);
 }
 
 .chat-text-component.--received {
   align-self: flex-start;
   background-color: var(--chat-text-bg-received);
+  color: var(--black);
 }
 
 .chat-text-container {
