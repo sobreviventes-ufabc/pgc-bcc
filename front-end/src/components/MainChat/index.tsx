@@ -106,7 +106,7 @@ const MainChat: React.FC = () => {
               </ChatText>
             )}
             <div ref={messagesEndRef} />
-            {messages.some(msg => msg.role !== 'user') && (
+            {messages.some(msg => msg.role !== 'user') && !loading && (
               <div className="main-chat-new-chat-button-container">
                 <Button
                   text="Novo chat"

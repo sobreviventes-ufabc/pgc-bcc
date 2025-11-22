@@ -69,10 +69,11 @@
   box-shadow: none;
   border: none;
   min-width: 340px;
+  padding: 0;
 }
 
 .chat-text-component.--loading .chat-text-container {
-  color: var(--black);
+  color: var(--grey);
   font-size: 0.9em;
 }
 
