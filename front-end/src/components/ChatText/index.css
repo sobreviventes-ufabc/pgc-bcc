@@ -94,3 +94,35 @@
 .chat-text-component ul {
   list-style-position: inside;
 }
+
+.chat-text-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.chat-text-container table th,
+.chat-text-container table td {
+  border: 1px solid var(--grey);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.chat-text-container table thead {
+  background-color: var(--secondary);
+  color: var(--white);
+  font-weight: bold;
+}
+
+.chat-text-container table thead th {
+  border-color: var(--secondary);
+}
+
+.chat-text-container table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.chat-text-container table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
