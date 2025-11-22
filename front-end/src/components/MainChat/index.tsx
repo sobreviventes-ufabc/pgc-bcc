@@ -102,7 +102,7 @@ const MainChat: React.FC = () => {
             ))}
             {loading && (
               <ChatText variation="loading">
-                {loadingMessage}{dots}
+                {loadingMessage}<span className="loading-dots">{dots}</span>
               </ChatText>
             )}
             <div ref={messagesEndRef} />

@@ -64,6 +64,12 @@
   padding-top: 0;
 }
 
+.loading-dots {
+  display: inline-block;
+  width: 1.5em;
+  text-align: left;
+}
+
 @media (min-width: 769px) {
   .main-chat-footer {
     padding-top: 12px;

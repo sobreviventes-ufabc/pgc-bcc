@@ -8,6 +8,7 @@
   position: relative;
   max-width: 90%;
   margin: 8px 0;
+  width: max-content;
 }
 
 .chat-text-component.--sent {
