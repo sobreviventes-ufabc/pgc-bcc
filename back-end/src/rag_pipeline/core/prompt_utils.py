@@ -40,20 +40,23 @@ def parse_docs(docs):
 def build_prompt(kwargs):
     docs = kwargs["context"]
     question = kwargs["question"]
+    history = kwargs.get("history")
     context_text = "".join(docs["texts"])
     
     # For Groq, limit context size to avoid token limits (roughly 400000 chars ≈ 100K tokens)
     if MODEL_PROVIDER == "groq" and len(context_text) > 400000:
         context_text = context_text[:400000] + "\n\n[CONTEXTO TRUNCADO DEVIDO A LIMITES DO MODELO]"
     
-    # Create base prompt text
+    # Create base prompt text with optional history
+    history_section = f"\n\nHistórico da conversa:\n{history}" if history else ""
+    
     base_prompt = f"""
 Responda à pergunta usando apenas e exclusivamente o seguinte contexto e o histórico da conversa, sem pesquisas adicionais.
-Caso sejam solicitadas datas, sempre inclua o dia, o mês por extenso e o número do mês (ex: “30 de Janeiro – mês 1”, “30 de Fevereiro - mês 2”).
+Caso sejam solicitadas datas, sempre inclua o dia, o mês por extenso e o número do mês (ex: "30 de Janeiro – mês 1", "30 de Fevereiro - mês 2").
 Use o ano da pergunta e nunca avance para outro.
 De preferencia para responder usando o contexto. Use algo do histórico da conversa somente se for solicitado.
 
-Contexto: {context_text}
+Contexto: {context_text}{history_section}
 
 {question}
 

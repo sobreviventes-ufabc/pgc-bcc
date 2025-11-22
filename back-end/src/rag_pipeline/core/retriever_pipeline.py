@@ -171,8 +171,23 @@ def get_rag_pipeline(force_regenerate=False):
 
     # 4) Monta a chain
     model = get_llama_model()
+    
+    def extract_question(input_data):
+        if isinstance(input_data, dict):
+            return input_data.get("question", input_data)
+        return input_data
+    
+    def extract_history(input_data):
+        if isinstance(input_data, dict):
+            return input_data.get("history")
+        return None
+    
     chain_with_sources = (
-        {"context": retriever | RunnableLambda(parse_docs), "question": RunnablePassthrough()}
+        {
+            "context": RunnableLambda(extract_question) | retriever | RunnableLambda(parse_docs), 
+            "question": RunnableLambda(extract_question),
+            "history": RunnableLambda(extract_history)
+        }
         | RunnablePassthrough().assign(
             response=(RunnableLambda(build_prompt) | model | StrOutputParser())
         )
