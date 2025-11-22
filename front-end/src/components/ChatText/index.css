@@ -73,6 +73,7 @@
 
 .chat-text-component.--loading .chat-text-container {
   color: var(--black);
+  font-size: 0.9em;
 }
 
 .chat-text-component.--loading::before {
