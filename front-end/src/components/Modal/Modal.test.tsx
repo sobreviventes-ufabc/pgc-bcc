@@ -1,5 +1,5 @@
 import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Modal from './index';
 
@@ -21,6 +21,14 @@ vi.mock('../Button', () => ({
 }));
 
 describe('Modal Component', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
   describe('Component Unit Tests', () => {
     it('does not render when isOpen is false', () => {
       render(

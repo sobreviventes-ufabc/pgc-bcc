@@ -90,12 +90,12 @@ describe('HeroHome Component', () => {
     });
 
     it('calls sendMessage when input is submitted', async () => {
-      // Mock document.getElementById for focus behavior
-      const mockMainChatInput = {
-        focus: vi.fn(),
+      // Mock document.getElementById for blur behavior
+      const mockHomeInput = {
+        blur: vi.fn(),
       };
       Object.defineProperty(document, 'getElementById', {
-        value: vi.fn().mockReturnValue(mockMainChatInput),
+        value: vi.fn().mockReturnValue(mockHomeInput),
         writable: true,
       });
 
@@ -115,10 +115,10 @@ describe('HeroHome Component', () => {
     });
 
     it('focuses main chat input after sending message', async () => {
-      const mockMainChatInput = {
-        focus: vi.fn(),
+      const mockHomeInput = {
+        blur: vi.fn(),
       };
-      const mockGetElementById = vi.fn().mockReturnValue(mockMainChatInput);
+      const mockGetElementById = vi.fn().mockReturnValue(mockHomeInput);
       Object.defineProperty(document, 'getElementById', {
         value: mockGetElementById,
         writable: true,
@@ -135,8 +135,8 @@ describe('HeroHome Component', () => {
       
       fireEvent.keyDown(input, { key: 'Enter' });
       
-      expect(mockGetElementById).toHaveBeenCalledWith('main-chat-input');
-      expect(mockMainChatInput.focus).toHaveBeenCalled();
+      expect(mockGetElementById).toHaveBeenCalledWith('home-input');
+      expect(mockHomeInput.blur).toHaveBeenCalled();
     });
   });
 });
