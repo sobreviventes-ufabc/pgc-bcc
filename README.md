@@ -2,8 +2,6 @@
 
 Chatbot para a UFABC baseado em **Retrieval-Augmented Generation (RAG)**. Ele busca trechos em documentos institucionais (PDFs, tabelas e imagens), sumariza e usa um LLM para responder com contexto.
 
-**Acesse o projeto:** https://ufabc-chat.vercel.app/
-
 ![Interface do chatbot mostrando usuário perguntando sobre PGC na UFABC e recebendo resposta detalhada](./example.gif)
 
 ## Principais features
